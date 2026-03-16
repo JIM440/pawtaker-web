@@ -1,7 +1,10 @@
 import type { ComponentType } from 'react';
+import { getTranslations } from 'next-intl/server';
 import { BadgeCheck, HandHeart, Heart, Stars, Users, Zap } from 'lucide-react';
 
-export default function LandingPage() {
+export default async function LandingPage() {
+  const t = await getTranslations('marketing.landing');
+
   return (
     <main className="flex flex-col items-center">
       {/* Hero */}
@@ -10,22 +13,21 @@ export default function LandingPage() {
           <div className="flex flex-col gap-6 lg:w-1/2">
             <div className="flex flex-col gap-4 text-left">
               <span className="w-fit rounded-full bg-primary/10 px-3 py-1 text-xs font-bold uppercase tracking-widest text-primary">
-                Community First
+                {t('badge')}
               </span>
               <h1 className="text-4xl font-black leading-[1.1] tracking-tight text-slate-900 md:text-6xl">
-                Caring for pets, together as a community.
+                {t('title')}
               </h1>
               <p className="max-w-[520px] text-lg font-normal leading-relaxed text-slate-600 md:text-xl">
-                Connect with trusted neighbors to share pet care responsibilities. No money,
-                just love and community points.
+                {t('subtitle')}
               </p>
             </div>
             <div className="flex flex-col gap-4 sm:flex-row">
               <button className="flex h-14 min-w-[200px] cursor-pointer items-center justify-center rounded-xl bg-primary px-8 text-lg font-bold text-white shadow-xl shadow-primary/25 transition-all hover:translate-y-[-2px]">
-                <span>Join the Community</span>
+                <span>{t('primaryCta')}</span>
               </button>
               <button className="flex h-14 min-w-[160px] cursor-pointer items-center justify-center rounded-xl border-2 border-primary/20 px-8 text-lg font-bold text-primary transition-all hover:bg-primary/5">
-                <span>Learn More</span>
+                <span>{t('secondaryCta')}</span>
               </button>
             </div>
           </div>
@@ -40,8 +42,8 @@ export default function LandingPage() {
       <section id="stats" className="w-full bg-primary/5 py-16">
         <div className="mx-auto grid max-w-[1200px] grid-cols-1 gap-8 px-6 md:grid-cols-3 md:px-10">
           <Stat icon={Users} label="Active Members" value="12,000+" />
-          <Stat icon={Heart} label="Pets Cared For" value="45,000+" />
-          <Stat icon={Stars} label="Points Shared" value="1.2M+" />
+          <Stat icon={Heart} label={t('stats.pets')} value="45,000+" />
+          <Stat icon={Stars} label={t('stats.points')} value="1.2M+" />
         </div>
       </section>
 
@@ -49,11 +51,10 @@ export default function LandingPage() {
       <section id="benefits" className="w-full max-w-[1200px] px-6 py-20 md:px-10">
         <div className="flex flex-col items-center gap-4 text-center">
           <h2 className="max-w-[720px] text-3xl font-black tracking-tight text-slate-900 md:text-5xl">
-            Why PawTaker?
+            {t('benefits.heading')}
           </h2>
           <p className="max-w-[600px] text-lg text-slate-600">
-            Our community is built on trust and a shared love for animals, making pet care
-            accessible for everyone.
+            {t('benefits.subtitle')}
           </p>
         </div>
         <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
@@ -81,15 +82,14 @@ export default function LandingPage() {
           <div className="absolute left-0 top-0 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/10 blur-3xl" />
           <div className="absolute bottom-0 right-0 h-96 w-96 translate-x-1/2 translate-y-1/2 rounded-full bg-black/10 blur-3xl" />
           <h2 className="relative z-10 max-w-[800px] text-4xl font-black tracking-tight text-white md:text-6xl">
-            Ready to join the pack?
+            {t('cta.heading')}
           </h2>
           <p className="relative z-10 max-w-[600px] text-xl text-white/90">
-            Start sharing the joy of pet care with your neighbors today. It takes less than
-            2 minutes to get started.
+            {t('cta.subtitle')}
           </p>
           <div className="relative z-10 flex flex-col gap-4 sm:flex-row">
             <button className="flex h-14 min-w-[220px] cursor-pointer items-center justify-center rounded-full bg-white px-10 text-lg font-black text-primary shadow-2xl transition-all hover:bg-slate-50">
-              <span>Get Started for Free</span>
+              <span>{t('cta.primary')}</span>
             </button>
           </div>
         </div>

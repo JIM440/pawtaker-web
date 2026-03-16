@@ -13,8 +13,6 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
     <div className="min-h-screen bg-white">
       <MarketingNavbar />
       {children}
-      {/* Footer is async server component */}
-      {/* @ts-expect-error Async Server Component */}
       <MarketingFooter />
     </div>
   );

@@ -33,7 +33,27 @@
         "caption": "Keep every agreement, update, and detail in one private thread."
       }
     },
-    "features": {
+    "landing": {
+      "badge": "Community First",
+      "title": "Caring for pets, together as a community.",
+      "subtitle": "Connect with trusted neighbours to share pet care responsibilities. No money, just love and community points.",
+      "primaryCta": "Join the Community",
+      "secondaryCta": "Learn More",
+      "stats": {
+        "pets": "Pets Cared For",
+        "points": "Points Shared"
+      },
+      "benefits": {
+        "heading": "Why PawTaker?",
+        "subtitle": "Our community is built on trust and a shared love for animals, making pet care accessible for everyone."
+      },
+      "cta": {
+        "heading": "Ready to join the pack?",
+        "subtitle": "Start sharing the joy of pet care with your neighbours today. It takes less than 2 minutes to get started.",
+        "primary": "Get Started for Free"
+      }
+    },
+    "featuresOld": {
       "heading": "Why PawTaker?",
       "subtitle": "A community-first platform built on trust, transparency, and care.",
       "zeroCost": {
@@ -103,32 +123,53 @@
       "privacy": "Privacy"
     },
     "about": {
+      "heroTitle": "Connecting pet lovers everywhere",
+      "heroSubtitle": "Because every pet deserves a village of love and care, no matter where life takes you.",
+      "narrativeLabel": "Our narrative",
       "heading": "Our Story",
       "mission": "PawTaker was born from a simple belief: pet care should be built on community, not commerce. We connect pet owners with trusted neighbours who are passionate about animals.",
       "pointsOverProfit": "By replacing money with points, we remove financial barriers and create a genuine exchange of care. Every member both gives and receives — that's what makes PawTaker different.",
-      "founderVision": {
-        "heading": "The Founder's Vision",
-        "body": "After struggling to find affordable, trustworthy care for his own dog, our founder Fabrice set out to build a platform where trust is earned through community, not credit cards. PawTaker is that platform."
-      },
-      "trust": {
-        "heading": "Built on Trust",
-        "members": {
-          "label": "Verified Members",
-          "value": "2,400+"
+      "missionHeading": "Our mission: accessible care",
+      "missionBody": "We make quality pet care accessible through our unique Community Points system. By helping others in the community, you earn credits that can be used for your own pet's care.",
+      "missionCards": {
+        "give": {
+          "title": "Give Love",
+          "body": "Provide walks, feeding, or sitting for pets in your neighbourhood."
         },
-        "pets": {
-          "label": "Pets Cared For",
-          "value": "8,100+"
+        "earn": {
+          "title": "Earn Points",
+          "body": "Accumulate points for every minute you spend caring for furry friends."
         },
-        "points": {
-          "label": "Points Exchanged",
-          "value": "320k+"
+        "receive": {
+          "title": "Receive Care",
+          "body": "Redeem points when you need someone to look after your own pet."
         }
+      },
+      "values": {
+        "heading": "The values we live by",
+        "safety": {
+          "title": "Uncompromising Safety",
+          "body": "Every member undergoes thorough checks and identity verification because peace of mind is priceless."
+        },
+        "trust": {
+          "title": "Mutual Trust",
+          "body": "Our community is built on transparency, honest reviews, and the shared responsibility of caring for each other's companions."
+        },
+        "love": {
+          "title": "Deep Love for Animals",
+          "body": "Beyond just logic, we are driven by the connection between humans and their animals. We lead with heart."
+        }
+      },
+      "cta": {
+        "heading": "Ready to find your village?",
+        "subtitle": "Join pet owners who are swapping stories, walks, and care in our growing community.",
+        "primary": "Get Started Today",
+        "secondary": "Browse Services"
       }
     },
     "how": {
       "steps": {
-        "heading": "How PawTaker Works",
+        "heading": "How PawTaker works",
         "subtitle": "Four simple steps to safe, community-powered pet care.",
         "join": {
           "title": "Create your profile",
@@ -148,7 +189,7 @@
         }
       },
       "faq": {
-        "heading": "Frequently Asked Questions",
+        "heading": "Why the community loves PawTaker",
         "subtitle": "Everything you need to know before getting started.",
         "kyc": {
           "question": "Why do I need to verify my identity?",
@@ -161,6 +202,12 @@
         "emergencies": {
           "question": "What happens in an emergency?",
           "answer": "Takers are expected to contact the owner immediately and follow the care instructions provided. Our support team is available around the clock."
+        },
+        "cta": {
+          "heading": "Ready to join the pack?",
+          "subtitle": "Join thousands of pet lovers today. Sign up and get your first 5 PawPoints free to start your journey.",
+          "primary": "Get Started Now",
+          "secondary": "View Demo"
         }
       }
     }

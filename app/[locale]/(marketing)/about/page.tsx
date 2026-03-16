@@ -1,7 +1,10 @@
 import type { ComponentType } from 'react';
 import { BadgeCheck, HandHeart, Heart, History, ShieldCheck, Users } from 'lucide-react';
+import { getTranslations } from 'next-intl/server';
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const t = await getTranslations('marketing.about');
+
   return (
     <main className="mx-auto max-w-5xl px-6 py-12 lg:px-16">
       {/* Hero */}
@@ -13,11 +16,10 @@ export default function AboutPage() {
           <div className="absolute inset-0 bg-linear-to-t from-black/70 to-transparent" />
           <div className="relative z-10 p-8 lg:p-12">
             <h1 className="mb-4 text-4xl font-black leading-tight text-white lg:text-5xl">
-              Connecting Pet Lovers Everywhere
+              {t('heroTitle')}
             </h1>
             <p className="max-w-2xl text-lg text-white/90">
-              Because every pet deserves a village of love and care, no matter where life
-              takes you.
+              {t('heroSubtitle')}
             </p>
           </div>
         </div>
@@ -29,21 +31,15 @@ export default function AboutPage() {
           <div className="inline-flex items-center gap-2 text-primary">
             <History className="h-4 w-4" aria-hidden />
             <span className="text-xs font-bold uppercase tracking-[0.16em]">
-              Our Narrative
+              {t('narrativeLabel')}
             </span>
           </div>
-          <h2 className="text-3xl font-black text-slate-900 lg:text-4xl">Our Story</h2>
+          <h2 className="text-3xl font-black text-slate-900 lg:text-4xl">
+            {t('heading')}
+          </h2>
           <div className="space-y-4 text-lg leading-relaxed text-slate-600">
-            <p>
-              It all started with a simple realisation: every pet deserves a village. We
-              founded PawTaker to bridge the gap between busy pet parents and passionate
-              animal lovers.
-            </p>
-            <p>
-              The idea was born when our founder, struggling to find reliable care for her
-              rescue pup during an emergency, realised that her neighbours were eager to
-              help but lacked a platform to connect safely and reliably.
-            </p>
+            <p>{t('mission')}</p>
+            <p>{t('pointsOverProfit')}</p>
           </div>
         </div>
         <div className="aspect-4/3 overflow-hidden rounded-xl border-2 border-primary/10 bg-primary/5">
@@ -55,29 +51,27 @@ export default function AboutPage() {
       <section className="mb-20 rounded-2xl bg-primary/5 p-8 lg:p-12">
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="mb-6 text-3xl font-bold text-slate-900">
-            Our Mission: Accessible Care
+            {t('missionHeading')}
           </h2>
           <p className="text-lg text-slate-600">
-            We&apos;re making quality pet care accessible through our unique Community
-            Points system. By helping others in the community, you earn credits that can
-            be used for your own pet&apos;s care.
+            {t('missionBody')}
           </p>
         </div>
         <div className="mt-10 grid gap-8 md:grid-cols-3">
           <MissionCard
             icon={HandHeart}
-            title="Give Love"
-            body="Provide walks, feeding, or sitting for pets in your neighbourhood."
+            title={t('missionCards.give.title')}
+            body={t('missionCards.give.body')}
           />
           <MissionCard
             icon={Users}
-            title="Earn Points"
-            body="Accumulate points for every minute you spend caring for furry friends."
+            title={t('missionCards.earn.title')}
+            body={t('missionCards.earn.body')}
           />
           <MissionCard
             icon={Heart}
-            title="Receive Care"
-            body="Redeem points when you need someone to look after your own pet."
+            title={t('missionCards.receive.title')}
+            body={t('missionCards.receive.body')}
           />
         </div>
       </section>
@@ -85,23 +79,23 @@ export default function AboutPage() {
       {/* Values */}
       <section className="mb-20">
         <h2 className="mb-12 text-center text-3xl font-bold text-slate-900">
-          The Values We Live By
+          {t('values.heading')}
         </h2>
         <div className="grid gap-10 md:grid-cols-3">
           <ValueCard
             icon={BadgeCheck}
-            title="Uncompromising Safety"
-            body="Every member undergoes thorough checks and identity verification because peace of mind is priceless."
+            title={t('values.safety.title')}
+            body={t('values.safety.body')}
           />
           <ValueCard
             icon={Users}
-            title="Mutual Trust"
-            body="Our community is built on transparency, honest reviews, and the shared responsibility of caring for each other's companions."
+            title={t('values.trust.title')}
+            body={t('values.trust.body')}
           />
           <ValueCard
             icon={ShieldCheck}
-            title="Deep Love for Animals"
-            body="Beyond just logic, we are driven by the connection between humans and their animals. We lead with heart."
+            title={t('values.love.title')}
+            body={t('values.love.body')}
           />
         </div>
       </section>
@@ -109,18 +103,17 @@ export default function AboutPage() {
       {/* CTA */}
       <section className="mb-16 border-t border-primary/10 py-10 text-center">
         <h2 className="mb-4 text-3xl font-bold text-slate-900">
-          Ready to find your village?
+          {t('cta.heading')}
         </h2>
         <p className="mx-auto mb-6 max-w-xl text-slate-600">
-          Join pet owners who are swapping stories, walks, and care in our growing
-          community.
+          {t('cta.subtitle')}
         </p>
         <div className="flex justify-center gap-4">
           <button className="rounded-lg bg-primary px-8 py-3 text-sm font-bold text-white hover:shadow-lg">
-            Get Started Today
+            {t('cta.primary')}
           </button>
           <button className="rounded-lg border border-slate-300 px-8 py-3 text-sm font-bold hover:bg-slate-50">
-            Browse Services
+            {t('cta.secondary')}
           </button>
         </div>
       </section>
