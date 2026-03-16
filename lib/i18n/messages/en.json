@@ -1,0 +1,79 @@
+{
+  "marketing": {
+    "nav": {
+      "home": "Home",
+      "about": "About",
+      "howItWorks": "How It Works",
+      "signIn": "Sign In",
+      "getStarted": "Get Started"
+    },
+    "hero": {
+      "title": "Pet Care, Powered by Community",
+      "subtitle": "Connect with trusted pet sitters in your neighbourhood. Earn and spend points — no money involved.",
+      "cta": "Get Started Free",
+      "learnMore": "How it works"
+    },
+    "features": {
+      "title": "Why PawTaker?",
+      "trust": {
+        "title": "Verified Community",
+        "description": "Every sitter is ID-verified before they can offer care."
+      },
+      "points": {
+        "title": "Points, Not Money",
+        "description": "A fair barter system where everyone helps each other."
+      },
+      "realtime": {
+        "title": "Real-time Check-ins",
+        "description": "Get photo updates while your pet is being cared for."
+      }
+    },
+    "footer": {
+      "tagline": "Community pet care for everyone.",
+      "rights": "All rights reserved."
+    }
+  },
+  "admin": {
+    "nav": {
+      "dashboard": "Dashboard",
+      "users": "Users",
+      "kyc": "KYC Review",
+      "requests": "Care Requests",
+      "reports": "Reports",
+      "settings": "Settings"
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "totalUsers": "Total Users",
+      "activeRequests": "Active Requests",
+      "pendingKyc": "Pending KYC",
+      "openReports": "Open Reports"
+    },
+    "users": {
+      "title": "Users",
+      "searchPlaceholder": "Search by name or email...",
+      "columns": {
+        "name": "Name",
+        "email": "Email",
+        "kyc": "KYC Status",
+        "points": "Points",
+        "joined": "Joined"
+      }
+    },
+    "kyc": {
+      "title": "KYC Review",
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "approve": "Approve",
+      "reject": "Reject",
+      "notes": "Reviewer notes"
+    },
+    "login": {
+      "title": "Admin Login",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign In"
+    }
+  }
+}

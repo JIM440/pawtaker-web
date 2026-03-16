@@ -1,0 +1,79 @@
+{
+  "marketing": {
+    "nav": {
+      "home": "Accueil",
+      "about": "À propos",
+      "howItWorks": "Comment ça marche",
+      "signIn": "Se connecter",
+      "getStarted": "Commencer"
+    },
+    "hero": {
+      "title": "La garde d'animaux par la communauté",
+      "subtitle": "Connectez-vous avec des gardiens d'animaux de confiance dans votre quartier. Gagnez et dépensez des points — sans argent.",
+      "cta": "Commencer gratuitement",
+      "learnMore": "Comment ça marche"
+    },
+    "features": {
+      "title": "Pourquoi PawTaker ?",
+      "trust": {
+        "title": "Communauté vérifiée",
+        "description": "Chaque gardien est vérifié avant de pouvoir proposer ses services."
+      },
+      "points": {
+        "title": "Points, pas d'argent",
+        "description": "Un système d'échange équitable où tout le monde s'entraide."
+      },
+      "realtime": {
+        "title": "Check-ins en temps réel",
+        "description": "Recevez des mises à jour photo pendant que votre animal est gardé."
+      }
+    },
+    "footer": {
+      "tagline": "La garde d'animaux communautaire pour tous.",
+      "rights": "Tous droits réservés."
+    }
+  },
+  "admin": {
+    "nav": {
+      "dashboard": "Tableau de bord",
+      "users": "Utilisateurs",
+      "kyc": "Vérification KYC",
+      "requests": "Demandes de soins",
+      "reports": "Signalements",
+      "settings": "Paramètres"
+    },
+    "dashboard": {
+      "title": "Tableau de bord",
+      "totalUsers": "Utilisateurs total",
+      "activeRequests": "Demandes actives",
+      "pendingKyc": "KYC en attente",
+      "openReports": "Signalements ouverts"
+    },
+    "users": {
+      "title": "Utilisateurs",
+      "searchPlaceholder": "Rechercher par nom ou e-mail...",
+      "columns": {
+        "name": "Nom",
+        "email": "E-mail",
+        "kyc": "Statut KYC",
+        "points": "Points",
+        "joined": "Inscrit"
+      }
+    },
+    "kyc": {
+      "title": "Vérification KYC",
+      "pending": "En attente",
+      "approved": "Approuvé",
+      "rejected": "Rejeté",
+      "approve": "Approuver",
+      "reject": "Rejeter",
+      "notes": "Notes du vérificateur"
+    },
+    "login": {
+      "title": "Connexion admin",
+      "email": "E-mail",
+      "password": "Mot de passe",
+      "submit": "Se connecter"
+    }
+  }
+}
