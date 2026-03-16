@@ -1,61 +1,135 @@
+import type { ComponentType } from 'react';
+import { BadgeCheck, HandHeart, Heart, Stars, Users, Zap } from 'lucide-react';
+
 export default function LandingPage() {
   return (
-    <main>
+    <main className="flex flex-col items-center">
       {/* Hero */}
-      <section className="max-w-7xl mx-auto px-6 py-24 text-center">
-        <h1 className="text-5xl font-bold text-primary mb-6 leading-tight">
-          Pet Care, Powered by Community
-        </h1>
-        <p className="text-xl text-on-surface/80 mb-10 max-w-2xl mx-auto">
-          Connect with trusted pet sitters in your neighbourhood. Earn and spend points — no money involved.
-        </p>
-        <div className="flex items-center justify-center gap-4">
-          <a
-            href="#"
-            className="bg-primary text-on-primary px-8 py-4 rounded-xl font-semibold text-lg hover:opacity-90 transition-opacity"
-          >
-            Get Started Free
-          </a>
-          <a
-            href="/how-it-works"
-            className="border border-primary text-primary px-8 py-4 rounded-xl font-semibold text-lg hover:bg-primary-container/50 transition-colors"
-          >
-            How it works
-          </a>
+      <section className="w-full max-w-[1200px] px-6 md:px-10">
+        <div className="flex flex-col items-center gap-8 py-12 md:py-20 lg:flex-row">
+          <div className="flex flex-col gap-6 lg:w-1/2">
+            <div className="flex flex-col gap-4 text-left">
+              <span className="w-fit rounded-full bg-primary/10 px-3 py-1 text-xs font-bold uppercase tracking-widest text-primary">
+                Community First
+              </span>
+              <h1 className="text-4xl font-black leading-[1.1] tracking-tight text-slate-900 md:text-6xl">
+                Caring for pets, together as a community.
+              </h1>
+              <p className="max-w-[520px] text-lg font-normal leading-relaxed text-slate-600 md:text-xl">
+                Connect with trusted neighbors to share pet care responsibilities. No money,
+                just love and community points.
+              </p>
+            </div>
+            <div className="flex flex-col gap-4 sm:flex-row">
+              <button className="flex h-14 min-w-[200px] cursor-pointer items-center justify-center rounded-xl bg-primary px-8 text-lg font-bold text-white shadow-xl shadow-primary/25 transition-all hover:translate-y-[-2px]">
+                <span>Join the Community</span>
+              </button>
+              <button className="flex h-14 min-w-[160px] cursor-pointer items-center justify-center rounded-xl border-2 border-primary/20 px-8 text-lg font-bold text-primary transition-all hover:bg-primary/5">
+                <span>Learn More</span>
+              </button>
+            </div>
+          </div>
+          <div
+            className="aspect-4/3 w-full rounded-3xl border-8 border-white bg-slate-200 bg-cover bg-center bg-no-repeat shadow-2xl lg:w-1/2"
+            aria-label="Happy dog being petted by a smiling group of neighbors in a park"
+          />
         </div>
       </section>
 
-      {/* Features */}
-      <section className="bg-background-base py-20">
-        <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-3xl font-bold text-primary text-center mb-12">Why PawTaker?</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                icon: '🛡️',
-                title: 'Verified Community',
-                desc: 'Every sitter is ID-verified before they can offer care.',
-              },
-              {
-                icon: '⭐',
-                title: 'Points, Not Money',
-                desc: 'A fair barter system where everyone helps each other.',
-              },
-              {
-                icon: '📸',
-                title: 'Real-time Check-ins',
-                desc: 'Get photo updates while your pet is being cared for.',
-              },
-            ].map((f) => (
-              <div key={f.title} className="bg-surface-container-lowest rounded-2xl p-8 shadow-sm border border-frame-stroke">
-                <span className="text-4xl mb-4 block">{f.icon}</span>
-                <h3 className="text-xl font-semibold text-on-surface mb-2">{f.title}</h3>
-                <p className="text-on-surface/80">{f.desc}</p>
-              </div>
-            ))}
+      {/* Stats */}
+      <section id="stats" className="w-full bg-primary/5 py-16">
+        <div className="mx-auto grid max-w-[1200px] grid-cols-1 gap-8 px-6 md:grid-cols-3 md:px-10">
+          <Stat icon={Users} label="Active Members" value="12,000+" />
+          <Stat icon={Heart} label="Pets Cared For" value="45,000+" />
+          <Stat icon={Stars} label="Points Shared" value="1.2M+" />
+        </div>
+      </section>
+
+      {/* Benefits */}
+      <section id="benefits" className="w-full max-w-[1200px] px-6 py-20 md:px-10">
+        <div className="flex flex-col items-center gap-4 text-center">
+          <h2 className="max-w-[720px] text-3xl font-black tracking-tight text-slate-900 md:text-5xl">
+            Why PawTaker?
+          </h2>
+          <p className="max-w-[600px] text-lg text-slate-600">
+            Our community is built on trust and a shared love for animals, making pet care
+            accessible for everyone.
+          </p>
+        </div>
+        <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
+          <BenefitCard
+            icon={BadgeCheck}
+            title="Built on Trust"
+            body="Verified members and community ratings ensure your pet is always in safe hands with local animal lovers."
+          />
+          <BenefitCard
+            icon={Zap}
+            title="Complete Simplicity"
+            body="Easily request or offer care with just a few taps. No complicated payments or subscriptions required."
+          />
+          <BenefitCard
+            icon={HandHeart}
+            title="Pet-First Approach"
+            body="Every decision we make is centered around the well-being and happiness of your pets above all else."
+          />
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="w-full max-w-[1100px] px-6 py-20">
+        <div className="relative flex flex-col items-center gap-8 overflow-hidden rounded-[3rem] bg-primary px-8 py-16 text-center md:py-24">
+          <div className="absolute left-0 top-0 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/10 blur-3xl" />
+          <div className="absolute bottom-0 right-0 h-96 w-96 translate-x-1/2 translate-y-1/2 rounded-full bg-black/10 blur-3xl" />
+          <h2 className="relative z-10 max-w-[800px] text-4xl font-black tracking-tight text-white md:text-6xl">
+            Ready to join the pack?
+          </h2>
+          <p className="relative z-10 max-w-[600px] text-xl text-white/90">
+            Start sharing the joy of pet care with your neighbors today. It takes less than
+            2 minutes to get started.
+          </p>
+          <div className="relative z-10 flex flex-col gap-4 sm:flex-row">
+            <button className="flex h-14 min-w-[220px] cursor-pointer items-center justify-center rounded-full bg-white px-10 text-lg font-black text-primary shadow-2xl transition-all hover:bg-slate-50">
+              <span>Get Started for Free</span>
+            </button>
           </div>
         </div>
       </section>
     </main>
   );
 }
+
+type Icon = ComponentType<{ className?: string; 'aria-hidden'?: boolean }>;
+
+function Stat({ icon: Icon, label, value }: { icon: Icon; label: string; value: string }) {
+  return (
+    <div className="flex flex-col items-center gap-3 rounded-2xl border border-primary/10 bg-white p-8 text-center shadow-sm">
+      <Icon className="h-10 w-10 text-primary" aria-hidden />
+      <p className="text-sm font-semibold uppercase tracking-wider text-slate-500">{label}</p>
+      <p className="text-4xl font-black text-slate-900">{value}</p>
+    </div>
+  );
+}
+
+function BenefitCard({
+  icon,
+  title,
+  body,
+}: {
+  icon: Icon;
+  title: string;
+  body: string;
+}) {
+  const Icon = icon;
+  return (
+    <div className="flex flex-col gap-6 rounded-3xl border border-slate-100 bg-white p-10 shadow-sm transition-shadow hover:shadow-xl">
+      <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+        <Icon className="h-7 w-7" aria-hidden />
+      </div>
+      <div className="flex flex-col gap-3">
+        <h3 className="text-2xl font-bold text-slate-900">{title}</h3>
+        <p className="leading-relaxed text-slate-600">{body}</p>
+      </div>
+    </div>
+  );
+}
+

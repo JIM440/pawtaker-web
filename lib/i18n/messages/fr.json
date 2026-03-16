@@ -5,7 +5,10 @@
       "about": "À propos",
       "howItWorks": "Comment ça marche",
       "signIn": "Se connecter",
-      "getStarted": "Commencer"
+      "getStarted": "Commencer",
+      "tagline": "Garde d'animaux communautaire",
+      "story": "Notre histoire",
+      "download": "Télécharger l'app"
     },
     "hero": {
       "title": "La garde d'animaux par la communauté",
@@ -14,23 +17,135 @@
       "learnMore": "Comment ça marche"
     },
     "features": {
-      "title": "Pourquoi PawTaker ?",
-      "trust": {
-        "title": "Communauté vérifiée",
-        "description": "Chaque gardien est vérifié avant de pouvoir proposer ses services."
+      "heading": "Pourquoi PawTaker ?",
+      "subtitle": "Une plateforme axée sur la communauté, construite sur la confiance, la transparence et le soin.",
+      "zeroCost": {
+        "title": "Zéro coût",
+        "body": "Pas d'argent échangé. Utilisez des points pour donner et recevoir des soins — un échange équitable pour tous."
       },
-      "points": {
-        "title": "Points, pas d'argent",
-        "description": "Un système d'échange équitable où tout le monde s'entraide."
+      "verified": {
+        "title": "Membres vérifiés",
+        "body": "Chaque gardien est vérifié avant de pouvoir proposer ses services, vous savez toujours qui est avec votre animal."
       },
-      "realtime": {
-        "title": "Check-ins en temps réel",
-        "description": "Recevez des mises à jour photo pendant que votre animal est gardé."
+      "safety": {
+        "title": "Mises à jour en temps réel",
+        "body": "Recevez des photos et des messages pendant que votre animal est gardé."
+      }
+    },
+    "takers": {
+      "heading": "Rencontrez nos gardiens",
+      "subtitle": "Des membres vérifiés de la communauté prêts à s'occuper de votre animal.",
+      "initials": "{name}",
+      "verifiedBadge": "Vérifié",
+      "points": "{value} pts",
+      "cards": {
+        "lena": {
+          "name": "Lena M.",
+          "pets": "Petits chiens"
+        },
+        "amir": {
+          "name": "Amir K.",
+          "pets": "Chats d'intérieur"
+        },
+        "chloe": {
+          "name": "Chloé B.",
+          "pets": "Grands chiens"
+        },
+        "marc": {
+          "name": "Marc T.",
+          "pets": "Animaux mixtes"
+        }
+      }
+    },
+    "appPreview": {
+      "heading": "Vos animaux méritent le meilleur — téléchargez PawTaker",
+      "subtitle": "Bientôt disponible sur iOS et Android. Rejoignez la liste d'attente pour être parmi les premiers.",
+      "cta": {
+        "ios": "Télécharger sur l'App Store",
+        "android": "Disponible sur Google Play"
+      },
+      "storeNote": "Bientôt disponible. Rejoignez la liste d'attente.",
+      "phoneTabs": {
+        "home": "Accueil",
+        "myCare": "Mes soins",
+        "messages": "Messages"
+      },
+      "messages": {
+        "owner": "Sophie (propriétaire)",
+        "body": "\"Max a tout mangé et a fait une super promenade !\""
+      },
+      "checkins": {
+        "title": "Photo de check-in reçue",
+        "body": "Bella joue dans le jardin 🌿"
       }
     },
     "footer": {
       "tagline": "La garde d'animaux communautaire pour tous.",
-      "rights": "Tous droits réservés."
+      "rights": "Tous droits réservés.",
+      "terms": "Conditions",
+      "privacy": "Confidentialité"
+    },
+    "about": {
+      "heading": "Notre histoire",
+      "mission": "PawTaker est né d'une conviction simple : la garde d'animaux doit reposer sur la communauté, pas sur le commerce. Nous mettons en relation les propriétaires d'animaux avec des voisins de confiance passionnés par les animaux.",
+      "pointsOverProfit": "En remplaçant l'argent par des points, nous supprimons les barrières financières et créons un véritable échange de soins. Chaque membre donne et reçoit — c'est ce qui rend PawTaker différent.",
+      "founderVision": {
+        "heading": "La vision du fondateur",
+        "body": "Après avoir eu du mal à trouver une garde abordable et fiable pour son propre chien, notre fondateur Fabrice a décidé de créer une plateforme où la confiance se gagne par la communauté, pas par carte bancaire. PawTaker est cette plateforme."
+      },
+      "trust": {
+        "heading": "Fondé sur la confiance",
+        "members": {
+          "label": "Membres vérifiés",
+          "value": "2 400+"
+        },
+        "pets": {
+          "label": "Animaux gardés",
+          "value": "8 100+"
+        },
+        "points": {
+          "label": "Points échangés",
+          "value": "320k+"
+        }
+      }
+    },
+    "how": {
+      "steps": {
+        "heading": "Comment fonctionne PawTaker",
+        "subtitle": "Quatre étapes simples pour une garde d'animaux sûre et communautaire.",
+        "join": {
+          "title": "Créez votre profil",
+          "body": "Inscrivez-vous, complétez la vérification KYC et configurez votre profil propriétaire ou gardien en quelques minutes."
+        },
+        "postOrTake": {
+          "title": "Publiez une demande ou proposez vos services",
+          "body": "Les propriétaires publient des demandes de garde ; les gardiens postulent. Parcourez les annonces et trouvez la bonne correspondance."
+        },
+        "earnPoints": {
+          "title": "Échangez des points",
+          "body": "Pas d'argent — juste des points. Gagnez-en en prodiguant des soins, dépensez-en quand vous avez besoin d'aide."
+        },
+        "peaceOfMind": {
+          "title": "Restez informé",
+          "body": "Recevez des photos de check-in et des messages tout au long de la session de garde."
+        }
+      },
+      "faq": {
+        "heading": "Questions fréquentes",
+        "subtitle": "Tout ce que vous devez savoir avant de commencer.",
+        "kyc": {
+          "question": "Pourquoi dois-je vérifier mon identité ?",
+          "answer": "La vérification KYC garantit que chaque membre de la communauté est bien qui il prétend être, protégeant ainsi les animaux et les propriétaires."
+        },
+        "points": {
+          "question": "Comment fonctionnent les points ?",
+          "answer": "Vous gagnez des points en prodiguant des soins et les dépensez lorsque vous avez besoin de soins pour vos propres animaux. Aucun argent n'est impliqué."
+        },
+        "emergencies": {
+          "question": "Que se passe-t-il en cas d'urgence ?",
+          "answer": "Les gardiens doivent contacter immédiatement le propriétaire et suivre les instructions de garde fournies. Notre équipe d'assistance est disponible 24h/24."
+        }
+      }
     }
   },
   "admin": {

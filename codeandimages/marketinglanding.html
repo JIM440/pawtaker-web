@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "primary": "#8c4a60",
+                "background-light": "#f7f6f7",
+                "background-dark": "#1c1618",
+              },
+              fontFamily: {
+                "display": ["Inter", "sans-serif"]
+              },
+              borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            },
+          },
+        }
+    </script>
+<title>PawTaker - Community Pet Care</title>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Header -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-primary/10 px-6 md:px-20 py-4 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md sticky top-0 z-50">
+<div class="flex items-center gap-3 text-primary">
+<div class="size-8 flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl font-bold">pets</span>
+</div>
+<h2 class="text-slate-900 dark:text-slate-100 text-xl font-black leading-tight tracking-tight">PawTaker</h2>
+</div>
+<div class="flex flex-1 justify-end gap-4 md:gap-8 items-center">
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-slate-700 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="#how-it-works">How it Works</a>
+<a class="text-slate-700 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="#benefits">Benefits</a>
+<a class="text-slate-700 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="#stats">Stats</a>
+</nav>
+<button class="flex min-w-[100px] cursor-pointer items-center justify-center rounded-full h-10 px-5 bg-primary text-white text-sm font-bold shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all">
+<span>Join Now</span>
+</button>
+</div>
+</header>
+<main class="flex flex-col items-center">
+<!-- Hero Section -->
+<div class="w-full max-w-[1200px] px-6 md:px-10">
+<div class="flex flex-col gap-8 py-12 md:py-20 lg:flex-row items-center">
+<div class="flex flex-col gap-6 lg:w-1/2">
+<div class="flex flex-col gap-4 text-left">
+<span class="text-primary font-bold tracking-widest text-xs uppercase bg-primary/10 w-fit px-3 py-1 rounded-full">Community First</span>
+<h1 class="text-slate-900 dark:text-slate-100 text-4xl md:text-6xl font-black leading-[1.1] tracking-tight">
+                                Caring for pets, together as a community.
+                            </h1>
+<p class="text-slate-600 dark:text-slate-400 text-lg md:text-xl font-normal leading-relaxed max-w-[500px]">
+                                Connect with trusted neighbors to share pet care responsibilities. No money, just love and community points.
+                            </p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<button class="flex min-w-[200px] cursor-pointer items-center justify-center rounded-xl h-14 px-8 bg-primary text-white text-lg font-bold shadow-xl shadow-primary/25 hover:translate-y-[-2px] transition-all">
+<span>Join the Community</span>
+</button>
+<button class="flex min-w-[160px] cursor-pointer items-center justify-center rounded-xl h-14 px-8 border-2 border-primary/20 text-primary text-lg font-bold hover:bg-primary/5 transition-all">
+<span>Learn More</span>
+</button>
+</div>
+</div>
+<div class="w-full lg:w-1/2 aspect-[4/3] bg-center bg-no-repeat bg-cover rounded-3xl shadow-2xl border-8 border-white dark:border-slate-800" data-alt="Happy dog being petted by a smiling group of neighbors in a park" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDx6AmnIjKh7f3HUqa1iuuS92lU0Nc8ma8dZMiwN6KQetyIfEWJuuDlM4v-qPLCujfoHggtRPnpckPr_dUlRrJJOeNbHPCX0D3CFoWa0O4Yf8aTpe04NU8Basc3Or97cyonK6tz-QF5AoJ3w7I7jTRmgSB4sU6VyO4hbEsgLfKfs-qZw5K0vv42V4XPNl8Dpis2hm9Nq1CkOnqVDAssrcR96T7Q1HERyL9maXPy2PMbRpnNAkUX40Sx8AH4cvNQuhkF8bj8hcBAACk");'>
+</div>
+</div>
+</div>
+<!-- Stats Section -->
+<section class="w-full bg-primary/5 dark:bg-primary/10 py-16" id="stats">
+<div class="max-w-[1200px] mx-auto px-6 md:px-10 grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="flex flex-col gap-3 rounded-2xl bg-white dark:bg-slate-800 p-8 shadow-sm border border-primary/5 items-center text-center">
+<span class="material-symbols-outlined text-primary text-4xl">groups</span>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-semibold uppercase tracking-wider">Active Members</p>
+<p class="text-slate-900 dark:text-slate-100 text-4xl font-black">12,000+</p>
+</div>
+<div class="flex flex-col gap-3 rounded-2xl bg-white dark:bg-slate-800 p-8 shadow-sm border border-primary/5 items-center text-center">
+<span class="material-symbols-outlined text-primary text-4xl">favorite</span>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-semibold uppercase tracking-wider">Pets Cared For</p>
+<p class="text-slate-900 dark:text-slate-100 text-4xl font-black">45,000+</p>
+</div>
+<div class="flex flex-col gap-3 rounded-2xl bg-white dark:bg-slate-800 p-8 shadow-sm border border-primary/5 items-center text-center">
+<span class="material-symbols-outlined text-primary text-4xl">stars</span>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-semibold uppercase tracking-wider">Points Shared</p>
+<p class="text-slate-900 dark:text-slate-100 text-4xl font-black">1.2M+</p>
+</div>
+</div>
+</section>
+<!-- Benefits Section -->
+<section class="w-full max-w-[1200px] px-6 md:px-10 py-20 flex flex-col gap-16" id="benefits">
+<div class="flex flex-col gap-4 text-center items-center">
+<h2 class="text-slate-900 dark:text-slate-100 text-3xl md:text-5xl font-black tracking-tight max-w-[720px]">
+                        Why PawTaker?
+                    </h2>
+<p class="text-slate-600 dark:text-slate-400 text-lg max-w-[600px]">
+                        Our community is built on trust and a shared love for animals, making pet care accessible for everyone.
+                    </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="flex flex-col gap-6 rounded-3xl bg-white dark:bg-slate-900 p-10 border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl transition-shadow">
+<div class="size-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-3xl">verified_user</span>
+</div>
+<div class="flex flex-col gap-3">
+<h3 class="text-slate-900 dark:text-slate-100 text-2xl font-bold">Built on Trust</h3>
+<p class="text-slate-600 dark:text-slate-400 leading-relaxed">Verified members and community ratings ensure your pet is always in safe hands with local animal lovers.</p>
+</div>
+</div>
+<div class="flex flex-col gap-6 rounded-3xl bg-white dark:bg-slate-900 p-10 border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl transition-shadow">
+<div class="size-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-3xl">bolt</span>
+</div>
+<div class="flex flex-col gap-3">
+<h3 class="text-slate-900 dark:text-slate-100 text-2xl font-bold">Complete Simplicity</h3>
+<p class="text-slate-600 dark:text-slate-400 leading-relaxed">Easily request or offer care with just a few taps. No complicated payments or subscriptions required.</p>
+</div>
+</div>
+<div class="flex flex-col gap-6 rounded-3xl bg-white dark:bg-slate-900 p-10 border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl transition-shadow">
+<div class="size-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-3xl">volunteer_activism</span>
+</div>
+<div class="flex flex-col gap-3">
+<h3 class="text-slate-900 dark:text-slate-100 text-2xl font-bold">Pet-First Approach</h3>
+<p class="text-slate-600 dark:text-slate-400 leading-relaxed">Every decision we make is centered around the well-being and happiness of your pets above all else.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Call to Action -->
+<section class="w-full max-w-[1100px] px-6 py-20">
+<div class="relative overflow-hidden rounded-[3rem] bg-primary px-8 py-16 md:py-24 text-center flex flex-col items-center gap-8">
+<!-- Abstract Background Elements -->
+<div class="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+<div class="absolute bottom-0 right-0 w-96 h-96 bg-black/10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
+<h2 class="text-white text-4xl md:text-6xl font-black tracking-tight max-w-[800px] relative z-10">
+                        Ready to join the pack?
+                    </h2>
+<p class="text-primary/10 text-white/90 text-xl max-w-[600px] relative z-10">
+                        Start sharing the joy of pet care with your neighbors today. It takes less than 2 minutes to get started.
+                    </p>
+<div class="flex flex-col sm:flex-row gap-4 relative z-10">
+<button class="flex min-w-[220px] cursor-pointer items-center justify-center rounded-full h-14 px-10 bg-white text-primary text-lg font-black shadow-2xl hover:bg-slate-50 transition-all">
+<span>Get Started for Free</span>
+</button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full bg-slate-900 text-slate-400 py-16 px-6 md:px-20 mt-10">
+<div class="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
+<div class="flex flex-col gap-6 col-span-1 md:col-span-1">
+<div class="flex items-center gap-2 text-white">
+<span class="material-symbols-outlined text-primary text-3xl">pets</span>
+<h2 class="text-xl font-black">PawTaker</h2>
+</div>
+<p class="text-sm leading-relaxed">
+                        The world's first community-driven pet care network based on trust and mutual support.
+                    </p>
+<div class="flex gap-4">
+<a class="hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">public</span></a>
+<a class="hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">share</span></a>
+<a class="hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">mail</span></a>
+</div>
+</div>
+<div>
+<h4 class="text-white font-bold mb-6">Product</h4>
+<ul class="flex flex-col gap-4 text-sm">
+<li><a class="hover:text-white transition-colors" href="#">How it works</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Pricing (It's Free!)</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Trust &amp; Safety</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Mobile App</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-white font-bold mb-6">Community</h4>
+<ul class="flex flex-col gap-4 text-sm">
+<li><a class="hover:text-white transition-colors" href="#">Guidelines</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Success Stories</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Events</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Pet Blog</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-white font-bold mb-6">Support</h4>
+<ul class="flex flex-col gap-4 text-sm">
+<li><a class="hover:text-white transition-colors" href="#">Help Center</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Safety Center</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Contact Us</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Terms of Service</a></li>
+</ul>
+</div>
+</div>
+<div class="max-w-[1200px] mx-auto border-t border-slate-800 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs">
+<p>© 2024 PawTaker Inc. All rights reserved.</p>
+<div class="flex gap-8">
+<a class="hover:text-white" href="#">Privacy Policy</a>
+<a class="hover:text-white" href="#">Cookies</a>
+</div>
+</div>
+</footer>
+</div>
+</div>
+</body></html>

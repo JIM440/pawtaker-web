@@ -1,41 +1,104 @@
-// Static content for admin settings
-const STATIC_SETTINGS = [
-  { label: 'Site name', value: 'PawTaker', type: 'text' },
-  { label: 'Support email', value: 'support@pawtaker.app', type: 'email' },
-  { label: 'Maintenance mode', value: 'Off', type: 'toggle' },
-  { label: 'Points per day (boarding)', value: '10', type: 'number' },
-  { label: 'Max points per request', value: '500', type: 'number' },
-  { label: 'New user sign-up', value: 'Enabled', type: 'toggle' },
-  { label: 'KYC required to offer care', value: 'Yes', type: 'toggle' },
-];
-
 export default function AdminSettingsPage() {
   return (
     <div className="p-8">
-      <h1 className="text-2xl font-bold text-[#1A1A2E] mb-8">Settings</h1>
-      <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden max-w-2xl">
-        <div className="px-6 py-4 border-b border-gray-200 bg-gray-50">
-          <h2 className="font-semibold text-[#1A1A2E]">General</h2>
-          <p className="text-xs text-gray-500 mt-0.5">App and platform configuration</p>
+      <div className="max-w-4xl mx-auto">
+        <div className="mb-8">
+          <h1 className="text-3xl font-black tracking-tight text-on-surface">Settings</h1>
+          <p className="text-on-surface/70 mt-1 text-sm">
+            Manage your application global configurations and feature flags.
+          </p>
         </div>
-        <ul className="divide-y divide-gray-100">
-          {STATIC_SETTINGS.map((s) => (
-            <li key={s.label} className="px-6 py-4 flex items-center justify-between">
-              <div>
-                <p className="font-medium text-[#1A1A2E]">{s.label}</p>
-                <p className="text-xs text-gray-500 mt-0.5">{s.type}</p>
+
+        <div className="space-y-6">
+          <section className="bg-surface-container p-6 rounded-xl border border-outline/10">
+            <h2 className="text-lg font-bold mb-6 flex items-center gap-2">
+              <span>🛠️</span>
+              General Configuration
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-on-surface">Site Name</label>
+                <input
+                  type="text"
+                  defaultValue="PawTaker Global"
+                  className="w-full px-4 py-3 rounded-lg border border-outline/20 bg-surface-container-lowest focus:ring-2 focus:ring-primary/20 outline-none text-sm"
+                />
               </div>
-              <span className="text-sm text-gray-600">{s.value}</span>
-            </li>
-          ))}
-        </ul>
-        <div className="px-6 py-4 border-t border-gray-200 bg-gray-50 flex gap-2">
-          <button className="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium hover:opacity-90 transition-opacity">
-            Save changes
-          </button>
-          <button className="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-300">
-            Reset
-          </button>
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-on-surface">Support Email</label>
+                <input
+                  type="email"
+                  defaultValue="support@pawtaker.com"
+                  className="w-full px-4 py-3 rounded-lg border border-outline/20 bg-surface-container-lowest focus:ring-2 focus:ring-primary/20 outline-none text-sm"
+                />
+              </div>
+              <div className="md:col-span-2 space-y-2">
+                <label className="text-sm font-semibold text-on-surface">Default Locale</label>
+                <select className="w-full px-4 py-3 rounded-lg border border-outline/20 bg-surface-container-lowest focus:ring-2 focus:ring-primary/20 outline-none text-sm">
+                  <option>English (United States)</option>
+                  <option>Spanish (Mexico)</option>
+                  <option>French (France)</option>
+                </select>
+              </div>
+            </div>
+          </section>
+
+          <section className="bg-surface-container p-6 rounded-xl border border-outline/10">
+            <h2 className="text-lg font-bold mb-6 flex items-center gap-2">
+              <span>🚩</span>
+              Feature Flags
+            </h2>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between p-4 bg-surface-container-lowest rounded-lg">
+                <div>
+                  <p className="font-semibold text-sm text-on-surface">Public Registrations</p>
+                  <p className="text-xs text-on-surface/70">
+                    Allow new users to create accounts on the platform.
+                  </p>
+                </div>
+                <label className="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" defaultChecked className="sr-only peer" />
+                  <div className="w-11 h-6 bg-outline/20 peer-focus:outline-none rounded-full peer dark:bg-surface-container peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:border-outline/20 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary" />
+                </label>
+              </div>
+
+              <div className="flex items-center justify-between p-4 bg-surface-container-lowest rounded-lg">
+                <div>
+                  <p className="font-semibold text-sm text-on-surface">AI-Powered Matches</p>
+                  <p className="text-xs text-on-surface/70">
+                    Use machine learning to suggest pets to potential owners.
+                  </p>
+                </div>
+                <label className="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" defaultChecked className="sr-only peer" />
+                  <div className="w-11 h-6 bg-outline/20 peer-focus:outline-none rounded-full peer dark:bg-surface-container peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:border-outline/20 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary" />
+                </label>
+              </div>
+
+              <div className="flex items-center justify-between p-4 bg-surface-container-lowest rounded-lg">
+                <div>
+                  <p className="font-semibold text-sm text-on-surface">Donation Module</p>
+                  <p className="text-xs text-on-surface/70">
+                    Enable direct donations to shelters within the app.
+                  </p>
+                </div>
+                <label className="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" className="sr-only peer" />
+                  <div className="w-11 h-6 bg-outline/20 peer-focus:outline-none rounded-full peer dark:bg-surface-container peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:border-outline/20 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary" />
+                </label>
+              </div>
+            </div>
+          </section>
+
+          <div className="flex items-center justify-end gap-4 pt-4">
+            <button className="px-6 py-2.5 rounded-lg border border-outline/20 text-primary font-bold text-sm hover:bg-surface-container-lowest transition-colors">
+              Reset to Default
+            </button>
+            <button className="px-8 py-2.5 rounded-lg bg-primary text-on-primary font-bold text-sm shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all flex items-center gap-2">
+              <span>💾</span>
+              Save Changes
+            </button>
+          </div>
         </div>
       </div>
     </div>

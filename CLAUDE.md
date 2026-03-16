@@ -58,18 +58,18 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=
 SUPABASE_SERVICE_ROLE_KEY=
 ```
 
-## Colour Palette (matches mobile)
-| Token | Hex |
-|-------|-----|
-| primary | #1A3C5E |
-| primaryLight | #4A90D9 |
-| accent | #F5A623 |
-| success | #27AE60 |
-| warning | #E67E22 |
-| danger | #C0392B |
-| background | #F8F9FA |
-| textPrimary | #1A1A2E |
-| textSecondary | #6B7280 |
+## Colour Palette
+| Token | Hex | Usage |
+|-------|-----|-------|
+| primary | #8c4a60 | Main brand colour — buttons, links, active states, headings |
+| secondary | #74565f | Secondary actions, verified badges, borders on CTAs |
+| tertiary | #7c5635 | Warm accent — metric highlights, step numbers |
+| error | #ba1a1a | Destructive actions, error states |
+| background-light | #f5f0f0 | Page/section backgrounds |
+| background-dark | #1c1618 | Dark mode backgrounds |
+| outline-custom | #837377 | Borders and dividers (use at /20 opacity: `border-[#837377]/20`) |
+| text-primary | slate-900 | Headings and body text |
+| text-secondary | slate-500 | Subtitles, captions, secondary labels |
 
 ## Route Map
 | Route | Description |

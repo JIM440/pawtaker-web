@@ -5,32 +5,164 @@
       "about": "About",
       "howItWorks": "How It Works",
       "signIn": "Sign In",
-      "getStarted": "Get Started"
+      "getStarted": "Get Started",
+      "tagline": "Community Pet Care",
+      "story": "Our Story",
+      "download": "Download App"
     },
     "hero": {
-      "title": "Pet Care, Powered by Community",
-      "subtitle": "Connect with trusted pet sitters in your neighbourhood. Earn and spend points — no money involved.",
-      "cta": "Get Started Free",
-      "learnMore": "How it works"
+      "badge": "Points over profit",
+      "title": "Community Care for the Pets You Love.",
+      "subtitle": "The points-based P2P sitting platform where trust is the only currency.",
+      "primaryCta": "Download App",
+      "secondaryCta": "How it works",
+      "storeNote": "Available soon on iOS and Android. Join the waitlist to be first in line.",
+      "previewLabel": "In-app experience",
+      "previewBadge": "Live check-ins",
+      "cardActiveCare": {
+        "label": "Active care",
+        "title": "Buddy • Weekend stay",
+        "meta": "3 days · Verified taker"
+      },
+      "cardCheckins": {
+        "title": "Scheduled check-ins",
+        "caption": "Photo, notes, and quick tasks logged for every visit."
+      },
+      "cardMessages": {
+        "title": "Secure messaging",
+        "caption": "Keep every agreement, update, and detail in one private thread."
+      }
     },
     "features": {
-      "title": "Why PawTaker?",
-      "trust": {
-        "title": "Verified Community",
-        "description": "Every sitter is ID-verified before they can offer care."
+      "heading": "Why PawTaker?",
+      "subtitle": "A community-first platform built on trust, transparency, and care.",
+      "zeroCost": {
+        "title": "Zero Cost",
+        "body": "No money changes hands. Use points to give and receive care — it's a fair exchange for everyone."
       },
-      "points": {
-        "title": "Points, Not Money",
-        "description": "A fair barter system where everyone helps each other."
+      "verified": {
+        "title": "Verified Members",
+        "body": "Every sitter is ID-verified before they can offer care, so you always know who's with your pet."
       },
-      "realtime": {
-        "title": "Real-time Check-ins",
-        "description": "Get photo updates while your pet is being cared for."
+      "safety": {
+        "title": "Real-time Updates",
+        "body": "Get photo check-ins and messages while your pet is being looked after."
+      }
+    },
+    "takers": {
+      "heading": "Meet Our Takers",
+      "subtitle": "Verified community members ready to care for your pet.",
+      "initials": "{name}",
+      "verifiedBadge": "Verified",
+      "points": "{value} pts",
+      "cards": {
+        "lena": {
+          "name": "Lena M.",
+          "pets": "Small dogs"
+        },
+        "amir": {
+          "name": "Amir K.",
+          "pets": "Indoor cats"
+        },
+        "chloe": {
+          "name": "Chloé B.",
+          "pets": "Large dogs"
+        },
+        "marc": {
+          "name": "Marc T.",
+          "pets": "Mixed pets"
+        }
+      }
+    },
+    "appPreview": {
+      "heading": "Your pets deserve the best — download PawTaker",
+      "subtitle": "Available soon on iOS and Android. Join the waitlist to be first in line.",
+      "cta": {
+        "ios": "Download on the App Store",
+        "android": "Get it on Google Play"
+      },
+      "storeNote": "Coming soon. Join the waitlist today.",
+      "phoneTabs": {
+        "home": "Home",
+        "myCare": "My Care",
+        "messages": "Messages"
+      },
+      "messages": {
+        "owner": "Sophie (owner)",
+        "body": "\"Max ate all his food and had a great walk!\""
+      },
+      "checkins": {
+        "title": "Check-in photo received",
+        "body": "Bella is playing in the garden 🌿"
       }
     },
     "footer": {
       "tagline": "Community pet care for everyone.",
-      "rights": "All rights reserved."
+      "rights": "All rights reserved.",
+      "terms": "Terms",
+      "privacy": "Privacy"
+    },
+    "about": {
+      "heading": "Our Story",
+      "mission": "PawTaker was born from a simple belief: pet care should be built on community, not commerce. We connect pet owners with trusted neighbours who are passionate about animals.",
+      "pointsOverProfit": "By replacing money with points, we remove financial barriers and create a genuine exchange of care. Every member both gives and receives — that's what makes PawTaker different.",
+      "founderVision": {
+        "heading": "The Founder's Vision",
+        "body": "After struggling to find affordable, trustworthy care for his own dog, our founder Fabrice set out to build a platform where trust is earned through community, not credit cards. PawTaker is that platform."
+      },
+      "trust": {
+        "heading": "Built on Trust",
+        "members": {
+          "label": "Verified Members",
+          "value": "2,400+"
+        },
+        "pets": {
+          "label": "Pets Cared For",
+          "value": "8,100+"
+        },
+        "points": {
+          "label": "Points Exchanged",
+          "value": "320k+"
+        }
+      }
+    },
+    "how": {
+      "steps": {
+        "heading": "How PawTaker Works",
+        "subtitle": "Four simple steps to safe, community-powered pet care.",
+        "join": {
+          "title": "Create your profile",
+          "body": "Sign up, complete KYC verification, and set up your pet or taker profile in minutes."
+        },
+        "postOrTake": {
+          "title": "Post a request or offer care",
+          "body": "Owners post care requests; takers apply. Browse listings and connect with the right match."
+        },
+        "earnPoints": {
+          "title": "Exchange points",
+          "body": "No cash — just points. Give care to earn them, spend them when you need help."
+        },
+        "peaceOfMind": {
+          "title": "Stay informed",
+          "body": "Receive real-time check-in photos and messages throughout the care session."
+        }
+      },
+      "faq": {
+        "heading": "Frequently Asked Questions",
+        "subtitle": "Everything you need to know before getting started.",
+        "kyc": {
+          "question": "Why do I need to verify my identity?",
+          "answer": "KYC verification ensures every member of the community is who they say they are, keeping pets and owners safe."
+        },
+        "points": {
+          "question": "How do points work?",
+          "answer": "You earn points by providing care and spend them when you need care for your own pets. There is no cash involved."
+        },
+        "emergencies": {
+          "question": "What happens in an emergency?",
+          "answer": "Takers are expected to contact the owner immediately and follow the care instructions provided. Our support team is available around the clock."
+        }
+      }
     }
   },
   "admin": {

@@ -7,6 +7,7 @@ const intlMiddleware = createMiddleware(routing);
 // Route protection disabled for now; admin routes are open.
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set('x-pathname', pathname);
   const requestWithPath = new NextRequest(request.url, { headers: requestHeaders });

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PawTaker Admin - Reports</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#8c4a60",
+                        "background-light": "#f7f6f7",
+                        "background-dark": "#1c1618",
+                        "error-container": "#ffdad6",
+                        "error-text": "#410002"
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
+<div class="flex min-h-screen">
+<!-- Sidebar -->
+<aside class="w-64 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex flex-col">
+<div class="p-6 flex items-center gap-3 border-b border-slate-100 dark:border-slate-800">
+<div class="size-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">pets</span>
+</div>
+<div>
+<h1 class="text-sm font-bold">PawTaker Admin</h1>
+<p class="text-xs text-slate-500">Global Moderator</p>
+</div>
+</div>
+<nav class="flex-1 p-4 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary text-white transition-colors" href="#">
+<span class="material-symbols-outlined">flag</span>
+<span class="text-sm font-medium">Reports</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="text-sm font-medium">Users</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">potted_plant</span>
+<span class="text-sm font-medium">Pet Listings</span>
+</a>
+<div class="mt-auto pt-4">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+</div>
+</nav>
+<div class="p-4 border-t border-slate-100 dark:border-slate-800">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-slate-200 dark:bg-slate-700 bg-cover bg-center" data-alt="Admin user profile headshot" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAw6BS_jr_QAYABvuQDUWm1BN9yJMGDYV3QELtC2swjCcf-GqrzgRjGLKFyd6CUw1H0MIIoyfpOvz6KIWloCe7KWutoRMkx__rkSruJj_TGBAC3Tqfzwg_3ENCVBypzjWwO3rBMib1F5gPSQpMhz5-uQRjrRWPYo5oO6NwMOtXSSfR8dtNsCwW-vf1OlX2_lxgVI6eoYjAm8snhb70O0j1NICNUn5I1LY933FaH7h1yEQCc0xNIMjOuBTgptor4mkVgJbpSRmrZP6o')"></div>
+<div class="flex-1 min-w-0">
+<p class="text-xs font-bold truncate">Julian Vane</p>
+<p class="text-[10px] text-slate-500 truncate">julian@pawtaker.com</p>
+</div>
+<button class="text-slate-400">
+<span class="material-symbols-outlined text-sm">logout</span>
+</button>
+</div>
+</div>
+</aside>
+<!-- Main Area -->
+<main class="flex-1 flex flex-col bg-background-light dark:bg-background-dark">
+<header class="h-16 border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md flex items-center justify-between px-8 sticky top-0 z-10">
+<div class="flex items-center gap-2">
+<span class="text-slate-400 text-sm">Admin</span>
+<span class="text-slate-400 text-sm">/</span>
+<span class="text-sm font-semibold">Reports</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative">
+<span class="material-symbols-outlined text-slate-400">notifications</span>
+<span class="absolute top-0 right-0 size-2 bg-primary rounded-full ring-2 ring-white dark:ring-slate-900"></span>
+</div>
+<button class="bg-primary text-white text-xs font-bold px-4 py-2 rounded-lg hover:brightness-110 transition-all">
+                        Export Logs
+                    </button>
+</div>
+</header>
+<div class="p-8 max-w-7xl mx-auto w-full">
+<!-- Page Title & Controls -->
+<div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h2 class="text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100">User Reports</h2>
+<p class="text-slate-500 mt-1">Review and manage reported behavior and content compliance.</p>
+</div>
+<div class="flex gap-2">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xl">search</span>
+<input class="pl-10 pr-4 py-2 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-primary focus:border-primary w-64" placeholder="Search reports..." type="text"/>
+</div>
+<button class="flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-semibold hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-sm">filter_list</span>
+                            Filter
+                        </button>
+</div>
+</div>
+<!-- Tabs -->
+<div class="flex gap-8 border-b border-slate-200 dark:border-slate-800 mb-6">
+<button class="pb-4 border-b-2 border-primary text-primary text-sm font-bold">Pending (12)</button>
+<button class="pb-4 border-b-2 border-transparent text-slate-500 text-sm font-semibold hover:text-slate-700 dark:hover:text-slate-300">In Review (5)</button>
+<button class="pb-4 border-b-2 border-transparent text-slate-500 text-sm font-semibold hover:text-slate-700 dark:hover:text-slate-300">Resolved</button>
+<button class="pb-4 border-b-2 border-transparent text-slate-500 text-sm font-semibold hover:text-slate-700 dark:hover:text-slate-300">Archived</button>
+</div>
+<!-- Table -->
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-slate-50 dark:bg-slate-800/50 text-slate-500 text-xs uppercase tracking-wider font-semibold">
+<tr>
+<th class="px-6 py-4">Reporter</th>
+<th class="px-6 py-4">Reported User</th>
+<th class="px-6 py-4">Reason</th>
+<th class="px-6 py-4">Status</th>
+<th class="px-6 py-4 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+<!-- Urgent/Error Container Row -->
+<tr class="bg-error-container/40 dark:bg-error-container/10">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-slate-200" data-alt="Reporter avatar Sarah" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBR6hmU1AbEtB0xiS8X_IB0-wPLntaW_Akd54_UujV-EkPEi8fk2LK74phCzFWm0mUHGZa5Ip6v1DApEsa1w54vzibfQiBL01DqRQp5IOLO3ncO2-EPp-X8uy8ncce_JTWLe27vr89k-PkB2qFwm5wy-Dk1KlgeF2ZLbQSCvgcTzBKVL2vhAzZ-csQ_jdbPrXJlcr0SQ1uuZLfP12NR7vXTU-aE4XsYt9LcbSy6R5KDXWmc9wRwxH6SuQzGXDtiYfbZwLuta_iV5EE')"></div>
+<span class="text-sm font-medium">Sarah Jenkins</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="text-sm text-slate-700 dark:text-slate-300">Mike Wolf (@mikew)</span>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<span class="size-2 rounded-full bg-red-500"></span>
+<span class="text-sm font-semibold text-error-text dark:text-red-400">Severe Harassment</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide bg-error-text text-white">Urgent</span>
+</td>
+<td class="px-6 py-5 text-right">
+<div class="flex justify-end gap-2">
+<button class="px-3 py-1.5 rounded-lg text-xs font-bold bg-white border border-slate-200 hover:bg-slate-50 transition-colors">Dismiss</button>
+<button class="px-3 py-1.5 rounded-lg text-xs font-bold bg-red-600 text-white hover:bg-red-700 transition-colors">Take Action</button>
+</div>
+</td>
+</tr>
+<!-- Standard Row -->
+<tr>
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-slate-200" data-alt="Reporter avatar Alex" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB7CnSRiv4KDWYogDE_F6SpeTgEINsXWz3zpmwBE-sNolenBvXcsXmgA5QoGE7m6-iWsdmK31a-wgD-V6VjvvcjNmuGyeP9Vgh8vJxsY2iv71XleKJDfonTgozL7PVQtPpYpzslDDAnA9hadoRUgtScseQPz2BEI5hfafTPVM8lbUN7Ep2aC_J8AsFSdAdjB5wnAEXseiecur7ROmRNuz6ZZRQb74jlD4FBPA-wjf9Eg1CUFxIuHrVJbL0bpzFHqNem7aHo3UmTan0')"></div>
+<span class="text-sm font-medium">Alex Rivera</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="text-sm text-slate-700 dark:text-slate-300">PetStore_99</span>
+</td>
+<td class="px-6 py-5">
+<span class="text-sm text-slate-500">Fraudulent Listing</span>
+</td>
+<td class="px-6 py-5">
+<span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">Pending</span>
+</td>
+<td class="px-6 py-5 text-right">
+<div class="flex justify-end gap-2">
+<button class="px-3 py-1.5 rounded-lg text-xs font-bold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">Dismiss</button>
+<button class="px-3 py-1.5 rounded-lg text-xs font-bold bg-red-600 text-white hover:bg-red-700 transition-colors">Take Action</button>
+</div>
+</td>
+</tr>
+<!-- Another Row -->
+<tr>
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-sm">person</span>
+</div>
+<span class="text-sm font-medium">Anonymous_77</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="text-sm text-slate-700 dark:text-slate-300">BarkBuddy Admin</span>
+</td>
+<td class="px-6 py-5">
+<span class="text-sm text-slate-500">Inappropriate Media</span>
+</td>
+<td class="px-6 py-5">
+<span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">Pending</span>
+</td>
+<td class="px-6 py-5 text-right">
+<div class="flex justify-end gap-2">
+<button class="px-3 py-1.5 rounded-lg text-xs font-bold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">Dismiss</button>
+<button class="px-3 py-1.5 rounded-lg text-xs font-bold bg-red-600 text-white hover:bg-red-700 transition-colors">Take Action</button>
+</div>
+</td>
+</tr>
+<!-- Spam Row -->
+<tr>
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-slate-200" data-alt="Reporter avatar Emily" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCaLI13LuFa7cuJ-HVCdHOs7MaGfZLOIdauqYA1shI1XM9PcvaXoUGveJIxqa04cApIbKbfE0eaMwTFt1epZSv70bjVftONdfouNjET3Vjo1iX41Gl0oFyKcFFmp__4LNm_DCMilfda4SkfiiSwfZcraMA8Lv8WfjRqO_dKPIXpsWHfbE4BL-R9uJ-UMSE8qW7RdN3SSOwVeqzESKjGBNOP3XyEzFWWzztmfXC726R86H_F1jTZ9qtwIyq6_5Fi7yQVZpOcMr_wmpc')"></div>
+<span class="text-sm font-medium">Emily Chen</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="text-sm text-slate-700 dark:text-slate-300">ScamBot_404</span>
+</td>
+<td class="px-6 py-5">
+<span class="text-sm text-slate-500">Spam Activity</span>
+</td>
+<td class="px-6 py-5">
+<span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">Pending</span>
+</td>
+<td class="px-6 py-5 text-right">
+<div class="flex justify-end gap-2">
+<button class="px-3 py-1.5 rounded-lg text-xs font-bold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">Dismiss</button>
+<button class="px-3 py-1.5 rounded-lg text-xs font-bold bg-red-600 text-white hover:bg-red-700 transition-colors">Take Action</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-6 py-4 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+<p class="text-xs text-slate-500 font-medium">Showing 4 of 12 pending reports</p>
+<div class="flex gap-2">
+<button class="p-1 rounded bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-400 disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-base">chevron_left</span>
+</button>
+<button class="p-1 rounded bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-400">
+<span class="material-symbols-outlined text-base">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Summary Cards Section -->
+<div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="p-6 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<span class="text-xs font-bold text-slate-500 uppercase">Weekly Resolution Rate</span>
+<span class="material-symbols-outlined text-primary text-xl">trending_up</span>
+</div>
+<div class="flex items-end gap-2">
+<h4 class="text-2xl font-black">94.2%</h4>
+<span class="text-green-600 text-xs font-bold mb-1">+2.4%</span>
+</div>
+<p class="text-xs text-slate-500 mt-2">Target benchmark: 90%</p>
+</div>
+<div class="p-6 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<span class="text-xs font-bold text-slate-500 uppercase">Avg. Response Time</span>
+<span class="material-symbols-outlined text-primary text-xl">timer</span>
+</div>
+<div class="flex items-end gap-2">
+<h4 class="text-2xl font-black">2.4 hrs</h4>
+<span class="text-green-600 text-xs font-bold mb-1">-15m</span>
+</div>
+<p class="text-xs text-slate-500 mt-2">Improved since last month</p>
+</div>
+<div class="p-6 bg-error-container/20 dark:bg-red-900/10 rounded-xl border border-error-container dark:border-red-900 shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<span class="text-xs font-bold text-error-text dark:text-red-400 uppercase">Critical Unresolved</span>
+<span class="material-symbols-outlined text-error-text dark:text-red-400 text-xl">warning</span>
+</div>
+<div class="flex items-end gap-2">
+<h4 class="text-2xl font-black text-error-text dark:text-red-300">03</h4>
+</div>
+<p class="text-xs text-error-text dark:text-red-400/70 mt-2 font-medium">Requires immediate attention</p>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>
