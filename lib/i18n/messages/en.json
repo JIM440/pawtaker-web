@@ -216,37 +216,147 @@
     "nav": {
       "dashboard": "Dashboard",
       "users": "Users",
-      "kyc": "KYC Review",
+      "kyc": "KYC Reviews",
       "requests": "Care Requests",
       "reports": "Reports",
-      "settings": "Settings"
+      "settings": "Settings",
+      "pets": "Pets",
+      "reviews": "Reviews",
+      "contact": "Contact"
+    },
+    "sidebar": {
+      "brand": "PawTaker",
+      "brandSub": "Admin Panel"
     },
     "dashboard": {
       "title": "Dashboard",
       "totalUsers": "Total Users",
+      "totalVerifiedUsers": "Total Verified Users",
       "activeRequests": "Active Requests",
-      "pendingKyc": "Pending KYC",
-      "openReports": "Open Reports"
+      "activeCareContracts": "Active Care Contracts",
+      "pendingKyc": "Pending KYC Submissions",
+      "pointsInCirculation": "Points in Circulation",
+      "openReports": "Open Reports",
+      "recentActivity": "Recent Activity",
+      "platformGrowth": "Platform Growth",
+      "careActivity": "Care Given vs Received",
+      "careGiven": "Care Given",
+      "careReceived": "Care Received",
+      "users": "Users",
+      "viewAll": "View All"
     },
     "users": {
-      "title": "Users",
+      "title": "User Management",
       "searchPlaceholder": "Search by name or email...",
+      "sortLabel": "Sort by",
+      "sortPointsDesc": "Points (High to Low)",
+      "sortPointsAsc": "Points (Low to High)",
+      "sortCareGiven": "Most Care Given",
+      "sortCareReceived": "Most Care Received",
+      "exportList": "Export List",
       "columns": {
         "name": "Name",
         "email": "Email",
         "kyc": "KYC Status",
         "points": "Points",
-        "joined": "Joined"
-      }
+        "status": "Status",
+        "joined": "Joined",
+        "actions": "Actions"
+      },
+      "statusActive": "Active",
+      "statusDeactivated": "Deactivated",
+      "deleteConfirmTitle": "Delete user?",
+      "deleteConfirmDesc": "This action cannot be undone. All user data will be permanently removed.",
+      "deleteConfirmLabel": "Delete",
+      "deactivateConfirmTitle": "Deactivate account?",
+      "deactivateConfirmDesc": "The user will lose access to the platform. This can be reversed later.",
+      "deactivateConfirmLabel": "Deactivate"
     },
     "kyc": {
-      "title": "KYC Review",
+      "title": "KYC Reviews",
+      "subtitle": "Verify user identities to ensure community safety.",
+      "searchPlaceholder": "Search by name or email...",
+      "filterPending": "Pending",
+      "filterCompleted": "Completed",
+      "filterApproved": "Approved",
+      "filterRejected": "Rejected",
       "pending": "Pending",
       "approved": "Approved",
       "rejected": "Rejected",
+      "completed": "Completed",
       "approve": "Approve",
       "reject": "Reject",
-      "notes": "Reviewer notes"
+      "notes": "Reviewer notes",
+      "approveConfirmTitle": "Approve KYC?",
+      "approveConfirmDesc": "This will verify the user's identity and grant full platform access.",
+      "approveConfirmLabel": "Approve",
+      "rejectConfirmTitle": "Reject KYC?",
+      "rejectConfirmDesc": "Please provide a reason. The user will be notified.",
+      "rejectConfirmLabel": "Reject",
+      "rejectionReasonLabel": "Rejection reason",
+      "rejectionReasonPlaceholder": "Rejection reason (required)"
+    },
+    "pets": {
+      "title": "Pets",
+      "subtitle": "All registered pets across the platform.",
+      "searchPlaceholder": "Search by pet name or owner...",
+      "filterSpecies": "Species",
+      "filterEnergy": "Energy level",
+      "allSpecies": "All species",
+      "allEnergy": "All levels",
+      "columns": {
+        "pet": "Pet",
+        "owner": "Owner",
+        "age": "Age",
+        "energyLevel": "Energy",
+        "tags": "Tags",
+        "actions": "Actions"
+      },
+      "deleteConfirmTitle": "Delete pet?",
+      "deleteConfirmDesc": "This will permanently remove the pet and all associated data.",
+      "deleteConfirmLabel": "Delete"
+    },
+    "reviews": {
+      "title": "Reviews",
+      "subtitle": "User-submitted reviews across all care sessions.",
+      "columns": {
+        "stars": "Rating",
+        "reviewer": "Reviewer",
+        "reviewee": "Reviewee",
+        "excerpt": "Review",
+        "date": "Date",
+        "actions": "Actions"
+      },
+      "deleteConfirmTitle": "Delete review?",
+      "deleteConfirmDesc": "This will permanently remove the review from the platform.",
+      "deleteConfirmLabel": "Delete"
+    },
+    "contact": {
+      "title": "Contact",
+      "subtitle": "Admin support resources and platform legal documents.",
+      "supportEmail": "Support email",
+      "emailValue": "support@pawtaker.com",
+      "legalDocuments": "Legal documents",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service",
+      "contactForm": "Contact Form",
+      "contactFormNote": "Contact form integration coming soon.",
+      "sendMessage": "Send Message"
+    },
+    "modal": {
+      "cancel": "Cancel",
+      "confirm": "Confirm"
+    },
+    "profile": {
+      "title": "Profile",
+      "name": "Alex Admin",
+      "email": "alex@pawtaker.com",
+      "role": "Super Admin",
+      "language": "Language",
+      "signOut": "Sign Out",
+      "signOutConfirmTitle": "Sign out?",
+      "signOutConfirmDesc": "You will be returned to the login screen.",
+      "signOutConfirmLabel": "Sign Out"
     },
     "login": {
       "title": "Admin Login",

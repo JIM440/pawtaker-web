@@ -199,37 +199,147 @@
     "nav": {
       "dashboard": "Tableau de bord",
       "users": "Utilisateurs",
-      "kyc": "Vérification KYC",
+      "kyc": "Vérifications KYC",
       "requests": "Demandes de soins",
       "reports": "Signalements",
-      "settings": "Paramètres"
+      "settings": "Paramètres",
+      "pets": "Animaux",
+      "reviews": "Avis",
+      "contact": "Contact"
+    },
+    "sidebar": {
+      "brand": "PawTaker",
+      "brandSub": "Panneau admin"
     },
     "dashboard": {
       "title": "Tableau de bord",
       "totalUsers": "Utilisateurs total",
+      "totalVerifiedUsers": "Utilisateurs vérifiés",
       "activeRequests": "Demandes actives",
+      "activeCareContracts": "Contrats de soins actifs",
       "pendingKyc": "KYC en attente",
-      "openReports": "Signalements ouverts"
+      "pointsInCirculation": "Points en circulation",
+      "openReports": "Signalements ouverts",
+      "recentActivity": "Activité récente",
+      "platformGrowth": "Croissance de la plateforme",
+      "careActivity": "Soins donnés vs reçus",
+      "careGiven": "Soins donnés",
+      "careReceived": "Soins reçus",
+      "users": "Utilisateurs",
+      "viewAll": "Voir tout"
     },
     "users": {
-      "title": "Utilisateurs",
+      "title": "Gestion des utilisateurs",
       "searchPlaceholder": "Rechercher par nom ou e-mail...",
+      "sortLabel": "Trier par",
+      "sortPointsDesc": "Points (décroissant)",
+      "sortPointsAsc": "Points (croissant)",
+      "sortCareGiven": "Plus de soins donnés",
+      "sortCareReceived": "Plus de soins reçus",
+      "exportList": "Exporter la liste",
       "columns": {
         "name": "Nom",
         "email": "E-mail",
         "kyc": "Statut KYC",
         "points": "Points",
-        "joined": "Inscrit"
-      }
+        "status": "Statut",
+        "joined": "Inscrit",
+        "actions": "Actions"
+      },
+      "statusActive": "Actif",
+      "statusDeactivated": "Désactivé",
+      "deleteConfirmTitle": "Supprimer l'utilisateur ?",
+      "deleteConfirmDesc": "Cette action est irréversible. Toutes les données seront définitivement supprimées.",
+      "deleteConfirmLabel": "Supprimer",
+      "deactivateConfirmTitle": "Désactiver le compte ?",
+      "deactivateConfirmDesc": "L'utilisateur perdra l'accès à la plateforme. Cette action peut être annulée.",
+      "deactivateConfirmLabel": "Désactiver"
     },
     "kyc": {
-      "title": "Vérification KYC",
+      "title": "Vérifications KYC",
+      "subtitle": "Vérifiez les identités pour assurer la sécurité de la communauté.",
+      "searchPlaceholder": "Rechercher par nom ou e-mail...",
+      "filterPending": "En attente",
+      "filterCompleted": "Terminé",
+      "filterApproved": "Approuvé",
+      "filterRejected": "Rejeté",
       "pending": "En attente",
       "approved": "Approuvé",
       "rejected": "Rejeté",
+      "completed": "Terminé",
       "approve": "Approuver",
       "reject": "Rejeter",
-      "notes": "Notes du vérificateur"
+      "notes": "Notes du vérificateur",
+      "approveConfirmTitle": "Approuver le KYC ?",
+      "approveConfirmDesc": "Cela vérifiera l'identité de l'utilisateur et accordera un accès complet à la plateforme.",
+      "approveConfirmLabel": "Approuver",
+      "rejectConfirmTitle": "Rejeter le KYC ?",
+      "rejectConfirmDesc": "Veuillez fournir une raison. L'utilisateur sera notifié.",
+      "rejectConfirmLabel": "Rejeter",
+      "rejectionReasonLabel": "Motif de rejet",
+      "rejectionReasonPlaceholder": "Motif de rejet (obligatoire)"
+    },
+    "pets": {
+      "title": "Animaux",
+      "subtitle": "Tous les animaux enregistrés sur la plateforme.",
+      "searchPlaceholder": "Rechercher par nom d'animal ou propriétaire...",
+      "filterSpecies": "Espèce",
+      "filterEnergy": "Niveau d'énergie",
+      "allSpecies": "Toutes les espèces",
+      "allEnergy": "Tous les niveaux",
+      "columns": {
+        "pet": "Animal",
+        "owner": "Propriétaire",
+        "age": "Âge",
+        "energyLevel": "Énergie",
+        "tags": "Étiquettes",
+        "actions": "Actions"
+      },
+      "deleteConfirmTitle": "Supprimer l'animal ?",
+      "deleteConfirmDesc": "Cela supprimera définitivement l'animal et toutes ses données associées.",
+      "deleteConfirmLabel": "Supprimer"
+    },
+    "reviews": {
+      "title": "Avis",
+      "subtitle": "Avis soumis par les utilisateurs pour toutes les sessions de soins.",
+      "columns": {
+        "stars": "Note",
+        "reviewer": "Auteur",
+        "reviewee": "Évalué",
+        "excerpt": "Avis",
+        "date": "Date",
+        "actions": "Actions"
+      },
+      "deleteConfirmTitle": "Supprimer l'avis ?",
+      "deleteConfirmDesc": "Cela supprimera définitivement l'avis de la plateforme.",
+      "deleteConfirmLabel": "Supprimer"
+    },
+    "contact": {
+      "title": "Contact",
+      "subtitle": "Ressources d'assistance et documents légaux.",
+      "supportEmail": "E-mail d'assistance",
+      "emailValue": "support@pawtaker.com",
+      "legalDocuments": "Documents légaux",
+      "privacy": "Politique de confidentialité",
+      "terms": "Conditions d'utilisation",
+      "contactForm": "Formulaire de contact",
+      "contactFormNote": "Intégration du formulaire bientôt disponible.",
+      "sendMessage": "Envoyer un message"
+    },
+    "modal": {
+      "cancel": "Annuler",
+      "confirm": "Confirmer"
+    },
+    "profile": {
+      "title": "Profil",
+      "name": "Alex Admin",
+      "email": "alex@pawtaker.com",
+      "role": "Super Admin",
+      "language": "Langue",
+      "signOut": "Se déconnecter",
+      "signOutConfirmTitle": "Se déconnecter ?",
+      "signOutConfirmDesc": "Vous serez redirigé vers la page de connexion.",
+      "signOutConfirmLabel": "Se déconnecter"
     },
     "login": {
       "title": "Connexion admin",

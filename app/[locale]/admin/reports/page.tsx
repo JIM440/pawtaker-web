@@ -1,6 +1,6 @@
 export default function ReportsPage() {
   return (
-    <div className="p-8">
+    <div className="p-6 md:p-8">
       <div className="max-w-7xl mx-auto w-full">
         <div className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
