@@ -40,20 +40,20 @@ export default function ConfirmationModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4"
+      className="fixed inset-0 z-80 flex items-center justify-center bg-black/60 backdrop-blur-[1px] px-4"
       onClick={onCancel}
     >
       <div
-        className="bg-surface-container-lowest rounded-2xl shadow-xl p-6 max-w-sm w-full"
+        className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl ring-1 ring-slate-200"
         onClick={(e) => e.stopPropagation()}
       >
-        <h2 className="text-base font-semibold text-on-surface mb-1">{title}</h2>
-        <p className="text-sm text-on-surface/60 mb-4">{description}</p>
+        <h2 className="mb-1 text-base font-semibold text-slate-900">{title}</h2>
+        <p className="mb-4 text-sm text-slate-600">{description}</p>
         {children}
         <div className="flex gap-3 mt-5">
           <button
             onClick={onCancel}
-            className="flex-1 px-4 py-2.5 rounded-xl border border-outline/30 text-sm font-medium text-on-surface hover:bg-surface-container transition-colors"
+            className="flex-1 rounded-xl border border-slate-300 px-4 py-2.5 text-sm font-medium text-slate-800 transition-colors hover:bg-slate-50"
           >
             {cancelLabel}
           </button>

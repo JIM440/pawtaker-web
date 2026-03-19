@@ -36,3 +36,7 @@ Use these credentials to sign in to the admin panel (must exist in Supabase):
 
 3. **Dashboard data**
    - The admin dashboard (Users, KYC, Requests, Reports) currently uses **static data** for display. Replace the static arrays in each page with Supabase queries when you are ready to go live.
+
+
+pawtaker.dev@gmail.com
+pawtaker123

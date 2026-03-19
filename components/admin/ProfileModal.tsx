@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
+import { createClient } from '@/lib/supabase/client';
 import ConfirmationModal from './ConfirmationModal';
 
 interface ProfileModalProps {
@@ -24,20 +25,23 @@ export default function ProfileModal({ isOpen, onClose, locale }: ProfileModalPr
     router.push(newPath);
   };
 
-  const handleSignOut = () => {
+  const handleSignOut = async () => {
     setIsSignOutConfirmOpen(false);
     onClose();
-    console.log('signed out');
+    const supabase = createClient();
+    await supabase.auth.signOut(); // clears the session cookies
+    router.push(`/${locale}/admin/login`);
+    router.refresh(); // forces the server to re-evaluate — layout guard picks it up
   };
 
   return (
     <>
       <div
-        className="fixed inset-0 z-40 flex items-center justify-center bg-black/40 px-4"
+        className="fixed inset-0 z-70 flex items-center justify-center bg-black/55 backdrop-blur-[1px] px-4"
         onClick={onClose}
       >
         <div
-          className="bg-surface-container-lowest rounded-2xl shadow-xl p-6 w-full max-w-sm"
+          className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl ring-1 ring-slate-200"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Avatar + info */}
@@ -46,16 +50,16 @@ export default function ProfileModal({ isOpen, onClose, locale }: ProfileModalPr
               AA
             </div>
             <div>
-              <p className="font-semibold text-on-surface text-sm">Alex Admin</p>
-              <p className="text-xs text-on-surface/60">alex@pawtaker.com</p>
+              <p className="text-sm font-semibold text-slate-900">Alex Admin</p>
+              <p className="text-xs text-slate-600">alex@pawtaker.com</p>
               <span className="inline-block mt-1 px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[11px] font-medium">
                 Super Admin
               </span>
             </div>
           </div>
 
-          <div className="border-t border-outline/20 pt-4 mb-4">
-            <p className="text-xs font-medium text-on-surface/50 uppercase tracking-wide mb-2">
+          <div className="mb-4 border-t border-slate-200 pt-4">
+            <p className="mb-2 text-xs font-medium uppercase tracking-wide text-slate-500">
               Language
             </p>
             <div className="flex gap-2">
@@ -64,7 +68,7 @@ export default function ProfileModal({ isOpen, onClose, locale }: ProfileModalPr
                 className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
                   locale === 'en'
                     ? 'bg-primary text-on-primary'
-                    : 'border border-outline/30 text-on-surface hover:bg-surface-container'
+                    : 'border border-slate-300 text-slate-800 hover:bg-slate-50'
                 }`}
               >
                 EN
@@ -74,7 +78,7 @@ export default function ProfileModal({ isOpen, onClose, locale }: ProfileModalPr
                 className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
                   locale === 'fr'
                     ? 'bg-primary text-on-primary'
-                    : 'border border-outline/30 text-on-surface hover:bg-surface-container'
+                    : 'border border-slate-300 text-slate-800 hover:bg-slate-50'
                 }`}
               >
                 FR
@@ -82,7 +86,7 @@ export default function ProfileModal({ isOpen, onClose, locale }: ProfileModalPr
             </div>
           </div>
 
-          <div className="border-t border-outline/20 pt-4">
+          <div className="border-t border-slate-200 pt-4">
             <button
               onClick={() => setIsSignOutConfirmOpen(true)}
               className="w-full px-4 py-2.5 rounded-xl bg-error/10 text-error text-sm font-medium hover:bg-error/20 transition-colors"

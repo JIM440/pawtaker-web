@@ -25,7 +25,9 @@ export default function AdminLoginPage() {
     setLoading(true);
 
     const supabase = createClient();
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+
+    // Step 1: authenticate credentials
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
     if (error) {
       setError(error.message);
@@ -33,6 +35,22 @@ export default function AdminLoginPage() {
       return;
     }
 
+    // Step 2: verify the user has is_admin = true in public.users
+    const { data: profile, error: profileError } = await supabase
+      .from('users')
+      .select('is_admin')
+      .eq('id', data.user.id)
+      .single();
+
+    if (profileError || !profile?.is_admin) {
+      // Valid Supabase user but not an admin — sign them out immediately
+      await supabase.auth.signOut();
+      setError('Access denied. This account does not have admin privileges.');
+      setLoading(false);
+      return;
+    }
+
+    // Step 3: admin confirmed — proceed to dashboard
     router.push('/admin/dashboard');
     router.refresh();
   };

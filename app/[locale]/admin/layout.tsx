@@ -1,4 +1,6 @@
 import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
+import { createAdminClient } from '@/lib/supabase/server';
 import AdminSidebar from '@/components/admin/AdminSidebar';
 import TopbarLangToggle from '@/components/admin/TopbarLangToggle';
 
@@ -14,9 +16,35 @@ export default async function AdminLayout({
   const pathWithoutLocale = pathname.replace(/^\/(en|fr)/, '') || pathname;
   const isLoginPage = pathWithoutLocale.startsWith('/admin/login');
 
+  // Login page renders without the shell and without auth checks
   if (isLoginPage) {
     return <>{children}</>;
   }
+
+  // --- Auth guard (runs on every admin page except login) ---
+
+  const supabase = await createAdminClient();
+
+  // 1. Check there is a valid session (validates the JWT from cookies)
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect(`/${locale}/admin/login`);
+  }
+
+  // 2. Check the user has is_admin = true in public.users
+  const { data: profile } = await supabase
+    .from('users')
+    .select('is_admin')
+    .eq('id', user.id)
+    .single();
+
+  if (!profile?.is_admin) {
+    // Valid Supabase session but not an admin — boot them out
+    redirect(`/${locale}/admin/login`);
+  }
+
+  // --- Admin confirmed — render the shell ---
 
   return (
     <div className="min-h-screen bg-background-base flex">
