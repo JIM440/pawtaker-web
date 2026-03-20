@@ -1,102 +1,69 @@
+'use client';
+
+import { useState } from 'react';
+import { useTranslations } from 'next-intl';
+import ContactInquiryCard, {
+  type ContactInquiry,
+} from '@/components/admin/ContactInquiryCard';
+
+const MOCK_INQUIRIES: ContactInquiry[] = [
+  {
+    id: '1',
+    name: 'Udo Ryna',
+    email: 'udo@example.com',
+    location: 'Kumba, Cameroon',
+    date: 'Dec 23, 2025',
+    initials: 'UR',
+    imageUrl: 'https://picsum.photos/seed/contact-1/80',
+    message:
+      'I thank God for helping me succeed with my first booking. The sitter was kind and sent photos every day.',
+  },
+  {
+    id: '2',
+    name: 'Marie Dubois',
+    email: 'marie.d@example.com',
+    location: 'Lyon, France',
+    date: 'Jan 4, 2026',
+    initials: 'MD',
+    imageUrl: 'https://picsum.photos/seed/contact-2/80',
+    message:
+      'Question about verification: how long does KYC usually take? I uploaded my documents yesterday.',
+  },
+  {
+    id: '3',
+    name: 'James Okon',
+    email: 'j.okon@example.com',
+    location: 'Douala, Cameroon',
+    date: 'Jan 12, 2026',
+    initials: 'JO',
+    imageUrl: 'https://picsum.photos/seed/contact-3/80',
+    message:
+      'Please delete my account and all associated data under GDPR. I no longer use the service.',
+  },
+];
+
 export default function ContactPage() {
+  const t = useTranslations('admin.contact');
+  const [inquiries, setInquiries] = useState<ContactInquiry[]>(MOCK_INQUIRIES);
+
+  const handleDelete = (id: string) => {
+    setInquiries((prev) => prev.filter((q) => q.id !== id));
+  };
+
   return (
-    <div className="p-6 md:p-8 max-w-2xl">
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-on-surface">Contact</h1>
-        <p className="text-sm text-on-surface/60 mt-1">Admin support resources and platform legal documents.</p>
-      </div>
+    <div className="p-6 md:p-8">
+      {inquiries.length === 0 ? (
+        <div className="mb-10 rounded-2xl border border-dashed border-outline/30 bg-surface-container-lowest/80 px-6 py-16 text-center text-sm text-on-surface/55">
+          {t('emptyState')}
+        </div>
+      ) : (
+        <div className="mb-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+          {inquiries.map((inquiry) => (
+            <ContactInquiryCard key={inquiry.id} inquiry={inquiry} onDelete={handleDelete} />
+          ))}
+        </div>
+      )}
 
-      {/* Support Email */}
-      <div className="bg-surface-container-lowest border border-outline/20 rounded-2xl p-6 mb-4 shadow-sm">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="size-10 rounded-xl bg-primary/10 flex items-center justify-center text-xl">
-            ✉️
-          </div>
-          <div>
-            <h2 className="font-semibold text-on-surface text-sm">Support Email</h2>
-            <p className="text-xs text-on-surface/60">Reach the platform support team</p>
-          </div>
-        </div>
-        <a
-          href="mailto:support@pawtaker.com"
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-primary/10 text-primary text-sm font-medium hover:bg-primary/20 transition-colors"
-        >
-          support@pawtaker.com
-        </a>
-      </div>
-
-      {/* Legal Documents */}
-      <div className="bg-surface-container-lowest border border-outline/20 rounded-2xl p-6 mb-4 shadow-sm">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="size-10 rounded-xl bg-tertiary/10 flex items-center justify-center text-xl">
-            📄
-          </div>
-          <div>
-            <h2 className="font-semibold text-on-surface text-sm">Legal Documents</h2>
-            <p className="text-xs text-on-surface/60">Platform policies and terms</p>
-          </div>
-        </div>
-        <div className="flex flex-col sm:flex-row gap-3">
-          <a
-            href="/en/privacy"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-outline/30 text-sm font-medium text-on-surface hover:bg-surface-container transition-colors"
-          >
-            <span>🔒</span> Privacy Policy
-          </a>
-          <a
-            href="/en/terms"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-outline/30 text-sm font-medium text-on-surface hover:bg-surface-container transition-colors"
-          >
-            <span>📋</span> Terms of Service
-          </a>
-        </div>
-      </div>
-
-      {/* Contact Form (stub) */}
-      <div className="bg-surface-container-lowest border border-outline/20 rounded-2xl p-6 shadow-sm">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="size-10 rounded-xl bg-secondary/10 flex items-center justify-center text-xl">
-            💬
-          </div>
-          <div>
-            <h2 className="font-semibold text-on-surface text-sm">Contact Form</h2>
-            <p className="text-xs text-on-surface/60">Send a message to the platform team</p>
-          </div>
-        </div>
-        <div className="space-y-3">
-          <div>
-            <label className="block text-xs font-medium text-on-surface/60 mb-1">Subject</label>
-            <input
-              type="text"
-              disabled
-              placeholder="e.g. Billing issue, technical support..."
-              className="w-full bg-background-base border border-outline/20 rounded-xl px-4 py-2.5 text-sm text-on-surface/40 cursor-not-allowed"
-            />
-          </div>
-          <div>
-            <label className="block text-xs font-medium text-on-surface/60 mb-1">Message</label>
-            <textarea
-              disabled
-              rows={4}
-              placeholder="Describe your issue or question..."
-              className="w-full bg-background-base border border-outline/20 rounded-xl px-4 py-2.5 text-sm text-on-surface/40 cursor-not-allowed resize-none"
-            />
-          </div>
-          <div className="flex items-center justify-between">
-            <p className="text-xs text-on-surface/40">Contact form integration coming soon.</p>
-            <button
-              disabled
-              className="px-5 py-2.5 rounded-xl bg-primary/30 text-on-primary/50 text-sm font-medium cursor-not-allowed"
-            >
-              Send Message
-            </button>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }

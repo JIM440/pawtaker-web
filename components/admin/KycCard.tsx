@@ -1,17 +1,21 @@
 'use client';
 
 import { useState } from 'react';
+import { CalendarDays, ChevronLeft, ChevronRight, Expand } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import ConfirmationModal from './ConfirmationModal';
 import KycImageModal from './KycImageModal';
+import UserAvatar from './UserAvatar';
 
 export interface KycSubmission {
   id: string;
   userName: string;
   userEmail: string;
   userInitials: string;
+  userImage?: string;
   submittedAt: string;
   documentType: string;
-  status: 'Pending' | 'Approved' | 'Rejected' | 'Completed';
+  status: 'Pending' | 'Approved' | 'Rejected';
   images: string[];
   rejectionReason?: string;
 }
@@ -21,21 +25,39 @@ interface KycCardProps {
   onStatusChange: (id: string, status: 'Approved' | 'Rejected', reason?: string) => void;
 }
 
-const STATUS_STYLES: Record<KycSubmission['status'], string> = {
-  Pending: 'bg-amber-100 text-amber-800',
-  Approved: 'bg-emerald-100 text-emerald-800',
-  Rejected: 'bg-red-100 text-red-700',
-  Completed: 'bg-blue-100 text-blue-800',
-};
+const BADGE_APPROVED = 'bg-emerald-100 text-emerald-800 border border-emerald-200/80';
+const BADGE_PENDING = 'bg-amber-100/90 text-amber-900 border border-amber-200/80';
+const BADGE_REJECTED = 'bg-error-container text-error border border-error/20';
+
+function normalizeKycImages(images: string[]): string[] {
+  // Requirement: always show exactly 3 images (and thus 3 dots) in the KYC card/modal.
+  if (!images?.length) return ['', '', ''];
+
+  const base = images.slice(0, 3);
+  while (base.length < 3) base.push(base[base.length - 1]);
+  return base;
+}
+
+function badgeForStatus(
+  status: KycSubmission['status'],
+  // Match `next-intl` translator typing: interpolation values are string/number/Date.
+  t: (key: string, values?: Record<string, string | number | Date>) => string
+) {
+  if (status === 'Approved') return { label: t('approved'), className: BADGE_APPROVED };
+  if (status === 'Rejected') return { label: t('rejected'), className: BADGE_REJECTED };
+  return { label: t('pending'), className: BADGE_PENDING };
+}
 
 export default function KycCard({ submission, onStatusChange }: KycCardProps) {
+  const t = useTranslations('admin.kyc');
   const [currentImage, setCurrentImage] = useState(0);
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
   const [isApproveOpen, setIsApproveOpen] = useState(false);
   const [isRejectOpen, setIsRejectOpen] = useState(false);
   const [rejectionReason, setRejectionReason] = useState('');
 
-  const { images } = submission;
+  const images = normalizeKycImages(submission.images);
+  const badge = badgeForStatus(submission.status, t);
 
   const handleApproveConfirm = () => {
     onStatusChange(submission.id, 'Approved');
@@ -50,110 +72,123 @@ export default function KycCard({ submission, onStatusChange }: KycCardProps) {
 
   return (
     <>
-      <div className="bg-surface-container-lowest rounded-2xl border border-outline/20 shadow-sm overflow-hidden flex flex-col">
-        {/* Image strip */}
+      <div className="flex flex-col overflow-hidden rounded-2xl border border-outline/20 bg-white shadow-sm">
         <div
-          className="relative bg-slate-100 aspect-video cursor-pointer overflow-hidden"
+          className="relative aspect-video cursor-pointer overflow-hidden bg-slate-100"
           onClick={() => setIsImageModalOpen(true)}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={images[currentImage]}
-            alt="KYC document"
-            className="w-full h-full object-cover"
+            alt={t('documentAlt')}
+            className="h-full w-full object-cover"
           />
-
-          {/* Left arrow */}
           {currentImage > 0 && (
             <button
-              onClick={(e) => { e.stopPropagation(); setCurrentImage((i) => i - 1); }}
-              className="absolute left-2 top-1/2 -translate-y-1/2 size-7 rounded-full bg-black/50 text-white text-sm flex items-center justify-center hover:bg-black/70 transition-colors"
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setCurrentImage((i) => i - 1);
+              }}
+              className="absolute left-2 top-1/2 flex size-9 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-black/50 text-white transition-colors hover:bg-black/70"
             >
-              ‹
+              <ChevronLeft className="h-4 w-4" aria-hidden="true" />
             </button>
           )}
-
-          {/* Right arrow */}
           {currentImage < images.length - 1 && (
             <button
-              onClick={(e) => { e.stopPropagation(); setCurrentImage((i) => i + 1); }}
-              className="absolute right-2 top-1/2 -translate-y-1/2 size-7 rounded-full bg-black/50 text-white text-sm flex items-center justify-center hover:bg-black/70 transition-colors"
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setCurrentImage((i) => i + 1);
+              }}
+              className="absolute right-2 top-1/2 flex size-9 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-black/50 text-white transition-colors hover:bg-black/70"
             >
-              ›
+              <ChevronRight className="h-4 w-4" aria-hidden="true" />
             </button>
           )}
+          <div className="absolute right-2 bottom-2 inline-flex items-center gap-1 rounded-full bg-white/40 px-2 py-0.5 text-xs text-white">
+            <Expand className="h-3 w-3" aria-hidden="true" />
+            {t('expand')}
+          </div>
 
-          {/* Expand hint */}
-          <div className="absolute top-2 right-2 bg-black/40 text-white text-xs px-2 py-0.5 rounded-full">
-            🔍 Expand
+          {/* Image pagination dots (on top of image) */}
+          <div className="absolute left-0 right-0 bottom-3 z-20 flex justify-center gap-1.5">
+            {images.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={(e) => {
+                  // Ensure dot click doesn't trigger the image modal
+                  e.stopPropagation();
+                  setCurrentImage(i);
+                }}
+                className={`size-1.5 cursor-pointer rounded-full transition-colors ${
+                  i === currentImage ? 'bg-primary' : 'bg-white/75 hover:bg-white/90'
+                }`}
+                aria-label={t('showImageAriaLabel', { index: i + 1 })}
+              />
+            ))}
           </div>
         </div>
 
-        {/* Dots */}
-        <div className="flex justify-center gap-1.5 py-2 bg-slate-50 border-b border-outline/10">
-          {images.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setCurrentImage(i)}
-              className={`size-1.5 rounded-full transition-colors ${i === currentImage ? 'bg-primary' : 'bg-outline/40'}`}
-            />
-          ))}
-        </div>
-
-        {/* Content */}
-        <div className="p-4 flex-1 flex flex-col">
-          <div className="flex items-start justify-between gap-2 mb-3">
-            <div className="flex items-center gap-3 min-w-0">
-              <div className="size-9 rounded-full bg-primary/15 flex items-center justify-center text-xs font-bold text-primary shrink-0">
-                {submission.userInitials}
-              </div>
+        <div className="flex flex-1 flex-col p-4">
+          <div className="mb-3 flex items-start justify-between gap-2">
+            <div className="flex min-w-0 items-center gap-3">
+              <UserAvatar
+                imageUrl={submission.userImage}
+                initials={submission.userInitials}
+                alt={submission.userName}
+                size={36}
+              />
               <div className="min-w-0">
-                <p className="font-semibold text-on-surface text-sm truncate">{submission.userName}</p>
-                <p className="text-xs text-on-surface/60 truncate">{submission.userEmail}</p>
+                <p className="truncate text-sm font-semibold text-on-surface">{submission.userName}</p>
+                <p className="truncate text-xs text-on-surface/60">{submission.userEmail}</p>
               </div>
             </div>
-            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium shrink-0 ${STATUS_STYLES[submission.status]}`}>
-              {submission.status}
+            <span
+              className={`inline-flex shrink-0 items-center rounded-full border px-2.5 py-0.5 text-[11px] font-semibold ${badge.className}`}
+            >
+              {badge.label}
             </span>
           </div>
 
-          <div className="space-y-1.5 text-xs text-on-surface/70 flex-1">
+          <div className="flex-1 space-y-1.5 text-xs text-on-surface/70">
             <div className="flex items-center gap-1.5">
-              <span>📄</span>
-              <span>{submission.documentType}</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <span>📅</span>
-              <span>Submitted {submission.submittedAt}</span>
+              <CalendarDays className="h-3.5 w-3.5 shrink-0 text-secondary" aria-hidden="true" />
+              <span>
+                {t('submitted')} {submission.submittedAt}
+              </span>
             </div>
             {submission.rejectionReason && (
-              <div className="mt-2 p-2 bg-red-50 rounded-lg text-red-700">
-                <span className="font-medium">Reason: </span>{submission.rejectionReason}
+              <div className="mt-2 rounded-lg border border-error/15 bg-error-container/80 p-2 text-xs text-error">
+                <span className="font-medium">{t('rejectionReasonLabel')}: </span>
+                {submission.rejectionReason}
               </div>
             )}
           </div>
 
-          {/* Actions */}
           {submission.status === 'Pending' && (
-            <div className="flex gap-2 mt-4">
+            <div className="mt-4 flex gap-2">
               <button
+                type="button"
                 onClick={() => setIsApproveOpen(true)}
-                className="flex-1 py-2.5 rounded-xl bg-primary text-on-primary text-sm font-semibold hover:bg-primary/90 transition-colors"
+                className="flex-1 cursor-pointer rounded-full bg-primary py-2.5 text-sm font-semibold text-on-primary shadow-sm shadow-primary/15 transition-colors hover:bg-primary/90"
               >
-                Approve
+                {t('approve')}
               </button>
               <button
+                type="button"
                 onClick={() => setIsRejectOpen(true)}
-                className="flex-1 py-2.5 rounded-xl bg-error/10 text-error text-sm font-semibold hover:bg-error/20 transition-colors"
+                className="flex-1 cursor-pointer rounded-full border border-error/25 bg-error/12 py-2.5 text-sm font-semibold text-error transition-colors hover:bg-error/18"
               >
-                Reject
+                {t('reject')}
               </button>
             </div>
           )}
         </div>
       </div>
 
-      {/* Image modal */}
       {isImageModalOpen && (
         <KycImageModal
           images={images}
@@ -162,36 +197,38 @@ export default function KycCard({ submission, onStatusChange }: KycCardProps) {
         />
       )}
 
-      {/* Approve confirmation */}
       <ConfirmationModal
         isOpen={isApproveOpen}
-        title={`Approve KYC for ${submission.userName}?`}
-        description="This will verify the user's identity and grant full platform access."
-        confirmLabel="Approve"
-        cancelLabel="Cancel"
+        title={t('approveConfirmTitle')}
+        description={t('approveConfirmDesc')}
+        confirmLabel={t('approveConfirmLabel')}
         tone="default"
         onConfirm={handleApproveConfirm}
         onCancel={() => setIsApproveOpen(false)}
       />
 
-      {/* Reject confirmation with reason */}
       <ConfirmationModal
         isOpen={isRejectOpen}
-        title={`Reject KYC for ${submission.userName}?`}
-        description="Please provide a reason. The user will be notified."
-        confirmLabel="Reject"
-        cancelLabel="Cancel"
+        title={t('rejectConfirmTitle')}
+        description={t('rejectConfirmDesc')}
+        confirmLabel={t('rejectConfirmLabel')}
         tone="danger"
         confirmDisabled={rejectionReason.trim() === ''}
         onConfirm={handleRejectConfirm}
-        onCancel={() => { setIsRejectOpen(false); setRejectionReason(''); }}
+        onCancel={() => {
+          setIsRejectOpen(false);
+          setRejectionReason('');
+        }}
       >
+        <div className="mt-1 text-xs text-on-surface/60">
+          {t('rejectionMessagePreviewNote')}
+        </div>
         <textarea
           value={rejectionReason}
           onChange={(e) => setRejectionReason(e.target.value)}
-          placeholder="Rejection reason (required)"
+          placeholder={t('rejectionReasonPlaceholder')}
           rows={3}
-          className="w-full mt-3 p-3 border border-outline/30 rounded-xl text-sm resize-none focus:ring-2 focus:ring-primary/40 focus:border-primary outline-none bg-background-base"
+          className="mt-3 w-full resize-none rounded-xl border border-outline/30 bg-background-base p-3 text-sm text-on-surface outline-none focus:border-primary focus:ring-2 focus:ring-primary/40"
         />
       </ConfirmationModal>
     </>

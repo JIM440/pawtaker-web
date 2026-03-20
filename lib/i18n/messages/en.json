@@ -7,45 +7,75 @@
       "signIn": "Sign In",
       "getStarted": "Get Started",
       "tagline": "Community Pet Care",
+      "brand": "pawtaker",
       "story": "Our Story",
       "download": "Download App"
     },
     "hero": {
-      "badge": "Points over profit",
-      "title": "Community Care for the Pets You Love.",
-      "subtitle": "The points-based P2P sitting platform where trust is the only currency.",
-      "primaryCta": "Download App",
-      "secondaryCta": "How it works",
-      "storeNote": "Available soon on iOS and Android. Join the waitlist to be first in line.",
-      "previewLabel": "In-app experience",
-      "previewBadge": "Live check-ins",
+      "badge": "The Curated Sanctuary for Pets.",
+      "title": "Looking for a good time?",
+      "subtitle": "Experience the future of care with instant requests and trusted neighbors.",
+      "primaryCta": "Get Started",
+      "secondaryCta": "Watch Video",
+      "storeNote": "Trusted pet care in minutes.",
+      "alt": {
+        "feature1": "Feature preview",
+        "feature2": "Feature preview 2",
+        "appPreview": "App preview"
+      },
+      "stats": {
+        "product": "299K+",
+        "productLabel": "Product",
+        "seller": "99K+",
+        "sellerLabel": "Seller",
+        "review": "2K+",
+        "reviewLabel": "Positive Review"
+      },
+      "previewLabel": "Care updates",
+      "previewBadge": "Live",
       "cardActiveCare": {
-        "label": "Active care",
-        "title": "Buddy • Weekend stay",
-        "meta": "3 days · Verified taker"
+        "label": "Care you gave",
+        "title": "Build your reputation",
+        "meta": "Care given · verified"
       },
       "cardCheckins": {
-        "title": "Scheduled check-ins",
-        "caption": "Photo, notes, and quick tasks logged for every visit."
+        "title": "Care requests",
+        "caption": "Manage jobs and dates in one place."
       },
       "cardMessages": {
-        "title": "Secure messaging",
-        "caption": "Keep every agreement, update, and detail in one private thread."
+        "title": "Messaging",
+        "caption": "Keep everything in one thread."
       }
     },
     "landing": {
       "badge": "Community First",
       "title": "Caring for pets, together as a community.",
       "subtitle": "Connect with trusted neighbours to share pet care responsibilities. No money, just love and community points.",
+      "heroImageAriaLabel": "Happy dog being petted by a smiling group of neighbors in a park",
       "primaryCta": "Join the Community",
       "secondaryCta": "Learn More",
       "stats": {
+        "activeMembers": "Active Members",
         "pets": "Pets Cared For",
         "points": "Points Shared"
       },
       "benefits": {
-        "heading": "Why PawTaker?",
-        "subtitle": "Our community is built on trust and a shared love for animals, making pet care accessible for everyone."
+        "heading": "Why pawtaker?",
+        "subtitle": "Our community is built on trust and a shared love for animals, making pet care accessible for everyone.",
+        "cards": {
+          "trust": {
+            "title": "Built on Trust",
+            "body": "Verified members and community ratings help ensure your pet is always in safe hands."
+          },
+          "simplicity": {
+            "title": "Complete Simplicity",
+            "body": "Request or offer care with a few taps. No complicated payments or subscriptions."
+          },
+          "petFirst": {
+            "title": "Pet-First Approach",
+            "body": "Every decision is focused on your pet’s comfort, safety, and happiness."
+          }
+        }
       },
       "cta": {
         "heading": "Ready to join the pack?",
@@ -54,7 +84,7 @@
       }
     },
     "featuresOld": {
-      "heading": "Why PawTaker?",
+      "heading": "Why pawtaker?",
       "subtitle": "A community-first platform built on trust, transparency, and care.",
       "zeroCost": {
         "title": "Zero Cost",
@@ -95,40 +125,55 @@
       }
     },
     "appPreview": {
-      "heading": "Your pets deserve the best — download PawTaker",
-      "subtitle": "Available soon on iOS and Android. Join the waitlist to be first in line.",
+      "heading": "Give care. Get care.",
+      "subtitle": "Ask for help when you need it. Offer care to build your reputation.",
       "cta": {
-        "ios": "Download on the App Store",
-        "android": "Get it on Google Play"
+        "ios": "Download for iOS",
+        "android": "Download for Android"
       },
-      "storeNote": "Coming soon. Join the waitlist today.",
+      "storeNote": "Available soon. Join the waitlist.",
       "phoneTabs": {
         "home": "Home",
         "myCare": "My Care",
         "messages": "Messages"
       },
       "messages": {
-        "owner": "Sophie (owner)",
-        "body": "\"Max ate all his food and had a great walk!\""
+        "owner": "Jamie (owner)",
+        "body": "\"Thanks for the help! Check-in looks great.\""
       },
       "checkins": {
-        "title": "Check-in photo received",
-        "body": "Bella is playing in the garden 🌿"
+        "title": "Care update sent",
+        "body": "Walk done. See you next time!"
       }
     },
     "footer": {
+      "brand": "pawtaker",
       "tagline": "Community pet care for everyone.",
       "rights": "All rights reserved.",
       "terms": "Terms",
-      "privacy": "Privacy"
+      "privacy": "Privacy",
+      "description": "Making pet care social, affordable, and safe for every animal lover across the globe.",
+      "platformTitle": "Platform",
+      "platformHowItWorks": "How it works",
+      "platformSafetyMeasures": "Safety Measures",
+      "platformCommunityPoints": "Community Points",
+      "companyTitle": "Company",
+      "companyOurStory": "Our Story",
+      "companyCareers": "Careers",
+      "privacyPolicy": "Privacy Policy",
+      "termsOfService": "Terms of Service",
+      "contactTitle": "Contact",
+      "contactEmail": "hello@pawtaker.com",
+      "contactLocation": "San Francisco, CA",
+      "copyrightLine": "© {year} pawtaker Inc. All rights reserved. Built with love for paws."
     },
     "about": {
       "heroTitle": "Connecting pet lovers everywhere",
       "heroSubtitle": "Because every pet deserves a village of love and care, no matter where life takes you.",
       "narrativeLabel": "Our narrative",
       "heading": "Our Story",
-      "mission": "PawTaker was born from a simple belief: pet care should be built on community, not commerce. We connect pet owners with trusted neighbours who are passionate about animals.",
-      "pointsOverProfit": "By replacing money with points, we remove financial barriers and create a genuine exchange of care. Every member both gives and receives — that's what makes PawTaker different.",
+      "mission": "pawtaker was born from a simple belief: pet care should be built on community, not commerce. We connect pet owners with trusted neighbours who are passionate about animals.",
+      "pointsOverProfit": "By replacing money with points, we remove financial barriers and create a genuine exchange of care. Every member both gives and receives — that's what makes pawtaker different.",
       "missionHeading": "Our mission: accessible care",
       "missionBody": "We make quality pet care accessible through our unique Community Points system. By helping others in the community, you earn credits that can be used for your own pet's care.",
       "missionCards": {
@@ -169,7 +214,7 @@
     },
     "how": {
       "steps": {
-        "heading": "How PawTaker works",
+        "heading": "How pawtaker works",
         "subtitle": "Four simple steps to safe, community-powered pet care.",
         "join": {
           "title": "Create your profile",
@@ -189,7 +234,7 @@
         }
       },
       "faq": {
-        "heading": "Why the community loves PawTaker",
+        "heading": "Why the community loves pawtaker",
         "subtitle": "Everything you need to know before getting started.",
         "kyc": {
           "question": "Why do I need to verify my identity?",
@@ -222,11 +267,16 @@
       "settings": "Settings",
       "pets": "Pets",
       "reviews": "Reviews",
-      "contact": "Contact"
+      "contact": "Contact",
+      "profile": "Profile"
     },
     "sidebar": {
-      "brand": "PawTaker",
+      "brand": "pawtaker",
       "brandSub": "Admin Panel"
+    },
+    "notifications": {
+      "title": "Notifications",
+      "markAllRead": "Mark all as read"
     },
     "dashboard": {
       "title": "Dashboard",
@@ -240,6 +290,8 @@
       "recentActivity": "Recent Activity",
       "platformGrowth": "Platform Growth",
       "careActivity": "Care Given vs Received",
+      "growthCaption": "Verified users over the last 12 months",
+      "careCaption": "Care given vs received over the last 8 weeks",
       "careGiven": "Care Given",
       "careReceived": "Care Received",
       "users": "Users",
@@ -248,29 +300,48 @@
     "users": {
       "title": "User Management",
       "searchPlaceholder": "Search by name or email...",
+      "searchLabel": "Search",
       "sortLabel": "Sort by",
+      "sortDefault": "Default (no sort)",
+      "sortPetsDesc": "Pets (Most first)",
+      "sortPetsAsc": "Pets (Least first)",
+      "sortCareGivenDesc": "Care given (Most first)",
+      "sortCareGivenAsc": "Care given (Least first)",
+      "sortCareReceivedDesc": "Care received (Most first)",
+      "sortCareReceivedAsc": "Care received (Least first)",
       "sortPointsDesc": "Points (High to Low)",
       "sortPointsAsc": "Points (Low to High)",
       "sortCareGiven": "Most Care Given",
       "sortCareReceived": "Most Care Received",
       "exportList": "Export List",
       "columns": {
+        "user": "User",
         "name": "Name",
         "email": "Email",
         "kyc": "KYC Status",
         "points": "Points",
+        "petsCount": "# Pets",
+        "careGiven": "Care Given",
+        "careReceived": "Care Received",
         "status": "Status",
         "joined": "Joined",
         "actions": "Actions"
       },
       "statusActive": "Active",
       "statusDeactivated": "Deactivated",
+      "kycStatusApproved": "Approved",
+      "kycStatusSubmitted": "Submitted",
+      "kycStatusPending": "Pending",
+      "kycStatusRejected": "Rejected",
+      "openActionsAriaLabel": "Open actions for {userName}",
       "deleteConfirmTitle": "Delete user?",
       "deleteConfirmDesc": "This action cannot be undone. All user data will be permanently removed.",
       "deleteConfirmLabel": "Delete",
       "deactivateConfirmTitle": "Deactivate account?",
       "deactivateConfirmDesc": "The user will lose access to the platform. This can be reversed later.",
-      "deactivateConfirmLabel": "Deactivate"
+      "deactivateConfirmLabel": "Deactivate",
+      "emptyState": "No users match your search.",
+      "paginationShowing": "Showing {shown} of {total} users"
     },
     "kyc": {
       "title": "KYC Reviews",
@@ -280,6 +351,10 @@
       "filterCompleted": "Completed",
       "filterApproved": "Approved",
       "filterRejected": "Rejected",
+      "all": "All",
+      "filterByStatusAriaLabel": "Filter by status",
+      "searchLabel": "Search by name or email",
+      "emptyState": "No submissions match your filters.",
       "pending": "Pending",
       "approved": "Approved",
       "rejected": "Rejected",
@@ -294,24 +369,94 @@
       "rejectConfirmDesc": "Please provide a reason. The user will be notified.",
       "rejectConfirmLabel": "Reject",
       "rejectionReasonLabel": "Rejection reason",
-      "rejectionReasonPlaceholder": "Rejection reason (required)"
+      "rejectionReasonPlaceholder": "Rejection reason (required)",
+      "expand": "Expand",
+      "documentAlt": "KYC document",
+      "submitted": "Submitted",
+      "showImageAriaLabel": "Show image {index}",
+      "rejectionMessagePreviewNote": "This is the exact message that will be sent to the user."
+    },
+    "reports": {
+      "searchLabel": "Reporter",
+      "searchPlaceholder": "Search reporter...",
+      "openActionsAriaLabel": "Open actions for report by {reporter}",
+      "deleteConfirmTitle": "Delete report?",
+      "deleteConfirmDesc": "This will permanently remove the report from the platform.",
+      "deleteConfirmLabel": "Delete",
+      "reportLabel": "Report:",
+      "emptyState": "No reports match your search.",
+      "paginationShowing": "Showing {shown} of {total} reports",
+      "table": {
+        "reporter": "Reporter",
+        "reportedText": "Reported Text",
+        "actions": "Actions"
+      },
+      "stats": {
+        "weeklyResolutionRateTitle": "Weekly Resolution Rate",
+        "weeklyResolutionRateCaption": "Target benchmark: 90%",
+        "avgResponseTimeTitle": "Avg. Response Time",
+        "avgResponseTimeCaption": "Improved since last month",
+        "criticalUnresolvedTitle": "Critical Unresolved",
+        "criticalUnresolvedCaption": "Requires immediate attention"
+      }
+    },
+    "requests": {
+      "statusAll": "All statuses",
+      "statusOngoing": "Ongoing",
+      "statusCompleted": "Completed",
+      "statusCanceled": "Canceled",
+      "careTypePlayWalk": "Play/Walk",
+      "careTypeDaytime": "Daytime",
+      "careTypeVacation": "Vacation",
+      "careTypeNight": "Night",
+      "searchLabel": "Search",
+      "searchPlaceholder": "Search by pet, owner, care giver...",
+      "openActionsAriaLabel": "Open actions",
+      "deleteConfirmTitle": "Delete care request?",
+      "deleteConfirmDesc": "This will permanently remove the care request.",
+      "deleteConfirmLabel": "Delete",
+      "emptyState": "No requests match your filters.",
+      "paginationShowing": "Showing {shown} of {total} requests",
+      "table": {
+        "petBreed": "Pet & Breed",
+        "owner": "Owner",
+        "careGivenBy": "Care Given By",
+        "serviceDates": "Service Dates",
+        "careType": "Care Type",
+        "status": "Status",
+        "actions": "Actions"
+      },
+      "filters": {
+        "statusLabel": "Status"
+      }
     },
     "pets": {
       "title": "Pets",
       "subtitle": "All registered pets across the platform.",
       "searchPlaceholder": "Search by pet name or owner...",
+      "searchLabel": "Search",
       "filterSpecies": "Species",
       "filterEnergy": "Energy level",
       "allSpecies": "All species",
       "allEnergy": "All levels",
+      "speciesDog": "Dog",
+      "speciesCat": "Cat",
+      "speciesOther": "Other",
+      "careRequestsSortLabel": "Care requests sort",
+      "careRequestsSortMost": "Most care requests",
+      "careRequestsSortLeast": "Least care requests",
       "columns": {
         "pet": "Pet",
         "owner": "Owner",
         "age": "Age",
         "energyLevel": "Energy",
+        "careRequests": "Care Requests",
         "tags": "Tags",
         "actions": "Actions"
       },
+      "emptyState": "No pets match your filters.",
+      "paginationShowing": "Showing {shown} of {total} pets",
+      "openActionsAriaLabel": "Open actions for {petName}",
       "deleteConfirmTitle": "Delete pet?",
       "deleteConfirmDesc": "This will permanently remove the pet and all associated data.",
       "deleteConfirmLabel": "Delete"
@@ -319,6 +464,19 @@
     "reviews": {
       "title": "Reviews",
       "subtitle": "User-submitted reviews across all care sessions.",
+      "searchLabel": "Search reviews",
+      "searchPlaceholder": "Search by name, email, or review text...",
+      "ratingFilterLabel": "Rating",
+      "ratingFilterAriaLabel": "Filter by star rating",
+      "filterAllRatings": "All ratings",
+      "filterStars5": "5 stars",
+      "filterStars4": "4 stars",
+      "filterStars3": "3 stars",
+      "filterStars2": "2 stars",
+      "filterStars1": "1 star",
+      "emptyState": "No reviews match your filters.",
+      "paginationShowing": "Showing {shown} of {total} reviews",
+      "openActionsAriaLabel": "Open actions",
       "columns": {
         "stars": "Rating",
         "reviewer": "Reviewer",
@@ -341,7 +499,18 @@
       "terms": "Terms of Service",
       "contactForm": "Contact Form",
       "contactFormNote": "Contact form integration coming soon.",
-      "sendMessage": "Send Message"
+      "sendMessage": "Send Message",
+      "openActionsAriaLabel": "Open actions",
+      "deleteConfirmTitle": "Delete message?",
+      "deleteConfirmDesc": "This contact message will be permanently removed.",
+      "deleteConfirmLabel": "Delete",
+      "relativeJustNow": "Just now",
+      "relativeMinutesAgo": "{count} min ago",
+      "relativeHoursAgo": "{count} h ago",
+      "relativeDaysAgo": "{count} d ago",
+      "relativeMonthsAgo": "{count} mo ago",
+      "relativeYearsAgo": "{count} y ago",
+      "emptyState": "No contact messages yet."
     },
     "modal": {
       "cancel": "Cancel",
@@ -362,7 +531,59 @@
       "title": "Admin Login",
       "email": "Email",
       "password": "Password",
-      "submit": "Sign In"
+      "submit": "Sign In",
+      "submitting": "Signing in...",
+      "welcome": "Welcome back! Please enter your details.",
+      "secureAccess": "Secure Access",
+      "forgotPassword": "Forgot password?",
+      "keepAuthenticated": "Keep me authenticated"
+    }
+  },
+  "ui": {
+    "localeSelect": {
+      "ariaLabel": "Select language",
+      "en": "English",
+      "fr": "French"
+    }
+  },
+  "legal": {
+    "terms": {
+      "title": "Terms of Service",
+      "lastUpdated": "Last updated: {date}",
+      "section1Title": "1. Acceptance of Terms",
+      "section1Body": "By accessing or using pawtaker (\"the Platform\"), you agree to be bound by these Terms of Service. If you do not agree, do not use the Platform.",
+      "section2Title": "2. Description of Service",
+      "section2Body": "pawtaker is a community-based pet care platform where users exchange pet care using a points system. We do not process payments; care is exchanged on a non-monetary, points-based basis.",
+      "section3Title": "3. Eligibility",
+      "section3Body": "You must be at least 18 years old and able to form a binding contract. You must complete identity verification (KYC) before offering or requesting care. You are responsible for ensuring your use of the Platform complies with local laws.",
+      "section4Title": "4. Points and Conduct",
+      "section4Body": "Points have no cash value and cannot be exchanged for money. You must not abuse the system, harass other users, or misrepresent yourself or your pets. We may suspend or terminate accounts that violate these terms or our community guidelines.",
+      "section5Title": "5. Limitation of Liability",
+      "section5Body": "pawtaker is provided \"as is.\" We are not liable for any harm to users, pets, or property arising from arrangements made through the Platform. Pet care is arranged directly between users; we do not employ or guarantee sitters.",
+      "section6Title": "6. Changes",
+      "section6Body": "We may update these terms from time to time. Continued use of the Platform after changes constitutes acceptance. Material changes will be communicated via the app or email where possible.",
+      "section7Title": "7. Contact",
+      "section7Body": "For questions about these Terms of Service, contact us at the support address provided in the app or on our website."
+    },
+    "privacy": {
+      "title": "Privacy Policy",
+      "lastUpdated": "Last updated: {date}",
+      "section1Title": "1. Information We Collect",
+      "section1Body": "We collect information you provide when you sign up (email, name, profile details), when you add pets or post care requests, and when you communicate with other users. We also collect identity verification (KYC) documents and related data to maintain a trusted community.",
+      "section2Title": "2. How We Use Your Information",
+      "section2Body": "We use your information to operate the Platform, match you with other users, process KYC, enforce our terms, and send service-related communications. We do not sell your personal data to third parties.",
+      "section3Title": "3. Sharing With Others",
+      "section3Body": "Your profile (name, photo, general location if you choose) may be visible to other verified users to facilitate care arrangements. We may share data with service providers (e.g. hosting, analytics) under strict agreements. We may disclose information when required by law.",
+      "section4Title": "4. Data Security",
+      "section4Body": "We use industry-standard measures to protect your data. Identity documents and sensitive data are stored securely and used only for verification and safety purposes.",
+      "section5Title": "5. Your Rights",
+      "section5Body": "Depending on your location, you may have the right to access, correct, delete, or port your data, and to object to or restrict certain processing. Contact us to exercise these rights.",
+      "section6Title": "6. Cookies and Similar Technologies",
+      "section6Body": "We use cookies and similar technologies for authentication, preferences, and analytics on our website and in our apps, in line with this policy.",
+      "section7Title": "7. Changes to This Policy",
+      "section7Body": "We may update this Privacy Policy from time to time. We will notify you of material changes via the Platform or email where appropriate.",
+      "section8Title": "8. Contact",
+      "section8Body": "For privacy-related questions or requests, contact us at the support address provided in the app or on our website."
     }
   }
 }

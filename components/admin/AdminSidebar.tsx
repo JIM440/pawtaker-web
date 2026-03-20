@@ -1,118 +1,134 @@
 'use client';
 
 import { useState } from 'react';
-import ProfileModal from './ProfileModal';
+import type { LucideIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import {
+  Flag,
+  LayoutDashboard,
+  LogOut,
+  Mail,
+  Menu,
+  PawPrint,
+  ShieldCheck,
+  Star,
+  Users,
+} from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { createClient } from '@/lib/supabase/client';
+import ConfirmationModal from './ConfirmationModal';
 
 interface AdminSidebarProps {
   pathname: string;
   locale: string;
+  adminEmail: string;
 }
 
 const navItems = [
-  { href: '/admin/dashboard', label: 'Dashboard', icon: '📊' },
-  { href: '/admin/kyc', label: 'KYC Reviews', icon: '🪪' },
-  { href: '/admin/requests', label: 'Care Requests', icon: '🐾' },
-  { href: '/admin/users', label: 'Users', icon: '👥' },
-  { href: '/admin/pets', label: 'Pets', icon: '🐶' },
-  { href: '/admin/reports', label: 'Reports', icon: '🚩' },
-  { href: '/admin/reviews', label: 'Reviews', icon: '⭐' },
-  { href: '/admin/contact', label: 'Contact', icon: '✉️' },
-];
+  { href: '/admin/dashboard', labelKey: 'dashboard', icon: LayoutDashboard },
+  { href: '/admin/kyc', labelKey: 'kyc', icon: ShieldCheck },
+  { href: '/admin/requests', labelKey: 'requests', icon: PawPrint },
+  { href: '/admin/users', labelKey: 'users', icon: Users },
+  { href: '/admin/pets', labelKey: 'pets', icon: PawPrint },
+  { href: '/admin/reports', labelKey: 'reports', icon: Flag },
+  { href: '/admin/reviews', labelKey: 'reviews', icon: Star },
+  { href: '/admin/contact', labelKey: 'contact', icon: Mail },
+] satisfies { href: string; labelKey: string; icon: LucideIcon }[];
 
-export default function AdminSidebar({ pathname, locale }: AdminSidebarProps) {
+export default function AdminSidebar({ pathname, locale, adminEmail }: AdminSidebarProps) {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [signOutOpen, setSignOutOpen] = useState(false);
+  const router = useRouter();
+  const tNav = useTranslations('admin.nav');
+  const tSidebar = useTranslations('admin.sidebar');
 
   const pathWithoutLocale = pathname.replace(/^\/(en|fr)/, '') || pathname;
 
+  const handleSignOut = async () => {
+    setSignOutOpen(false);
+    setIsMobileOpen(false);
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    router.push(`/${locale}/admin/login`);
+    router.refresh();
+  };
+
   const sidebarContent = (
-    <aside className="w-64 bg-primary text-on-primary flex flex-col h-full">
-      <div className="px-6 py-6 border-b border-white/10 flex items-center gap-3">
-        <div className="size-10 rounded-full bg-white/20 flex items-center justify-center text-xl font-bold shrink-0">
-          PT
+    <aside className="flex h-full w-64 flex-col bg-primary text-on-primary">
+      <div className="flex items-center gap-3 border-b border-white/10 px-6 py-6">
+        <div className="size-10 shrink-0 rounded-full bg-white/20 flex items-center justify-center">
+          <PawPrint className="h-5 w-5 text-white" aria-hidden="true" />
         </div>
         <div>
-          <span className="block text-xl font-bold">PawTaker</span>
-          <span className="block text-xs text-white/70 mt-0.5">Admin Panel</span>
+          <span className="block text-xl font-bold">{tSidebar('brand')}</span>
+          <span className="mt-0.5 block text-xs text-white/70">{tSidebar('brandSub')}</span>
+          <span className="mt-1 block text-[11px] text-white/60 truncate">{adminEmail}</span>
         </div>
       </div>
 
-      <nav className="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
+      <nav className="flex-1 space-y-1 overflow-y-auto px-4 py-6">
         {navItems.map((item) => {
+          const Icon = item.icon;
           const isActive =
-            pathWithoutLocale === item.href ||
-            pathWithoutLocale.startsWith(item.href + '/');
+            pathWithoutLocale === item.href || pathWithoutLocale.startsWith(item.href + '/');
           return (
             <a
               key={item.href}
               href={`/${locale}${item.href}`}
               onClick={() => setIsMobileOpen(false)}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+              className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
                 isActive
                   ? 'bg-white/15 text-white'
                   : 'text-white/80 hover:bg-white/10 hover:text-white'
               }`}
             >
-              <span className="text-base">{item.icon}</span>
-              <span>{item.label}</span>
+              <Icon className="h-4 w-4" aria-hidden="true" />
+              <span>{tNav(item.labelKey)}</span>
             </a>
           );
         })}
       </nav>
 
       <button
-        onClick={() => setIsProfileOpen(true)}
-        className="px-6 py-4 border-t border-white/10 text-xs text-white/70 flex items-center justify-between hover:bg-white/10 transition-colors w-full text-left"
+        type="button"
+        onClick={() => setSignOutOpen(true)}
+        className="flex w-full cursor-pointer items-center justify-center gap-2 border-t border-white/10 px-6 py-4 text-sm font-semibold text-white/90 transition-colors hover:bg-white/10"
       >
-        <div className="flex items-center gap-3">
-          <div className="size-8 rounded-full bg-white/20 flex items-center justify-center text-sm font-bold shrink-0">
-            AA
-          </div>
-          <div>
-            <p className="font-semibold text-white text-sm">Alex Admin</p>
-            <p className="text-white/60 text-[11px]">Super Admin</p>
-          </div>
-        </div>
-        <span className="text-white/60 text-base">›</span>
+        <LogOut className="h-4 w-4" aria-hidden="true" />
+        Sign out
       </button>
     </aside>
   );
 
   return (
     <>
-      {/* Hamburger button — mobile only */}
       <button
-        className="md:hidden fixed top-4 left-4 z-50 w-9 h-9 flex items-center justify-center rounded-lg bg-primary text-white shadow-md"
+        type="button"
+        className="fixed left-4 top-4 z-50 flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg bg-white text-on-surface shadow-md md:hidden"
         onClick={() => setIsMobileOpen(true)}
         aria-label="Open navigation"
       >
-        <svg width="18" height="18" fill="none" viewBox="0 0 18 18">
-          <path d="M2 4h14M2 9h14M2 14h14" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-        </svg>
+        <Menu className="h-5 w-5" aria-hidden="true" />
       </button>
 
-      {/* Desktop sidebar */}
-      <div className="hidden md:flex shrink-0">
-        {sidebarContent}
-      </div>
+      <div className="hidden shrink-0 md:flex">{sidebarContent}</div>
 
-      {/* Mobile sidebar overlay */}
       {isMobileOpen && (
-        <div className="md:hidden fixed inset-0 z-40 flex">
-          <div
-            className="absolute inset-0 bg-black/50"
-            onClick={() => setIsMobileOpen(false)}
-          />
-          <div className="relative flex flex-col w-64 h-full">
-            {sidebarContent}
-          </div>
+        <div className="fixed inset-0 z-40 flex md:hidden">
+          <div className="absolute inset-0 bg-black/50" onClick={() => setIsMobileOpen(false)} />
+          <div className="relative flex h-full w-64 flex-col">{sidebarContent}</div>
         </div>
       )}
 
-      <ProfileModal
-        isOpen={isProfileOpen}
-        onClose={() => setIsProfileOpen(false)}
-        locale={locale}
+      <ConfirmationModal
+        isOpen={signOutOpen}
+        title="Sign out?"
+        description="You will be returned to the login screen."
+        confirmLabel="Sign Out"
+        cancelLabel="Cancel"
+        tone="danger"
+        onConfirm={handleSignOut}
+        onCancel={() => setSignOutOpen(false)}
       />
     </>
   );

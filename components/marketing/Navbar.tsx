@@ -1,28 +1,30 @@
 'use client';
 
-import { Link, usePathname } from '@/lib/i18n/navigation';
+import { Link } from '@/lib/i18n/navigation';
 import { useLocale, useTranslations } from 'next-intl';
+import { PawPrint } from 'lucide-react';
+import LocaleSelect from '@/components/i18n/LocaleSelect';
 
 const navLinks = [
+  { href: '/', key: 'nav.home', labelKey: 'home' as const },
   { href: '/', key: 'nav.about', labelKey: 'about' as const, anchor: '#about' },
   { href: '/how-it-works', key: 'nav.howItWorks', labelKey: 'howItWorks' as const },
   { href: '/about', key: 'nav.story', labelKey: 'story' as const },
 ];
 
 export function MarketingNavbar() {
-  const pathname = usePathname();
   const locale = useLocale();
   const t = useTranslations('marketing');
 
   return (
-    <header className="border-b border-[#837377]/20 bg-white/80 backdrop-blur-sm">
-      <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
+    <header className="fixed left-0 right-0 top-0 z-50 border-b border-[#837377]/20 bg-white/80 backdrop-blur-sm">
+      <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
         <Link href="/" className="flex items-center gap-2">
           <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#8c4a60] text-white text-lg">
-            🐾
+            <PawPrint className="h-5 w-5" aria-hidden="true" />
           </span>
           <div className="flex flex-col leading-tight">
-            <span className="text-base font-bold text-[#8c4a60]">PawTaker</span>
+            <span className="text-base font-bold text-[#8c4a60]">{t('nav.brand')}</span>
             <span className="text-[11px] font-medium text-slate-500">
               {t('nav.tagline')}
             </span>
@@ -46,27 +48,8 @@ export function MarketingNavbar() {
         </div>
 
         <div className="flex items-center gap-2">
-          <div className="hidden md:flex items-center gap-1 rounded-full border border-[#837377]/25 bg-white px-1 py-1">
-            <Link
-              href={pathname}
-              locale="en"
-              className={`px-2 py-1 text-[11px] font-bold rounded-full transition-colors ${
-                locale === 'en' ? 'bg-[#8c4a60] text-white' : 'text-slate-600 hover:text-[#8c4a60]'
-              }`}
-              aria-label="Switch language to English"
-            >
-              EN
-            </Link>
-            <Link
-              href={pathname}
-              locale="fr"
-              className={`px-2 py-1 text-[11px] font-bold rounded-full transition-colors ${
-                locale === 'fr' ? 'bg-[#8c4a60] text-white' : 'text-slate-600 hover:text-[#8c4a60]'
-              }`}
-              aria-label="Switch language to French"
-            >
-              FR
-            </Link>
+          <div className="hidden md:flex items-center">
+            <LocaleSelect locale={locale as 'en' | 'fr'} />
           </div>
           <Link
             href="#download"

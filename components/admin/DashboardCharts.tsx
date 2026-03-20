@@ -12,6 +12,7 @@ import {
   CartesianGrid,
   Legend,
 } from 'recharts';
+import { useTranslations } from 'next-intl';
 
 const growthData = [
   { month: 'Apr', users: 2100 },
@@ -40,12 +41,13 @@ const careData = [
 ];
 
 export default function DashboardCharts() {
+  const t = useTranslations('admin.dashboard');
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
       {/* Platform Growth */}
-      <div className="bg-surface-container-lowest rounded-xl border border-outline/20 shadow-sm p-6">
-        <h3 className="text-sm font-semibold text-on-surface mb-1">Platform Growth</h3>
-        <p className="text-xs text-on-surface/60 mb-4">Verified users over the last 12 months</p>
+      <div className="bg-white rounded-xl border border-outline/20 shadow-sm p-6">
+        <h3 className="text-sm font-semibold text-on-surface mb-1">{t('platformGrowth')}</h3>
+        <p className="text-xs text-on-surface/60 mb-4">{t('growthCaption')}</p>
         <ResponsiveContainer width="100%" height={200}>
           <AreaChart data={growthData} margin={{ top: 4, right: 4, bottom: 0, left: -16 }}>
             <defs>
@@ -59,7 +61,12 @@ export default function DashboardCharts() {
             <YAxis tick={{ fontSize: 11 }} tickLine={false} axisLine={false} />
             <Tooltip
               contentStyle={{ fontSize: 12, borderRadius: 8, border: '1px solid #83737730' }}
-              formatter={(val) => [typeof val === 'number' ? val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : val, 'Users']}
+              formatter={(val) => [
+                typeof val === 'number'
+                  ? val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                  : val,
+                t('users'),
+              ]}
             />
             <Area
               type="monotone"
@@ -73,9 +80,9 @@ export default function DashboardCharts() {
       </div>
 
       {/* Care Given vs Received */}
-      <div className="bg-surface-container-lowest rounded-xl border border-outline/20 shadow-sm p-6">
-        <h3 className="text-sm font-semibold text-on-surface mb-1">Care Activity</h3>
-        <p className="text-xs text-on-surface/60 mb-4">Care given vs received over the last 8 weeks</p>
+      <div className="bg-white rounded-xl border border-outline/20 shadow-sm p-6">
+        <h3 className="text-sm font-semibold text-on-surface mb-1">{t('careActivity')}</h3>
+        <p className="text-xs text-on-surface/60 mb-4">{t('careCaption')}</p>
         <ResponsiveContainer width="100%" height={200}>
           <BarChart data={careData} margin={{ top: 4, right: 4, bottom: 0, left: -16 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#83737720" />
@@ -85,8 +92,8 @@ export default function DashboardCharts() {
               contentStyle={{ fontSize: 12, borderRadius: 8, border: '1px solid #83737730' }}
             />
             <Legend wrapperStyle={{ fontSize: 12 }} />
-            <Bar dataKey="given" name="Care Given" fill="#8c4a60" radius={[4, 4, 0, 0]} />
-            <Bar dataKey="received" name="Care Received" fill="#74565f" radius={[4, 4, 0, 0]} />
+            <Bar dataKey="given" name={t('careGiven')} fill="#8c4a60" radius={[6, 6, 0, 0]} />
+            <Bar dataKey="received" name={t('careReceived')} fill="#74565f" radius={[6, 6, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
       </div>

@@ -33,7 +33,7 @@ export default async function LandingPage() {
           </div>
           <div
             className="aspect-4/3 w-full rounded-3xl border-8 border-white bg-slate-200 bg-cover bg-center bg-no-repeat shadow-2xl lg:w-1/2"
-            aria-label="Happy dog being petted by a smiling group of neighbors in a park"
+            aria-label={t('heroImageAriaLabel')}
           />
         </div>
       </section>
@@ -41,7 +41,7 @@ export default async function LandingPage() {
       {/* Stats */}
       <section id="stats" className="w-full bg-primary/5 py-16">
         <div className="mx-auto grid max-w-[1200px] grid-cols-1 gap-8 px-6 md:grid-cols-3 md:px-10">
-          <Stat icon={Users} label="Active Members" value="12,000+" />
+          <Stat icon={Users} label={t('stats.activeMembers')} value="12,000+" />
           <Stat icon={Heart} label={t('stats.pets')} value="45,000+" />
           <Stat icon={Stars} label={t('stats.points')} value="1.2M+" />
         </div>
@@ -60,18 +60,18 @@ export default async function LandingPage() {
         <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
           <BenefitCard
             icon={BadgeCheck}
-            title="Built on Trust"
-            body="Verified members and community ratings ensure your pet is always in safe hands with local animal lovers."
+            title={t('benefits.cards.trust.title')}
+            body={t('benefits.cards.trust.body')}
           />
           <BenefitCard
             icon={Zap}
-            title="Complete Simplicity"
-            body="Easily request or offer care with just a few taps. No complicated payments or subscriptions required."
+            title={t('benefits.cards.simplicity.title')}
+            body={t('benefits.cards.simplicity.body')}
           />
           <BenefitCard
             icon={HandHeart}
-            title="Pet-First Approach"
-            body="Every decision we make is centered around the well-being and happiness of your pets above all else."
+            title={t('benefits.cards.petFirst.title')}
+            body={t('benefits.cards.petFirst.body')}
           />
         </div>
       </section>

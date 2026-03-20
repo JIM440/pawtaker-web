@@ -1,45 +1,190 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { ChevronLeft, ChevronRight, MoreHorizontal, Search, Star, Trash2 } from 'lucide-react';
 import ConfirmationModal from './ConfirmationModal';
+import UserAvatar from './UserAvatar';
 
 interface Review {
   id: string;
   stars: 1 | 2 | 3 | 4 | 5;
   reviewerName: string;
   reviewerEmail: string;
+  reviewerImage?: string;
   revieweeName: string;
-  revieweeRole: 'Taker' | 'Owner';
-  excerpt: string;
+  revieweeEmail: string;
+  revieweeImage?: string;
+  body: string;
   date: string;
 }
 
 const MOCK_REVIEWS: Review[] = [
-  { id: 'r1', stars: 5, reviewerName: 'Sarah Johnson', reviewerEmail: 'sarah.j@example.com', revieweeName: 'Mike Ross', revieweeRole: 'Taker', excerpt: 'Mike was absolutely fantastic with Buddy. He sent photos every hour and followed all care instructions perfectly.', date: 'Mar 10, 2026' },
-  { id: 'r2', stars: 4, reviewerName: 'Emily Davis', reviewerEmail: 'emily.d@example.com', revieweeName: 'Alice Johnson', revieweeRole: 'Owner', excerpt: 'Alice was very welcoming and communicative. A small issue with timing but overall a great experience.', date: 'Mar 8, 2026' },
-  { id: 'r3', stars: 2, reviewerName: 'Bob Smith', reviewerEmail: 'bob@example.com', revieweeName: 'Charlie Davis', revieweeRole: 'Taker', excerpt: 'The care was average at best. Instructions were not fully followed and communication was poor throughout the stay.', date: 'Mar 5, 2026' },
-  { id: 'r4', stars: 5, reviewerName: 'Diana Prince', reviewerEmail: 'diana@example.com', revieweeName: 'Evan Wright', revieweeRole: 'Taker', excerpt: 'Evan is a natural with animals. Max was so happy and well cared for. Will definitely request again.', date: 'Feb 28, 2026' },
-  { id: 'r5', stars: 1, reviewerName: 'Evan Wright', reviewerEmail: 'evan@example.com', revieweeName: 'Unknown User', revieweeRole: 'Owner', excerpt: 'The owner was unreachable for 2 hours during pickup. Very stressful situation for everyone involved.', date: 'Feb 20, 2026' },
-  { id: 'r6', stars: 3, reviewerName: 'Laura Martinez', reviewerEmail: 'laura.m@example.com', revieweeName: 'Tom Baker', revieweeRole: 'Taker', excerpt: 'Decent care overall. The pet was safe and fed, but there were fewer check-in photos than expected.', date: 'Feb 14, 2026' },
+  {
+    id: 'r1',
+    stars: 5,
+    reviewerName: 'Sarah Johnson',
+    reviewerEmail: 'sarah.j@example.com',
+    reviewerImage: 'https://picsum.photos/seed/review-rev-r1/72',
+    revieweeName: 'Mike Ross',
+    revieweeEmail: 'mike.ross@example.com',
+    revieweeImage: 'https://picsum.photos/seed/review-ee-r1/72',
+    body: 'Mike was absolutely fantastic with Buddy. He sent photos every hour and followed all care instructions perfectly.',
+    date: 'Mar 10, 2026',
+  },
+  {
+    id: 'r2',
+    stars: 4,
+    reviewerName: 'Emily Davis',
+    reviewerEmail: 'emily.d@example.com',
+    reviewerImage: 'https://picsum.photos/seed/review-rev-r2/72',
+    revieweeName: 'Alice Johnson',
+    revieweeEmail: 'alice.j@example.com',
+    revieweeImage: 'https://picsum.photos/seed/review-ee-r2/72',
+    body: 'Alice was very welcoming and communicative. A small issue with timing but overall a great experience.',
+    date: 'Mar 8, 2026',
+  },
+  {
+    id: 'r3',
+    stars: 2,
+    reviewerName: 'Bob Smith',
+    reviewerEmail: 'bob@example.com',
+    reviewerImage: 'https://picsum.photos/seed/review-rev-r3/72',
+    revieweeName: 'Charlie Davis',
+    revieweeEmail: 'charlie.d@example.com',
+    revieweeImage: 'https://picsum.photos/seed/review-ee-r3/72',
+    body: 'The care was average at best. Instructions were not fully followed and communication was poor throughout the stay.',
+    date: 'Mar 5, 2026',
+  },
+  {
+    id: 'r4',
+    stars: 5,
+    reviewerName: 'Diana Prince',
+    reviewerEmail: 'diana@example.com',
+    reviewerImage: 'https://picsum.photos/seed/review-rev-r4/72',
+    revieweeName: 'Evan Wright',
+    revieweeEmail: 'evan.w@example.com',
+    revieweeImage: 'https://picsum.photos/seed/review-ee-r4/72',
+    body: 'Evan is a natural with animals. Max was so happy and well cared for. Will definitely request again.',
+    date: 'Feb 28, 2026',
+  },
+  {
+    id: 'r5',
+    stars: 1,
+    reviewerName: 'Evan Wright',
+    reviewerEmail: 'evan@example.com',
+    reviewerImage: 'https://picsum.photos/seed/review-rev-r5/72',
+    revieweeName: 'Unknown User',
+    revieweeEmail: 'unknown@example.com',
+    revieweeImage: 'https://picsum.photos/seed/review-ee-r5/72',
+    body: 'The owner was unreachable for 2 hours during pickup. Very stressful situation for everyone involved.',
+    date: 'Feb 20, 2026',
+  },
+  {
+    id: 'r6',
+    stars: 3,
+    reviewerName: 'Laura Martinez',
+    reviewerEmail: 'laura.m@example.com',
+    reviewerImage: 'https://picsum.photos/seed/review-rev-r6/72',
+    revieweeName: 'Tom Baker',
+    revieweeEmail: 'tom.baker@example.com',
+    revieweeImage: 'https://picsum.photos/seed/review-ee-r6/72',
+    body: 'Decent care overall. The pet was safe and fed, but there were fewer check-in photos than expected.',
+    date: 'Feb 14, 2026',
+  },
 ];
+
+type RatingFilter = 'all' | '1' | '2' | '3' | '4' | '5';
 
 function Stars({ count }: { count: number }) {
   return (
     <div className="flex gap-0.5">
       {Array.from({ length: 5 }).map((_, i) => (
-        <span key={i} className={i < count ? 'text-amber-400' : 'text-outline/30'}>
-          ★
-        </span>
+        <Star
+          key={i}
+          className={`h-3.5 w-3.5 ${i < count ? 'fill-primary text-primary' : 'fill-none text-outline/35'}`}
+          aria-hidden="true"
+        />
       ))}
     </div>
   );
 }
 
+function RowActionsMenu({
+  reviewId,
+  onDelete,
+}: {
+  reviewId: string;
+  onDelete: (id: string) => void;
+}) {
+  const t = useTranslations('admin.reviews');
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const close = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener('click', close);
+    return () => document.removeEventListener('click', close);
+  }, [open]);
+
+  return (
+    <div className="relative inline-flex justify-center" ref={ref}>
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        className="cursor-pointer rounded-full p-2 text-on-surface/50 transition-colors hover:bg-white hover:text-on-surface"
+        aria-label={t('openActionsAriaLabel')}
+        aria-expanded={open}
+      >
+        <MoreHorizontal className="h-4 w-4" aria-hidden="true" />
+      </button>
+      {open && (
+        <div className="absolute right-0 top-full z-20 mt-1 min-w-[140px] rounded-lg border border-outline/20 bg-white py-1 shadow-lg ring-1 ring-black/5">
+          <button
+            type="button"
+            onClick={() => {
+              setOpen(false);
+              onDelete(reviewId);
+            }}
+            className="flex w-full cursor-pointer items-center gap-2 px-3 py-2 text-left text-sm text-error hover:bg-error/5"
+          >
+            <Trash2 className="h-4 w-4 shrink-0" aria-hidden="true" />
+            {t('deleteConfirmLabel')}
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function ReviewsTable() {
+  const t = useTranslations('admin.reviews');
   const [reviews, setReviews] = useState<Review[]>(MOCK_REVIEWS);
+  const [search, setSearch] = useState('');
+  const [ratingFilter, setRatingFilter] = useState<RatingFilter>('all');
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
-  const deleteReview = reviews.find((r) => r.id === deleteId);
+  const filtered = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    return reviews.filter((r) => {
+      if (ratingFilter !== 'all' && r.stars !== Number(ratingFilter)) return false;
+      if (!q) return true;
+      const hay = [
+        r.reviewerName,
+        r.reviewerEmail,
+        r.revieweeName,
+        r.revieweeEmail,
+        r.body,
+        r.date,
+      ]
+        .join(' ')
+        .toLowerCase();
+      return hay.includes(q);
+    });
+  }, [reviews, search, ratingFilter]);
 
   const handleDelete = () => {
     if (!deleteId) return;
@@ -49,55 +194,120 @@ export default function ReviewsTable() {
 
   return (
     <>
-      <div className="bg-surface-container-lowest rounded-xl border border-outline/20 shadow-sm overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse min-w-[700px]">
+      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end">
+        <div className="relative min-w-0 flex-1 sm:max-w-md">
+          <label htmlFor="reviews-search" className="sr-only">
+            {t('searchLabel')}
+          </label>
+          <Search
+            className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-on-surface/40"
+            aria-hidden="true"
+          />
+          <input
+            id="reviews-search"
+            type="search"
+            placeholder={t('searchPlaceholder')}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full cursor-text rounded-full border border-outline/30 bg-white py-2 pl-9 pr-4 text-sm text-on-surface placeholder:text-on-surface/50 focus:outline-none focus:ring-2 focus:ring-primary"
+          />
+        </div>
+        <div className="flex w-full flex-col gap-1 sm:w-auto sm:min-w-[160px]">
+          <label
+            htmlFor="reviews-rating-filter"
+            className="text-[11px] font-bold uppercase tracking-wide text-on-surface/50"
+          >
+            {t('ratingFilterLabel')}
+          </label>
+          <select
+            id="reviews-rating-filter"
+            value={ratingFilter}
+            onChange={(e) => setRatingFilter(e.target.value as RatingFilter)}
+            className="w-full cursor-pointer appearance-none rounded-full border border-outline/30 bg-white px-3 py-1.5 pr-8 text-xs font-medium text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/25 sm:w-[180px]"
+            aria-label={t('ratingFilterAriaLabel')}
+          >
+            <option value="all">{t('filterAllRatings')}</option>
+            <option value="5">{t('filterStars5')}</option>
+            <option value="4">{t('filterStars4')}</option>
+            <option value="3">{t('filterStars3')}</option>
+            <option value="2">{t('filterStars2')}</option>
+            <option value="1">{t('filterStars1')}</option>
+          </select>
+        </div>
+      </div>
+
+      <div className="rounded-xl border border-outline/20 bg-white shadow-sm">
+        <div className="overflow-x-auto min-w-0 rounded-xl">
+          <table className="w-full min-w-[760px] border-collapse text-left">
             <thead>
-              <tr className="bg-surface-container border-b border-outline/10 text-xs font-bold uppercase tracking-wider text-on-surface/70">
-                <th className="px-6 py-4">Rating</th>
-                <th className="px-6 py-4">Reviewer</th>
-                <th className="px-6 py-4">Reviewee</th>
-                <th className="px-6 py-4">Review</th>
-                <th className="px-6 py-4 hidden sm:table-cell">Date</th>
-                <th className="px-6 py-4 text-center">Actions</th>
+              <tr className="border-b border-outline/10 bg-white text-xs font-bold uppercase tracking-wider text-on-surface/70">
+                <th className="px-6 py-4">{t('columns.stars')}</th>
+                <th className="px-6 py-4">{t('columns.reviewer')}</th>
+                <th className="px-6 py-4">{t('columns.reviewee')}</th>
+                <th className="px-6 py-4">{t('columns.excerpt')}</th>
+                <th className="hidden px-6 py-4 sm:table-cell">{t('columns.date')}</th>
+                <th className="px-6 py-4 text-center">{t('columns.actions')}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-outline/10 text-sm">
-              {reviews.map((review) => (
-                <tr key={review.id} className="hover:bg-surface-container transition-colors">
-                  <td className="px-6 py-4">
+              {filtered.map((review) => (
+                <tr key={review.id} className="transition-colors hover:bg-white">
+                  <td className="align-top px-6 py-4">
                     <Stars count={review.stars} />
-                    <span className="text-xs text-on-surface/50 mt-0.5 block">{review.stars}/5</span>
                   </td>
-                  <td className="px-6 py-4">
-                    <p className="font-medium text-on-surface">{review.reviewerName}</p>
-                    <p className="text-xs text-on-surface/60">{review.reviewerEmail}</p>
+                  <td className="align-top px-6 py-4">
+                    <div className="flex items-start gap-3">
+                      <UserAvatar
+                        imageUrl={review.reviewerImage}
+                        initials={review.reviewerName
+                          .split(' ')
+                          .filter(Boolean)
+                          .slice(0, 2)
+                          .map((s) => s[0]?.toUpperCase())
+                          .join('')}
+                        alt={review.reviewerName}
+                        size={32}
+                      />
+                      <div className="min-w-0">
+                        <p className="font-medium text-on-surface">{review.reviewerName}</p>
+                        <p className="text-xs text-on-surface/60">{review.reviewerEmail}</p>
+                      </div>
+                    </div>
                   </td>
-                  <td className="px-6 py-4">
-                    <p className="font-medium text-on-surface">{review.revieweeName}</p>
-                    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium mt-0.5 ${review.revieweeRole === 'Taker' ? 'bg-primary/10 text-primary' : 'bg-secondary/10 text-secondary'}`}>
-                      {review.revieweeRole}
-                    </span>
+                  <td className="align-top px-6 py-4">
+                    <div className="flex items-start gap-3">
+                      <UserAvatar
+                        imageUrl={review.revieweeImage}
+                        initials={review.revieweeName
+                          .split(' ')
+                          .filter(Boolean)
+                          .slice(0, 2)
+                          .map((s) => s[0]?.toUpperCase())
+                          .join('')}
+                        alt={review.revieweeName}
+                        size={32}
+                      />
+                      <div className="min-w-0">
+                        <p className="font-medium text-on-surface">{review.revieweeName}</p>
+                        <p className="text-xs text-on-surface/60">{review.revieweeEmail}</p>
+                      </div>
+                    </div>
                   </td>
-                  <td className="px-6 py-4 max-w-[260px]">
-                    <p className="text-on-surface/80 text-sm line-clamp-2">{review.excerpt}</p>
+                  <td className="max-w-md px-6 py-4 align-top">
+                    <p className="wrap-break-word whitespace-pre-wrap text-on-surface/80">{review.body}</p>
                   </td>
-                  <td className="px-6 py-4 text-on-surface/60 hidden sm:table-cell whitespace-nowrap">{review.date}</td>
-                  <td className="px-6 py-4 text-center">
-                    <button
-                      onClick={() => setDeleteId(review.id)}
-                      title="Delete review"
-                      className="p-2 hover:bg-red-50 rounded-lg text-error transition-colors"
-                    >
-                      🗑️
-                    </button>
+                  <td className="hidden whitespace-nowrap px-6 py-4 align-top text-on-surface/60 sm:table-cell">
+                    {review.date}
+                  </td>
+                  <td className="px-6 py-4 text-center align-top">
+                    <RowActionsMenu reviewId={review.id} onDelete={(id) => setDeleteId(id)} />
                   </td>
                 </tr>
               ))}
-              {reviews.length === 0 && (
+              {filtered.length === 0 && (
                 <tr>
                   <td colSpan={6} className="px-6 py-10 text-center text-sm text-on-surface/50">
-                    No reviews to display.
+                    {t('emptyState')}
                   </td>
                 </tr>
               )}
@@ -105,21 +315,33 @@ export default function ReviewsTable() {
           </table>
         </div>
 
-        <div className="px-6 py-4 bg-surface-container border-t border-outline/10 flex items-center justify-between text-sm text-on-surface/70">
-          <div>Showing <span className="font-semibold">{reviews.length}</span> reviews</div>
+        <div className="flex items-center justify-between border-t border-outline/10 bg-white px-6 py-4 text-sm text-on-surface/70">
+          <div>
+            {t('paginationShowing', { shown: filtered.length, total: reviews.length })}
+          </div>
           <div className="flex gap-2">
-            <button className="p-2 rounded border border-outline/30 bg-surface-container-lowest text-on-surface/60 disabled:opacity-50" disabled>‹</button>
-            <button className="p-2 rounded border border-outline/30 bg-surface-container-lowest text-on-surface/80">›</button>
+            <button
+              type="button"
+              className="cursor-pointer rounded border border-outline/30 bg-white p-2 text-on-surface/60 disabled:opacity-50"
+              disabled
+            >
+              <ChevronLeft className="h-4 w-4" aria-hidden="true" />
+            </button>
+            <button
+              type="button"
+              className="cursor-pointer rounded border border-outline/30 bg-white p-2 text-on-surface/80"
+            >
+              <ChevronRight className="h-4 w-4" aria-hidden="true" />
+            </button>
           </div>
         </div>
       </div>
 
       <ConfirmationModal
         isOpen={!!deleteId}
-        title={`Delete review by ${deleteReview?.reviewerName ?? 'user'}?`}
-        description="This will permanently remove the review from the platform."
-        confirmLabel="Delete"
-        cancelLabel="Cancel"
+        title={t('deleteConfirmTitle')}
+        description={t('deleteConfirmDesc')}
+        confirmLabel={t('deleteConfirmLabel')}
         tone="danger"
         onConfirm={handleDelete}
         onCancel={() => setDeleteId(null)}

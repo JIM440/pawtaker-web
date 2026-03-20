@@ -2,13 +2,6 @@ export default function AdminProfilePage() {
   return (
     <div className="p-8">
       <div className="max-w-3xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-3xl font-black tracking-tight text-on-surface">Profile</h1>
-          <p className="text-on-surface/70 mt-1 text-sm">
-            Admin account details and preferences.
-          </p>
-        </div>
-
         <div className="bg-surface-container-lowest border border-outline/20 rounded-2xl shadow-sm overflow-hidden">
           <div className="p-6 flex items-center gap-5">
             <div className="size-14 rounded-full bg-primary/15 text-primary flex items-center justify-center text-lg font-bold">
@@ -35,7 +28,7 @@ export default function AdminProfilePage() {
                 <dt className="text-xs font-semibold uppercase tracking-wider text-on-surface/60">
                   Workspace
                 </dt>
-                <dd className="sm:col-span-2 text-sm text-on-surface">PawTaker</dd>
+                <dd className="sm:col-span-2 text-sm text-on-surface">pawtaker</dd>
               </div>
               <div className="p-6 grid grid-cols-1 sm:grid-cols-3 gap-2">
                 <dt className="text-xs font-semibold uppercase tracking-wider text-on-surface/60">
@@ -46,7 +39,7 @@ export default function AdminProfilePage() {
             </dl>
           </div>
 
-          <div className="p-6 border-t border-outline/15 bg-surface-container flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="p-6 border-t border-outline/15 bg-white flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <button className="px-4 py-2.5 rounded-lg border border-outline/30 bg-surface-container-lowest text-on-surface text-sm font-semibold hover:bg-surface-container transition-colors">
               Edit profile
             </button>

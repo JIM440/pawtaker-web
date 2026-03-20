@@ -1,18 +1,13 @@
+import { Flag, Save, Settings } from 'lucide-react';
+
 export default function AdminSettingsPage() {
   return (
     <div className="p-8">
       <div className="max-w-4xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-3xl font-black tracking-tight text-on-surface">Settings</h1>
-          <p className="text-on-surface/70 mt-1 text-sm">
-            Manage your application global configurations and feature flags.
-          </p>
-        </div>
-
         <div className="space-y-6">
-          <section className="bg-surface-container p-6 rounded-xl border border-outline/10">
+          <section className="bg-white p-6 rounded-xl border border-outline/10">
             <h2 className="text-lg font-bold mb-6 flex items-center gap-2">
-              <span>🛠️</span>
+              <Settings className="h-5 w-5 text-primary" aria-hidden="true" />
               General Configuration
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -20,8 +15,8 @@ export default function AdminSettingsPage() {
                 <label className="text-sm font-semibold text-on-surface">Site Name</label>
                 <input
                   type="text"
-                  defaultValue="PawTaker Global"
-                  className="w-full px-4 py-3 rounded-lg border border-outline/20 bg-surface-container-lowest focus:ring-2 focus:ring-primary/20 outline-none text-sm"
+                  defaultValue="pawtaker Global"
+                  className="w-full px-4 py-3 rounded-lg border border-outline/20 bg-white focus:ring-2 focus:ring-primary/20 outline-none text-sm"
                 />
               </div>
               <div className="space-y-2">
@@ -29,12 +24,12 @@ export default function AdminSettingsPage() {
                 <input
                   type="email"
                   defaultValue="support@pawtaker.com"
-                  className="w-full px-4 py-3 rounded-lg border border-outline/20 bg-surface-container-lowest focus:ring-2 focus:ring-primary/20 outline-none text-sm"
+                  className="w-full px-4 py-3 rounded-lg border border-outline/20 bg-white focus:ring-2 focus:ring-primary/20 outline-none text-sm"
                 />
               </div>
               <div className="md:col-span-2 space-y-2">
                 <label className="text-sm font-semibold text-on-surface">Default Locale</label>
-                <select className="w-full px-4 py-3 rounded-lg border border-outline/20 bg-surface-container-lowest focus:ring-2 focus:ring-primary/20 outline-none text-sm">
+                <select className="w-full px-4 py-3 rounded-lg border border-outline/20 bg-white focus:ring-2 focus:ring-primary/20 outline-none text-sm">
                   <option>English (United States)</option>
                   <option>Spanish (Mexico)</option>
                   <option>French (France)</option>
@@ -43,9 +38,9 @@ export default function AdminSettingsPage() {
             </div>
           </section>
 
-          <section className="bg-surface-container p-6 rounded-xl border border-outline/10">
+          <section className="bg-white p-6 rounded-xl border border-outline/10">
             <h2 className="text-lg font-bold mb-6 flex items-center gap-2">
-              <span>🚩</span>
+              <Flag className="h-5 w-5 text-primary" aria-hidden="true" />
               Feature Flags
             </h2>
             <div className="space-y-4">
@@ -95,7 +90,7 @@ export default function AdminSettingsPage() {
               Reset to Default
             </button>
             <button className="px-8 py-2.5 rounded-lg bg-primary text-on-primary font-bold text-sm shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all flex items-center gap-2">
-              <span>💾</span>
+              <Save className="h-4 w-4" aria-hidden="true" />
               Save Changes
             </button>
           </div>

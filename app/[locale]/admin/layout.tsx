@@ -1,8 +1,22 @@
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
+import { getTranslations } from 'next-intl/server';
 import { createAdminClient } from '@/lib/supabase/server';
 import AdminSidebar from '@/components/admin/AdminSidebar';
-import TopbarLangToggle from '@/components/admin/TopbarLangToggle';
+import AdminHeaderActions from '@/components/admin/AdminHeaderActions';
+
+const ADMIN_TITLES: Record<string, string> = {
+  '/admin/dashboard': 'dashboard',
+  '/admin/users': 'users',
+  '/admin/kyc': 'kyc',
+  '/admin/requests': 'requests',
+  '/admin/reports': 'reports',
+  '/admin/settings': 'settings',
+  '/admin/profile': 'profile',
+  '/admin/pets': 'pets',
+  '/admin/reviews': 'reviews',
+  '/admin/contact': 'contact',
+};
 
 export default async function AdminLayout({
   children,
@@ -45,27 +59,23 @@ export default async function AdminLayout({
   }
 
   // --- Admin confirmed — render the shell ---
+  const tNav = await getTranslations('admin.nav');
+  const currentNavKey =
+    Object.entries(ADMIN_TITLES).find(
+      ([route]) => pathWithoutLocale === route || pathWithoutLocale.startsWith(route + '/'),
+    )?.[1] ?? 'dashboard';
+  const currentTitle = tNav(currentNavKey);
 
   return (
     <div className="min-h-screen bg-background-base flex">
-      <AdminSidebar pathname={pathname} locale={locale} />
-      <main className="flex-1 flex flex-col min-h-screen md:max-h-screen">
-        <header className="h-16 border-b border-outline/20 bg-surface-container-lowest px-4 md:px-8 flex items-center justify-between sticky top-0 z-10">
-          <div className="flex-1 max-w-xl ml-12 md:ml-0">
-            <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">🔍</span>
-              <input
-                type="search"
-                placeholder="Search across admin..."
-                className="w-full bg-background-base border border-outline/30 rounded-lg pl-9 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-              />
-            </div>
+      <AdminSidebar pathname={pathname} locale={locale} adminEmail={user.email ?? ''} />
+      <main className="flex-1 flex flex-col min-h-screen pt-16 md:max-h-screen">
+        <header className="h-16 border-b border-outline/20 bg-white/80 backdrop-blur-sm px-4 md:px-8 flex items-center justify-between fixed top-0 left-0 right-0 z-20 md:left-64">
+          <div className="ml-12 md:ml-0">
+            <h1 className="text-lg md:text-xl font-bold text-on-surface tracking-tight">{currentTitle}</h1>
           </div>
-          <div className="flex items-center gap-3 ml-4">
-            <TopbarLangToggle locale={locale} />
-            <button className="w-9 h-9 flex items-center justify-center rounded-full border border-outline/30 bg-surface-container-low hover:bg-surface-container transition-colors">
-              <span className="text-sm">🔔</span>
-            </button>
+          <div className="ml-4">
+            <AdminHeaderActions locale={locale} />
           </div>
         </header>
         <div className="flex-1 overflow-y-auto">

@@ -1,41 +1,136 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { ChevronLeft, ChevronRight, MoreHorizontal, Trash2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import ConfirmationModal from './ConfirmationModal';
+import LabeledSearch from './LabeledSearch';
+import LabeledSelect from './LabeledSelect';
+import UserAvatar from './UserAvatar';
 
 type Species = 'Dog' | 'Cat' | 'Other';
-type EnergyLevel = 'Low' | 'Medium' | 'High';
+type CareSort = 'most' | 'least';
 
 interface Pet {
   id: string;
   name: string;
+  image: string;
   species: Species;
   breed: string;
   ownerName: string;
+  ownerImage: string;
   ownerEmail: string;
   dob: string;
-  energyLevel: EnergyLevel;
   tags: string[];
+  careRequests: number;
 }
 
 const MOCK_PETS: Pet[] = [
-  { id: 'p1', name: 'Buddy', species: 'Dog', breed: 'Golden Retriever', ownerName: 'Sarah Johnson', ownerEmail: 'sarah.j@example.com', dob: '2019-06-10', energyLevel: 'High', tags: ['Vaccinated'] },
-  { id: 'p2', name: 'Luna', species: 'Cat', breed: 'Siamese', ownerName: 'Mike Ross', ownerEmail: 'mike.ross@example.com', dob: '2021-02-20', energyLevel: 'Low', tags: ['Indoor only'] },
-  { id: 'p3', name: 'Max', species: 'Dog', breed: 'Beagle', ownerName: 'Emily Davis', ownerEmail: 'emily.d@example.com', dob: '2020-11-05', energyLevel: 'High', tags: ['Special needs', 'Vaccinated'] },
-  { id: 'p4', name: 'Bella', species: 'Other', breed: 'Rabbit', ownerName: 'Chris Parker', ownerEmail: 'chris.p@example.com', dob: '2022-04-01', energyLevel: 'Medium', tags: [] },
-  { id: 'p5', name: 'Oliver', species: 'Cat', breed: 'Persian', ownerName: 'Anna Taylor', ownerEmail: 'anna.t@example.com', dob: '2018-09-15', energyLevel: 'Low', tags: ['Indoor only', 'Senior'] },
-  { id: 'p6', name: 'Charlie', species: 'Dog', breed: 'Poodle', ownerName: 'David Wilson', ownerEmail: 'david.w@example.com', dob: '2021-07-22', energyLevel: 'Medium', tags: ['Vaccinated'] },
-  { id: 'p7', name: 'Mochi', species: 'Cat', breed: 'Maine Coon', ownerName: 'Laura Martinez', ownerEmail: 'laura.m@example.com', dob: '2020-03-14', energyLevel: 'Medium', tags: ['Indoor only'] },
-  { id: 'p8', name: 'Rocky', species: 'Dog', breed: 'Labrador', ownerName: 'Sarah Johnson', ownerEmail: 'sarah.j@example.com', dob: '2017-12-01', energyLevel: 'High', tags: ['Senior', 'Vaccinated'] },
+  {
+    id: 'p1',
+    name: 'Buddy',
+    image: 'https://picsum.photos/seed/pawtaker-p1/160',
+    species: 'Dog',
+    breed: 'Golden Retriever',
+    ownerName: 'Sarah Johnson',
+    ownerImage: 'https://picsum.photos/seed/pets-owner-1/72',
+    ownerEmail: 'sarah.j@example.com',
+    dob: '2019-06-10',
+    tags: ['Vaccinated'],
+    careRequests: 18,
+  },
+  {
+    id: 'p2',
+    name: 'Luna',
+    image: 'https://picsum.photos/seed/pawtaker-p2/160',
+    species: 'Cat',
+    breed: 'Siamese',
+    ownerName: 'Mike Ross',
+    ownerImage: 'https://picsum.photos/seed/pets-owner-2/72',
+    ownerEmail: 'mike.ross@example.com',
+    dob: '2021-02-20',
+    tags: ['Indoor only'],
+    careRequests: 7,
+  },
+  {
+    id: 'p3',
+    name: 'Max',
+    image: 'https://picsum.photos/seed/pawtaker-p3/160',
+    species: 'Dog',
+    breed: 'Beagle',
+    ownerName: 'Emily Davis',
+    ownerImage: 'https://picsum.photos/seed/pets-owner-3/72',
+    ownerEmail: 'emily.d@example.com',
+    dob: '2020-11-05',
+    tags: ['Special needs', 'Vaccinated'],
+    careRequests: 25,
+  },
+  {
+    id: 'p4',
+    name: 'Bella',
+    image: 'https://picsum.photos/seed/pawtaker-p4/160',
+    species: 'Other',
+    breed: 'Rabbit',
+    ownerName: 'Chris Parker',
+    ownerImage: 'https://picsum.photos/seed/pets-owner-4/72',
+    ownerEmail: 'chris.p@example.com',
+    dob: '2022-04-01',
+    tags: [],
+    careRequests: 2,
+  },
+  {
+    id: 'p5',
+    name: 'Oliver',
+    image: 'https://picsum.photos/seed/pawtaker-p5/160',
+    species: 'Cat',
+    breed: 'Persian',
+    ownerName: 'Anna Taylor',
+    ownerImage: 'https://picsum.photos/seed/pets-owner-5/72',
+    ownerEmail: 'anna.t@example.com',
+    dob: '2018-09-15',
+    tags: ['Indoor only', 'Senior'],
+    careRequests: 11,
+  },
+  {
+    id: 'p6',
+    name: 'Charlie',
+    image: 'https://picsum.photos/seed/pawtaker-p6/160',
+    species: 'Dog',
+    breed: 'Poodle',
+    ownerName: 'David Wilson',
+    ownerImage: 'https://picsum.photos/seed/pets-owner-6/72',
+    ownerEmail: 'david.w@example.com',
+    dob: '2021-07-22',
+    tags: ['Vaccinated'],
+    careRequests: 9,
+  },
+  {
+    id: 'p7',
+    name: 'Mochi',
+    image: 'https://picsum.photos/seed/pawtaker-p7/160',
+    species: 'Cat',
+    breed: 'Maine Coon',
+    ownerName: 'Laura Martinez',
+    ownerImage: 'https://picsum.photos/seed/pets-owner-7/72',
+    ownerEmail: 'laura.m@example.com',
+    dob: '2020-03-14',
+    tags: ['Indoor only'],
+    careRequests: 15,
+  },
+  {
+    id: 'p8',
+    name: 'Rocky',
+    image: 'https://picsum.photos/seed/pawtaker-p8/160',
+    species: 'Dog',
+    breed: 'Labrador',
+    ownerName: 'Sarah Johnson',
+    ownerImage: 'https://picsum.photos/seed/pets-owner-1/72',
+    ownerEmail: 'sarah.j@example.com',
+    dob: '2017-12-01',
+    tags: ['Senior', 'Vaccinated'],
+    careRequests: 31,
+  },
 ];
-
-const ENERGY_COLORS: Record<EnergyLevel, string> = {
-  Low: 'bg-blue-100 text-blue-700',
-  Medium: 'bg-amber-100 text-amber-700',
-  High: 'bg-red-100 text-red-700',
-};
-
-const SPECIES_ICONS: Record<Species, string> = { Dog: '🐶', Cat: '🐱', Other: '🐾' };
 
 function getAge(dob: string): string {
   const birth = new Date(dob);
@@ -44,24 +139,85 @@ function getAge(dob: string): string {
   return years <= 0 ? '< 1 yr' : `${years} yr${years !== 1 ? 's' : ''}`;
 }
 
+function PetRowActionsMenu({
+  petId,
+  petName,
+  onDelete,
+}: {
+  petId: string;
+  petName: string;
+  onDelete: (id: string) => void;
+}) {
+  const t = useTranslations('admin.pets');
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const close = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener('click', close);
+    return () => document.removeEventListener('click', close);
+  }, [open]);
+
+  return (
+    <div className="relative inline-flex" ref={ref}>
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        className="cursor-pointer rounded-full p-2 text-on-surface/50 transition-colors hover:bg-white hover:text-on-surface"
+        aria-label={t('openActionsAriaLabel', { petName })}
+        aria-expanded={open}
+      >
+        <MoreHorizontal className="h-4 w-4" aria-hidden="true" />
+      </button>
+      {open && (
+        <div className="absolute right-0 top-full z-20 mt-1 min-w-[140px] rounded-lg border border-outline/20 bg-white py-1 shadow-lg ring-1 ring-black/5">
+          <button
+            type="button"
+            onClick={() => {
+              setOpen(false);
+              onDelete(petId);
+            }}
+            className="flex w-full cursor-pointer items-center gap-2 px-3 py-2 text-left text-sm text-error hover:bg-error/5"
+          >
+            <Trash2 className="h-4 w-4 shrink-0" aria-hidden="true" />
+            {t('deleteConfirmLabel')}
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function PetsTable() {
+  const t = useTranslations('admin.pets');
   const [pets, setPets] = useState<Pet[]>(MOCK_PETS);
   const [search, setSearch] = useState('');
   const [speciesFilter, setSpeciesFilter] = useState<Species | 'All'>('All');
-  const [energyFilter, setEnergyFilter] = useState<EnergyLevel | 'All'>('All');
+  const [careRequestsSort, setCareRequestsSort] = useState<CareSort>('most');
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
   const filtered = useMemo(() => {
-    const q = search.toLowerCase();
-    return pets.filter((p) => {
-      const matchSearch = !q || p.name.toLowerCase().includes(q) || p.ownerName.toLowerCase().includes(q) || p.ownerEmail.toLowerCase().includes(q);
+    const q = search.trim().toLowerCase();
+    const base = pets.filter((p) => {
+      const matchSearch =
+        !q ||
+        p.name.toLowerCase().includes(q) ||
+        p.ownerName.toLowerCase().includes(q) ||
+        p.ownerEmail.toLowerCase().includes(q);
       const matchSpecies = speciesFilter === 'All' || p.species === speciesFilter;
-      const matchEnergy = energyFilter === 'All' || p.energyLevel === energyFilter;
-      return matchSearch && matchSpecies && matchEnergy;
+      return matchSearch && matchSpecies;
     });
-  }, [pets, search, speciesFilter, energyFilter]);
 
-  const deletePet = pets.find((p) => p.id === deleteId);
+    const sorted = [...base].sort((a, b) => {
+      if (careRequestsSort === 'most') return b.careRequests - a.careRequests;
+      return a.careRequests - b.careRequests;
+    });
+
+    return sorted;
+  }, [pets, search, speciesFilter, careRequestsSort]);
 
   const handleDelete = () => {
     if (!deleteId) return;
@@ -71,62 +227,71 @@ export default function PetsTable() {
 
   return (
     <>
-      {/* Controls */}
-      <div className="flex flex-col sm:flex-row gap-3 mb-6">
-        <div className="relative flex-1">
-          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-on-surface/40 text-sm">🔍</span>
-          <input
-            type="search"
-            placeholder="Search by pet name or owner..."
+      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-end">
+          <div className="w-full sm:w-fit">
+            <LabeledSelect
+              id="pets-species-filter"
+              label={t('filterSpecies')}
+              value={speciesFilter}
+              onChange={(next) => setSpeciesFilter(next as Species | 'All')}
+              options={[
+                { value: 'All', label: t('allSpecies') },
+                { value: 'Dog', label: t('speciesDog') },
+                { value: 'Cat', label: t('speciesCat') },
+                { value: 'Other', label: t('speciesOther') },
+              ]}
+            />
+          </div>
+          <div className="w-full sm:w-fit">
+            <LabeledSelect
+              id="pets-care-requests-sort"
+              label={t('careRequestsSortLabel')}
+              value={careRequestsSort}
+              onChange={(next) => setCareRequestsSort(next as CareSort)}
+              options={[
+                { value: 'most', label: t('careRequestsSortMost') },
+                { value: 'least', label: t('careRequestsSortLeast') },
+              ]}
+            />
+          </div>
+        </div>
+
+        <div className="w-full sm:max-w-md">
+          <LabeledSearch
+            id="pets-search"
+            label={t('searchLabel')}
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-9 pr-4 py-2.5 bg-surface-container-lowest border border-outline/30 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+            placeholder={t('searchPlaceholder')}
+            onChange={setSearch}
           />
         </div>
-        <select
-          value={speciesFilter}
-          onChange={(e) => setSpeciesFilter(e.target.value as Species | 'All')}
-          className="px-4 py-2.5 bg-surface-container-lowest border border-outline/30 rounded-xl text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary"
-        >
-          <option value="All">All species</option>
-          <option value="Dog">Dog</option>
-          <option value="Cat">Cat</option>
-          <option value="Other">Other</option>
-        </select>
-        <select
-          value={energyFilter}
-          onChange={(e) => setEnergyFilter(e.target.value as EnergyLevel | 'All')}
-          className="px-4 py-2.5 bg-surface-container-lowest border border-outline/30 rounded-xl text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary"
-        >
-          <option value="All">All energy levels</option>
-          <option value="Low">Low</option>
-          <option value="Medium">Medium</option>
-          <option value="High">High</option>
-        </select>
       </div>
 
-      {/* Table */}
-      <div className="bg-surface-container-lowest rounded-xl border border-outline/20 shadow-sm overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse min-w-[640px]">
+      <div className="bg-white rounded-xl border border-outline/20 shadow-sm">
+        <div className="overflow-x-auto min-w-0 rounded-xl">
+          <table className="w-full text-left border-collapse min-w-[700px]">
             <thead>
-              <tr className="bg-surface-container border-b border-outline/10 text-xs font-bold uppercase tracking-wider text-on-surface/70">
-                <th className="px-6 py-4">Pet</th>
-                <th className="px-6 py-4">Owner</th>
-                <th className="px-6 py-4 hidden sm:table-cell">Age</th>
-                <th className="px-6 py-4">Energy</th>
-                <th className="px-6 py-4 hidden md:table-cell">Tags</th>
-                <th className="px-6 py-4 text-center">Actions</th>
+              <tr className="bg-white border-b border-outline/10 text-xs font-bold uppercase tracking-wider text-on-surface/70">
+                <th className="px-6 py-4">{t('columns.pet')}</th>
+                <th className="px-6 py-4">{t('columns.owner')}</th>
+                <th className="px-6 py-4 hidden sm:table-cell">{t('columns.age')}</th>
+                <th className="px-6 py-4">{t('columns.careRequests')}</th>
+                <th className="px-6 py-4 hidden md:table-cell">{t('filterSpecies')}</th>
+                <th className="px-6 py-4 text-center">{t('columns.actions')}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-outline/10 text-sm">
               {filtered.map((pet) => (
-                <tr key={pet.id} className="hover:bg-surface-container transition-colors">
+                <tr key={pet.id} className="hover:bg-white transition-colors">
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
-                      <div className="size-9 rounded-lg bg-primary/10 flex items-center justify-center text-lg shrink-0">
-                        {SPECIES_ICONS[pet.species]}
-                      </div>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={pet.image}
+                        alt={pet.name}
+                        className="size-9 rounded-lg object-cover"
+                      />
                       <div>
                         <p className="font-semibold text-on-surface">{pet.name}</p>
                         <p className="text-xs text-on-surface/60">{pet.breed}</p>
@@ -134,43 +299,55 @@ export default function PetsTable() {
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <p className="text-on-surface font-medium">{pet.ownerName}</p>
-                    <p className="text-xs text-on-surface/60">{pet.ownerEmail}</p>
+                    <div className="flex items-start gap-3">
+                      <UserAvatar
+                        imageUrl={pet.ownerImage}
+                        initials={pet.ownerName
+                          .split(' ')
+                          .filter(Boolean)
+                          .slice(0, 2)
+                          .map((s) => s[0]?.toUpperCase())
+                          .join('')}
+                        alt={pet.ownerName}
+                        size={32}
+                      />
+                      <div>
+                        <p className="text-on-surface font-medium">{pet.ownerName}</p>
+                        <p className="text-xs text-on-surface/60">{pet.ownerEmail}</p>
+                      </div>
+                    </div>
                   </td>
-                  <td className="px-6 py-4 text-on-surface/70 hidden sm:table-cell">{getAge(pet.dob)}</td>
+                  <td className="px-6 py-4 text-on-surface/70 hidden sm:table-cell">
+                    {getAge(pet.dob)}
+                  </td>
                   <td className="px-6 py-4">
-                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${ENERGY_COLORS[pet.energyLevel]}`}>
-                      {pet.energyLevel}
+                    <span className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary">
+                      {pet.careRequests}
                     </span>
                   </td>
                   <td className="px-6 py-4 hidden md:table-cell">
-                    <div className="flex flex-wrap gap-1">
-                      {pet.tags.length === 0 ? (
-                        <span className="text-on-surface/40 text-xs">—</span>
-                      ) : (
-                        pet.tags.map((tag) => (
-                          <span key={tag} className="px-2 py-0.5 rounded-full bg-surface-container text-on-surface/70 text-xs">
-                            {tag}
-                          </span>
-                        ))
-                      )}
-                    </div>
+                    <span className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary">
+                      {pet.species === 'Dog'
+                        ? t('speciesDog')
+                        : pet.species === 'Cat'
+                          ? t('speciesCat')
+                          : t('speciesOther')}
+                    </span>
                   </td>
                   <td className="px-6 py-4 text-center">
-                    <button
-                      onClick={() => setDeleteId(pet.id)}
-                      title="Delete pet"
-                      className="p-2 hover:bg-red-50 rounded-lg text-error transition-colors"
-                    >
-                      🗑️
-                    </button>
+                    <PetRowActionsMenu
+                      petId={pet.id}
+                      petName={pet.name}
+                      onDelete={(id) => setDeleteId(id)}
+                    />
                   </td>
                 </tr>
               ))}
+
               {filtered.length === 0 && (
                 <tr>
                   <td colSpan={6} className="px-6 py-10 text-center text-sm text-on-surface/50">
-                    No pets match your search.
+                    {t('emptyState')}
                   </td>
                 </tr>
               )}
@@ -178,21 +355,29 @@ export default function PetsTable() {
           </table>
         </div>
 
-        <div className="px-6 py-4 bg-surface-container border-t border-outline/10 flex items-center justify-between text-sm text-on-surface/70">
-          <div>Showing <span className="font-semibold">{filtered.length}</span> of <span className="font-semibold">{pets.length}</span> pets</div>
+        <div className="px-6 py-4 bg-white border-t border-outline/10 flex items-center justify-between text-sm text-on-surface/70">
+          <div>
+            {t('paginationShowing', { shown: filtered.length, total: pets.length })}
+          </div>
           <div className="flex gap-2">
-            <button className="p-2 rounded border border-outline/30 bg-surface-container-lowest text-on-surface/60 disabled:opacity-50" disabled>‹</button>
-            <button className="p-2 rounded border border-outline/30 bg-surface-container-lowest text-on-surface/80">›</button>
+            <button
+              className="p-2 rounded border border-outline/30 bg-white text-on-surface/60 disabled:opacity-50"
+              disabled
+            >
+              <ChevronLeft className="h-4 w-4" aria-hidden="true" />
+            </button>
+            <button className="p-2 rounded border border-outline/30 bg-white text-on-surface/80">
+              <ChevronRight className="h-4 w-4" aria-hidden="true" />
+            </button>
           </div>
         </div>
       </div>
 
       <ConfirmationModal
         isOpen={!!deleteId}
-        title={`Delete ${deletePet?.name ?? 'pet'}?`}
-        description="This will permanently remove the pet and all associated data."
-        confirmLabel="Delete"
-        cancelLabel="Cancel"
+        title={t('deleteConfirmTitle')}
+        description={t('deleteConfirmDesc')}
+        confirmLabel={t('deleteConfirmLabel')}
         tone="danger"
         onConfirm={handleDelete}
         onCancel={() => setDeleteId(null)}

@@ -7,28 +7,75 @@
       "signIn": "Se connecter",
       "getStarted": "Commencer",
       "tagline": "Garde d'animaux communautaire",
+      "brand": "pawtaker",
       "story": "Notre histoire",
       "download": "Télécharger l'app"
     },
     "hero": {
-      "title": "La garde d'animaux par la communauté",
-      "subtitle": "Connectez-vous avec des gardiens d'animaux de confiance dans votre quartier. Gagnez et dépensez des points — sans argent.",
-      "cta": "Commencer gratuitement",
-      "learnMore": "Comment ça marche"
+      "badge": "Le refuge curaté pour les animaux.",
+      "title": "Vous cherchez une bonne ambiance ?",
+      "subtitle": "Découvrez l'avenir des soins avec des demandes instantanées et des voisins de confiance.",
+      "primaryCta": "Commencer",
+      "secondaryCta": "Voir la vidéo",
+      "storeNote": "Des soins fiables en quelques minutes.",
+      "alt": {
+        "feature1": "Aperçu de la fonctionnalité",
+        "feature2": "Aperçu de la fonctionnalité 2",
+        "appPreview": "Aperçu de l'application"
+      },
+      "stats": {
+        "product": "299K+",
+        "productLabel": "Produit",
+        "seller": "99K+",
+        "sellerLabel": "Vendeur",
+        "review": "2K+",
+        "reviewLabel": "Avis positifs"
+      },
+      "previewLabel": "Mises à jour dans l'app",
+      "previewBadge": "En direct",
+      "cardActiveCare": {
+        "label": "Soins que vous avez donnés",
+        "title": "Renforcez votre réputation",
+        "meta": "Soins donnés · vérifié"
+      },
+      "cardCheckins": {
+        "title": "Demandes de soins",
+        "caption": "Gérez les jobs et les dates au même endroit."
+      },
+      "cardMessages": {
+        "title": "Messagerie",
+        "caption": "Tout garder dans un seul fil."
+      }
     },
     "landing": {
       "badge": "Communauté avant tout",
       "title": "Prendre soin des animaux, ensemble.",
       "subtitle": "Connectez‑vous avec des voisins de confiance pour partager la garde de vos animaux. Pas d’argent, seulement de l’amour et des points communautaires.",
+      "heroImageAriaLabel": "Chien heureux caressé par un groupe de voisins souriants dans un parc",
       "primaryCta": "Rejoindre la communauté",
       "secondaryCta": "En savoir plus",
       "stats": {
+        "activeMembers": "Membres actifs",
         "pets": "Animaux gardés",
         "points": "Points échangés"
       },
       "benefits": {
-        "heading": "Pourquoi PawTaker ?",
-        "subtitle": "Notre communauté repose sur la confiance et un amour partagé des animaux, pour rendre la garde accessible à tous."
+        "heading": "Pourquoi pawtaker ?",
+        "subtitle": "Notre communauté repose sur la confiance et un amour partagé des animaux, pour rendre la garde accessible à tous.",
+        "cards": {
+          "trust": {
+            "title": "Basé sur la confiance",
+            "body": "Les membres vérifiés et les avis de la communauté aident à garder votre animal entre de bonnes mains."
+          },
+          "simplicity": {
+            "title": "Simple",
+            "body": "Demandez ou offrez de la garde avec quelques tapotements seulement."
+          },
+          "petFirst": {
+            "title": "Pet d’abord",
+            "body": "Chaque décision se concentre sur le bien-être et le bonheur de votre animal."
+          }
+        }
       },
       "cta": {
         "heading": "Prêt à rejoindre la meute ?",
@@ -37,7 +84,7 @@
       }
     },
     "features": {
-      "heading": "Pourquoi PawTaker ?",
+      "heading": "Pourquoi pawtaker ?",
       "subtitle": "Une plateforme axée sur la communauté, construite sur la confiance, la transparence et le soin.",
       "zeroCost": {
         "title": "Zéro coût",
@@ -78,40 +125,55 @@
       }
     },
     "appPreview": {
-      "heading": "Vos animaux méritent le meilleur — téléchargez PawTaker",
-      "subtitle": "Bientôt disponible sur iOS et Android. Rejoignez la liste d'attente pour être parmi les premiers.",
+      "heading": "Donnez des soins. Recevez des soins.",
+      "subtitle": "Demandez de l'aide quand vous en avez besoin. Offrez des soins pour gagner votre réputation.",
       "cta": {
-        "ios": "Télécharger sur l'App Store",
-        "android": "Disponible sur Google Play"
+        "ios": "Télécharger pour iOS",
+        "android": "Télécharger pour Android"
       },
-      "storeNote": "Bientôt disponible. Rejoignez la liste d'attente.",
+      "storeNote": "Disponible bientôt. Rejoignez la liste d'attente.",
       "phoneTabs": {
         "home": "Accueil",
         "myCare": "Mes soins",
         "messages": "Messages"
       },
       "messages": {
-        "owner": "Sophie (propriétaire)",
-        "body": "\"Max a tout mangé et a fait une super promenade !\""
+        "owner": "Jamie (propriétaire)",
+        "body": "\"Merci pour l'aide ! La visite est parfaite.\""
       },
       "checkins": {
-        "title": "Photo de check-in reçue",
-        "body": "Bella joue dans le jardin 🌿"
+        "title": "Mise à jour des soins",
+        "body": "Promenade terminée. À bientôt !"
       }
     },
     "footer": {
+      "brand": "pawtaker",
       "tagline": "La garde d'animaux communautaire pour tous.",
       "rights": "Tous droits réservés.",
       "terms": "Conditions",
-      "privacy": "Confidentialité"
+      "privacy": "Confidentialité",
+      "description": "Rendre la garde d'animaux sociale, abordable et sûre pour chaque amoureux des animaux dans le monde.",
+      "platformTitle": "Plateforme",
+      "platformHowItWorks": "Comment ça marche",
+      "platformSafetyMeasures": "Mesures de sécurité",
+      "platformCommunityPoints": "Points communautaires",
+      "companyTitle": "Entreprise",
+      "companyOurStory": "Notre histoire",
+      "companyCareers": "Carrières",
+      "privacyPolicy": "Politique de confidentialité",
+      "termsOfService": "Conditions d'utilisation",
+      "contactTitle": "Contact",
+      "contactEmail": "hello@pawtaker.com",
+      "contactLocation": "San Francisco, CA",
+      "copyrightLine": "© {year} pawtaker Inc. Tous droits réservés. Conçu avec amour pour les pattes."
     },
     "about": {
       "heroTitle": "Relier les amoureux des animaux",
       "heroSubtitle": "Parce que chaque animal mérite un village de soins et d'attention, où que la vie vous mène.",
       "narrativeLabel": "Notre récit",
       "heading": "Notre histoire",
-      "mission": "PawTaker est né d'une conviction simple : la garde d'animaux doit reposer sur la communauté, pas sur le commerce. Nous mettons en relation les propriétaires d'animaux avec des voisins de confiance passionnés par les animaux.",
-      "pointsOverProfit": "En remplaçant l'argent par des points, nous supprimons les barrières financières et créons un véritable échange de soins. Chaque membre donne et reçoit — c'est ce qui rend PawTaker différent.",
+      "mission": "pawtaker est né d'une conviction simple : la garde d'animaux doit reposer sur la communauté, pas sur le commerce. Nous mettons en relation les propriétaires d'animaux avec des voisins de confiance passionnés par les animaux.",
+      "pointsOverProfit": "En remplaçant l'argent par des points, nous supprimons les barrières financières et créons un véritable échange de soins. Chaque membre donne et reçoit — c'est ce qui rend pawtaker différent.",
       "missionHeading": "Notre mission : des soins accessibles",
       "missionBody": "Nous rendons la garde de qualité accessible grâce à notre système unique de Points Communautaires. En aidant les autres, vous gagnez des crédits que vous pouvez utiliser pour votre propre animal.",
       "missionCards": {
@@ -152,7 +214,7 @@
     },
     "how": {
       "steps": {
-        "heading": "Comment fonctionne PawTaker",
+        "heading": "Comment fonctionne pawtaker",
         "subtitle": "Quatre étapes simples pour une garde d'animaux sûre et communautaire.",
         "join": {
           "title": "Créez votre profil",
@@ -172,7 +234,7 @@
         }
       },
       "faq": {
-        "heading": "Pourquoi la communauté aime PawTaker",
+        "heading": "Pourquoi la communauté aime pawtaker",
         "subtitle": "Tout ce que vous devez savoir avant de commencer.",
         "kyc": {
           "question": "Pourquoi dois-je vérifier mon identité ?",
@@ -205,11 +267,16 @@
       "settings": "Paramètres",
       "pets": "Animaux",
       "reviews": "Avis",
-      "contact": "Contact"
+      "contact": "Contact",
+      "profile": "Profil"
     },
     "sidebar": {
-      "brand": "PawTaker",
+      "brand": "pawtaker",
       "brandSub": "Panneau admin"
+    },
+    "notifications": {
+      "title": "Notifications",
+      "markAllRead": "Tout marquer comme lu"
     },
     "dashboard": {
       "title": "Tableau de bord",
@@ -223,6 +290,8 @@
       "recentActivity": "Activité récente",
       "platformGrowth": "Croissance de la plateforme",
       "careActivity": "Soins donnés vs reçus",
+      "growthCaption": "Utilisateurs vérifiés sur les 12 derniers mois",
+      "careCaption": "Soins donnés vs reçus sur les 8 dernières semaines",
       "careGiven": "Soins donnés",
       "careReceived": "Soins reçus",
       "users": "Utilisateurs",
@@ -231,29 +300,48 @@
     "users": {
       "title": "Gestion des utilisateurs",
       "searchPlaceholder": "Rechercher par nom ou e-mail...",
+      "searchLabel": "Rechercher",
       "sortLabel": "Trier par",
+      "sortDefault": "Aucun tri par défaut",
+      "sortPetsDesc": "Animaux (du plus grand au plus petit)",
+      "sortPetsAsc": "Animaux (du plus petit au plus grand)",
+      "sortCareGivenDesc": "Soins donnés (du plus grand au plus petit)",
+      "sortCareGivenAsc": "Soins donnés (du plus petit au plus grand)",
+      "sortCareReceivedDesc": "Soins reçus (du plus grand au plus petit)",
+      "sortCareReceivedAsc": "Soins reçus (du plus petit au plus grand)",
       "sortPointsDesc": "Points (décroissant)",
       "sortPointsAsc": "Points (croissant)",
       "sortCareGiven": "Plus de soins donnés",
       "sortCareReceived": "Plus de soins reçus",
       "exportList": "Exporter la liste",
       "columns": {
+        "user": "Utilisateur",
         "name": "Nom",
         "email": "E-mail",
         "kyc": "Statut KYC",
         "points": "Points",
+        "petsCount": "# Animaux",
+        "careGiven": "Soins donnés",
+        "careReceived": "Soins reçus",
         "status": "Statut",
         "joined": "Inscrit",
         "actions": "Actions"
       },
       "statusActive": "Actif",
       "statusDeactivated": "Désactivé",
+      "kycStatusApproved": "Approuvé",
+      "kycStatusSubmitted": "Soumis",
+      "kycStatusPending": "En attente",
+      "kycStatusRejected": "Rejeté",
+      "openActionsAriaLabel": "Ouvrir les actions pour {userName}",
       "deleteConfirmTitle": "Supprimer l'utilisateur ?",
       "deleteConfirmDesc": "Cette action est irréversible. Toutes les données seront définitivement supprimées.",
       "deleteConfirmLabel": "Supprimer",
       "deactivateConfirmTitle": "Désactiver le compte ?",
       "deactivateConfirmDesc": "L'utilisateur perdra l'accès à la plateforme. Cette action peut être annulée.",
-      "deactivateConfirmLabel": "Désactiver"
+      "deactivateConfirmLabel": "Désactiver",
+      "emptyState": "Aucun utilisateur ne correspond à votre recherche.",
+      "paginationShowing": "Affichage de {shown} sur {total} utilisateurs"
     },
     "kyc": {
       "title": "Vérifications KYC",
@@ -263,6 +351,10 @@
       "filterCompleted": "Terminé",
       "filterApproved": "Approuvé",
       "filterRejected": "Rejeté",
+      "all": "Tous",
+      "filterByStatusAriaLabel": "Filtrer par statut",
+      "searchLabel": "Rechercher par nom ou e-mail",
+      "emptyState": "Aucune soumission ne correspond à vos filtres.",
       "pending": "En attente",
       "approved": "Approuvé",
       "rejected": "Rejeté",
@@ -277,24 +369,94 @@
       "rejectConfirmDesc": "Veuillez fournir une raison. L'utilisateur sera notifié.",
       "rejectConfirmLabel": "Rejeter",
       "rejectionReasonLabel": "Motif de rejet",
-      "rejectionReasonPlaceholder": "Motif de rejet (obligatoire)"
+      "rejectionReasonPlaceholder": "Motif de rejet (obligatoire)",
+      "expand": "Développer",
+      "documentAlt": "Document KYC",
+      "submitted": "Soumis",
+      "showImageAriaLabel": "Afficher l'image {index}",
+      "rejectionMessagePreviewNote": "Ceci est le message exact qui sera envoyé à l'utilisateur."
+    },
+    "reports": {
+      "searchLabel": "Signalant",
+      "searchPlaceholder": "Rechercher un signalant...",
+      "openActionsAriaLabel": "Ouvrir les actions pour le rapport de {reporter}",
+      "deleteConfirmTitle": "Supprimer le rapport ?",
+      "deleteConfirmDesc": "Cela supprimera définitivement le rapport de la plateforme.",
+      "deleteConfirmLabel": "Supprimer",
+      "reportLabel": "Rapport :",
+      "emptyState": "Aucun rapport ne correspond à votre recherche.",
+      "paginationShowing": "Affichage de {shown} sur {total} rapports",
+      "table": {
+        "reporter": "Signalant",
+        "reportedText": "Texte signalé",
+        "actions": "Actions"
+      },
+      "stats": {
+        "weeklyResolutionRateTitle": "Taux de résolution hebdomadaire",
+        "weeklyResolutionRateCaption": "Indicateur cible : 90%",
+        "avgResponseTimeTitle": "Temps de réponse moyen",
+        "avgResponseTimeCaption": "Amélioré depuis le mois dernier",
+        "criticalUnresolvedTitle": "Critique non résolu",
+        "criticalUnresolvedCaption": "Nécessite une attention immédiate"
+      }
+    },
+    "requests": {
+      "statusAll": "Tous les statuts",
+      "statusOngoing": "En cours",
+      "statusCompleted": "Terminé",
+      "statusCanceled": "Annulé",
+      "careTypePlayWalk": "Jeu/Promenade",
+      "careTypeDaytime": "De journée",
+      "careTypeVacation": "Vacances",
+      "careTypeNight": "De nuit",
+      "searchLabel": "Rechercher",
+      "searchPlaceholder": "Rechercher par animal, propriétaire, accompagnateur...",
+      "openActionsAriaLabel": "Ouvrir les actions",
+      "deleteConfirmTitle": "Supprimer la demande de soins ?",
+      "deleteConfirmDesc": "Cela supprimera définitivement la demande de soins.",
+      "deleteConfirmLabel": "Supprimer",
+      "emptyState": "Aucune demande ne correspond à vos filtres.",
+      "paginationShowing": "Affichage de {shown} sur {total} demandes",
+      "table": {
+        "petBreed": "Animal & Race",
+        "owner": "Propriétaire",
+        "careGivenBy": "Soins par",
+        "serviceDates": "Dates de service",
+        "careType": "Type de soins",
+        "status": "Statut",
+        "actions": "Actions"
+      },
+      "filters": {
+        "statusLabel": "Statut"
+      }
     },
     "pets": {
       "title": "Animaux",
       "subtitle": "Tous les animaux enregistrés sur la plateforme.",
       "searchPlaceholder": "Rechercher par nom d'animal ou propriétaire...",
+      "searchLabel": "Rechercher",
       "filterSpecies": "Espèce",
       "filterEnergy": "Niveau d'énergie",
       "allSpecies": "Toutes les espèces",
       "allEnergy": "Tous les niveaux",
+      "speciesDog": "Chien",
+      "speciesCat": "Chat",
+      "speciesOther": "Autre",
+      "careRequestsSortLabel": "Tri des demandes de soins",
+      "careRequestsSortMost": "Demandes de soins (les plus nombreuses)",
+      "careRequestsSortLeast": "Demandes de soins (les moins nombreuses)",
       "columns": {
         "pet": "Animal",
         "owner": "Propriétaire",
         "age": "Âge",
         "energyLevel": "Énergie",
+        "careRequests": "Demandes de soins",
         "tags": "Étiquettes",
         "actions": "Actions"
       },
+      "emptyState": "Aucun animal ne correspond à vos filtres.",
+      "paginationShowing": "Affichage de {shown} sur {total} animaux",
+      "openActionsAriaLabel": "Ouvrir les actions pour {petName}",
       "deleteConfirmTitle": "Supprimer l'animal ?",
       "deleteConfirmDesc": "Cela supprimera définitivement l'animal et toutes ses données associées.",
       "deleteConfirmLabel": "Supprimer"
@@ -302,6 +464,19 @@
     "reviews": {
       "title": "Avis",
       "subtitle": "Avis soumis par les utilisateurs pour toutes les sessions de soins.",
+      "searchLabel": "Rechercher des avis",
+      "searchPlaceholder": "Rechercher par nom, e-mail ou texte de l'avis...",
+      "ratingFilterLabel": "Note",
+      "ratingFilterAriaLabel": "Filtrer par note",
+      "filterAllRatings": "Toutes les notes",
+      "filterStars5": "5 étoiles",
+      "filterStars4": "4 étoiles",
+      "filterStars3": "3 étoiles",
+      "filterStars2": "2 étoiles",
+      "filterStars1": "1 étoile",
+      "emptyState": "Aucun avis ne correspond à vos filtres.",
+      "paginationShowing": "Affichage de {shown} sur {total} avis",
+      "openActionsAriaLabel": "Ouvrir les actions",
       "columns": {
         "stars": "Note",
         "reviewer": "Auteur",
@@ -324,7 +499,18 @@
       "terms": "Conditions d'utilisation",
       "contactForm": "Formulaire de contact",
       "contactFormNote": "Intégration du formulaire bientôt disponible.",
-      "sendMessage": "Envoyer un message"
+      "sendMessage": "Envoyer un message",
+      "openActionsAriaLabel": "Ouvrir les actions",
+      "deleteConfirmTitle": "Supprimer le message ?",
+      "deleteConfirmDesc": "Ce message de contact sera définitivement supprimé.",
+      "deleteConfirmLabel": "Supprimer",
+      "relativeJustNow": "À l'instant",
+      "relativeMinutesAgo": "Il y a {count} min",
+      "relativeHoursAgo": "Il y a {count} h",
+      "relativeDaysAgo": "Il y a {count} j",
+      "relativeMonthsAgo": "Il y a {count} mois",
+      "relativeYearsAgo": "Il y a {count} ans",
+      "emptyState": "Aucun message de contact pour le moment."
     },
     "modal": {
       "cancel": "Annuler",
@@ -345,7 +531,59 @@
       "title": "Connexion admin",
       "email": "E-mail",
       "password": "Mot de passe",
-      "submit": "Se connecter"
+      "submit": "Se connecter",
+      "submitting": "Connexion en cours...",
+      "welcome": "Bon retour ! Veuillez saisir vos informations.",
+      "secureAccess": "Accès sécurisé",
+      "forgotPassword": "Mot de passe oublié ?",
+      "keepAuthenticated": "Rester connecté"
+    }
+  },
+  "ui": {
+    "localeSelect": {
+      "ariaLabel": "Choisir la langue",
+      "en": "Anglais",
+      "fr": "Français"
+    }
+  },
+  "legal": {
+    "terms": {
+      "title": "Conditions d'utilisation",
+      "lastUpdated": "Dernière mise à jour : {date}",
+      "section1Title": "1. Acceptation des conditions",
+      "section1Body": "En accédant à pawtaker ou en l'utilisant (« la Plateforme »), vous acceptez d'être lié(e) par les présentes Conditions d'utilisation. Si vous n'acceptez pas, n'utilisez pas la Plateforme.",
+      "section2Title": "2. Description du service",
+      "section2Body": "pawtaker est une plateforme communautaire de garde d'animaux où les utilisateurs échangent des services de soins via un système de points. Nous ne traitons pas les paiements ; les soins sont échangés sur une base non monétaire, fondée sur les points.",
+      "section3Title": "3. Éligibilité",
+      "section3Body": "Vous devez avoir au moins 18 ans et être en mesure de conclure un contrat engageant. Vous devez effectuer la vérification d'identité (KYC) avant de proposer ou de demander des soins. Vous êtes responsable de vous assurer que votre utilisation de la Plateforme est conforme aux lois locales.",
+      "section4Title": "4. Points et conduite",
+      "section4Body": "Les points n'ont aucune valeur monétaire et ne peuvent pas être échangés contre de l'argent. Vous ne devez pas abuser du système, harceler d'autres utilisateurs, ni vous présenter ou présenter vos animaux de manière trompeuse. Nous pouvons suspendre ou résilier les comptes qui enfreignent ces conditions ou nos règles de communauté.",
+      "section5Title": "5. Limitation de responsabilité",
+      "section5Body": "pawtaker est fourni « tel quel ». Nous ne sommes pas responsables de tout dommage causé aux utilisateurs, aux animaux ou aux biens résultant d'accords conclus via la Plateforme. Les services de garde sont organisés directement entre utilisateurs ; nous n'employons pas ni ne garantissons les gardiens.",
+      "section6Title": "6. Modifications",
+      "section6Body": "Nous pouvons mettre à jour ces conditions de temps à autre. Continuer à utiliser la Plateforme après les modifications constitue une acceptation. Les changements importants seront communiqués via l'application ou par e-mail, dans la mesure du possible.",
+      "section7Title": "7. Contact",
+      "section7Body": "Pour toute question concernant ces Conditions d'utilisation, contactez-nous à l'adresse d'assistance indiquée dans l'application ou sur notre site web."
+    },
+    "privacy": {
+      "title": "Politique de confidentialité",
+      "lastUpdated": "Dernière mise à jour : {date}",
+      "section1Title": "1. Informations que nous collectons",
+      "section1Body": "Nous collectons les informations que vous fournissez lors de votre inscription (e-mail, nom, informations de profil), lorsque vous ajoutez des animaux ou publiez des demandes de soins, et lorsque vous communiquez avec d'autres utilisateurs. Nous collectons également les documents de vérification d'identité (KYC) et les données associées afin de maintenir une communauté de confiance.",
+      "section2Title": "2. Comment nous utilisons vos informations",
+      "section2Body": "Nous utilisons vos informations pour faire fonctionner la Plateforme, vous mettre en relation avec d'autres utilisateurs, traiter le KYC, appliquer nos conditions et envoyer des communications liées au service. Nous ne vendons pas vos données personnelles à des tiers.",
+      "section3Title": "3. Partage avec d'autres",
+      "section3Body": "Votre profil (nom, photo, localisation générale si vous le souhaitez) peut être visible par d'autres utilisateurs vérifiés afin de faciliter les arrangements de garde. Nous pouvons partager des données avec des prestataires de services (par exemple hébergement, analyses) dans le cadre d'accords stricts. Nous pouvons divulguer des informations lorsque la loi l'exige.",
+      "section4Title": "4. Sécurité des données",
+      "section4Body": "Nous mettons en place des mesures conformes aux pratiques courantes de l'industrie pour protéger vos données. Les documents d'identité et les données sensibles sont stockés de manière sécurisée et utilisés uniquement à des fins de vérification et de sécurité.",
+      "section5Title": "5. Vos droits",
+      "section5Body": "Selon votre lieu, vous pouvez avoir le droit d'accéder à vos données, de les corriger, de les supprimer ou de les transférer, et de vous opposer à certains traitements ou de les limiter. Contactez-nous pour exercer ces droits.",
+      "section6Title": "6. Cookies et technologies similaires",
+      "section6Body": "Nous utilisons des cookies et des technologies similaires pour l'authentification, les préférences et l'analyse sur notre site web et dans nos applications, conformément à la présente politique.",
+      "section7Title": "7. Modifications de cette politique",
+      "section7Body": "Nous pouvons mettre à jour la présente politique de confidentialité de temps à autre. Nous vous informerons des changements importants via la Plateforme ou par e-mail, le cas échéant.",
+      "section8Title": "8. Contact",
+      "section8Body": "Pour toute question ou demande liée à la confidentialité, contactez-nous à l'adresse d'assistance indiquée dans l'application ou sur notre site web."
     }
   }
 }
