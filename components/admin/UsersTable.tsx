@@ -170,7 +170,7 @@ function UserRowActionsMenu({
         <MoreHorizontal className="h-4 w-4" aria-hidden="true" />
       </button>
       {open && (
-        <div className="absolute right-0 top-full z-20 mt-1 min-w-[170px] rounded-lg border border-outline/20 bg-white py-1 shadow-lg ring-1 ring-black/5">
+        <div className="absolute right-0 top-full z-50 mt-1 min-w-[170px] rounded-lg border border-outline/20 bg-white py-1 shadow-lg ring-1 ring-black/5">
           <button
             type="button"
             disabled={isDeactivated}
@@ -277,9 +277,9 @@ export default function UsersTable() {
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-xl border border-outline/20 shadow-sm">
-        <div className="overflow-x-auto min-w-0 rounded-xl">
-          <table className="w-full text-left border-collapse min-w-[800px]">
+      <div className="bg-white rounded-xl border border-outline/20 shadow-sm overflow-hidden">
+        <div className="overflow-x-auto min-w-0">
+          <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-white border-b border-outline/10 text-xs font-bold uppercase tracking-wider text-on-surface/70">
                 <th className="px-6 py-4">{t('columns.user')}</th>
@@ -360,7 +360,7 @@ export default function UsersTable() {
           </table>
         </div>
 
-              <div className="px-6 py-4 bg-white border-t border-outline/10 flex items-center justify-between text-sm text-on-surface/70">
+        <div className="px-6 py-4 bg-white border-t border-outline/10 flex items-center justify-between text-sm text-on-surface/70 rounded-b-xl">
           <div>{t('paginationShowing', { shown: filtered.length, total: users.length })}</div>
           <div className="flex gap-2">
             <button className="p-2 rounded border border-outline/30 bg-white text-on-surface/60 disabled:opacity-50" disabled>
