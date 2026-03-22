@@ -1,35 +1,30 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Ban, ChevronLeft, ChevronRight, MoreHorizontal, Trash2 } from 'lucide-react';
+import { Ban, ChevronLeft, ChevronRight, Eye, MoreHorizontal, Trash2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import ConfirmationModal from './ConfirmationModal';
 import LabeledSearch from './LabeledSearch';
 import LabeledSelect from './LabeledSelect';
 import UserAvatar from './UserAvatar';
+import UserDetailsModal, { type UserDetailsData } from './UserDetailsModal';
 
-interface User {
-  id: string;
-  name: string;
-  initials: string;
-  email: string;
-  avatarUrl?: string;
-  kycStatus: 'Approved' | 'Submitted' | 'Pending' | 'Rejected';
-  petsCount: number;
-  careGiven: number;
-  careReceived: number;
-  joined: string;
-  status: 'Active' | 'Deactivated';
-}
+type User = UserDetailsData;
 
 const MOCK_USERS: User[] = [
   {
-    id: 'u1',
+    id: '550e8400-e29b-41d4-a716-446655440001',
     name: 'Sarah Johnson',
     initials: 'SJ',
     email: 'sarah.j@example.com',
     avatarUrl: 'https://picsum.photos/seed/user-u1/72',
+    city: 'Portland, OR',
+    bio: 'Dog lover and weekend hiker. Happy to help neighbors with pet care.',
     kycStatus: 'Approved',
+    isEmailVerified: true,
+    pointsBalance: 420,
+    language: 'en',
+    themePref: 'system',
     petsCount: 6,
     careGiven: 18,
     careReceived: 12,
@@ -37,12 +32,18 @@ const MOCK_USERS: User[] = [
     status: 'Active',
   },
   {
-    id: 'u2',
+    id: '550e8400-e29b-41d4-a716-446655440002',
     name: 'Mike Ross',
     initials: 'MR',
     email: 'mike.ross@example.com',
     avatarUrl: 'https://picsum.photos/seed/user-u2/72',
+    city: 'Montreal, QC',
+    bio: 'Cat person. Flexible schedule for drop-in visits.',
     kycStatus: 'Submitted',
+    isEmailVerified: true,
+    pointsBalance: 88,
+    language: 'en',
+    themePref: 'dark',
     petsCount: 2,
     careGiven: 4,
     careReceived: 7,
@@ -50,12 +51,18 @@ const MOCK_USERS: User[] = [
     status: 'Active',
   },
   {
-    id: 'u3',
+    id: '550e8400-e29b-41d4-a716-446655440003',
     name: 'Emily Davis',
     initials: 'ED',
     email: 'emily.d@example.com',
     avatarUrl: 'https://picsum.photos/seed/user-u3/72',
+    city: 'Austin, TX',
+    bio: '',
     kycStatus: 'Approved',
+    isEmailVerified: true,
+    pointsBalance: 256,
+    language: 'en',
+    themePref: 'light',
     petsCount: 4,
     careGiven: 11,
     careReceived: 9,
@@ -63,12 +70,18 @@ const MOCK_USERS: User[] = [
     status: 'Active',
   },
   {
-    id: 'u4',
+    id: '550e8400-e29b-41d4-a716-446655440004',
     name: 'Chris Parker',
     initials: 'CP',
     email: 'chris.p@example.com',
     avatarUrl: 'https://picsum.photos/seed/user-u4/72',
+    city: 'Seattle, WA',
+    bio: 'New to PawTaker — KYC pending.',
     kycStatus: 'Pending',
+    isEmailVerified: true,
+    pointsBalance: 12,
+    language: 'en',
+    themePref: 'system',
     petsCount: 1,
     careGiven: 1,
     careReceived: 0,
@@ -76,12 +89,18 @@ const MOCK_USERS: User[] = [
     status: 'Active',
   },
   {
-    id: 'u5',
+    id: '550e8400-e29b-41d4-a716-446655440005',
     name: 'Anna Taylor',
     initials: 'AT',
     email: 'anna.t@example.com',
     avatarUrl: 'https://picsum.photos/seed/user-u5/72',
+    city: 'Chicago, IL',
+    bio: '—',
     kycStatus: 'Rejected',
+    isEmailVerified: true,
+    pointsBalance: 0,
+    language: 'fr',
+    themePref: 'light',
     petsCount: 0,
     careGiven: 0,
     careReceived: 0,
@@ -89,12 +108,18 @@ const MOCK_USERS: User[] = [
     status: 'Deactivated',
   },
   {
-    id: 'u6',
+    id: '550e8400-e29b-41d4-a716-446655440006',
     name: 'David Wilson',
     initials: 'DW',
     email: 'david.w@example.com',
     avatarUrl: 'https://picsum.photos/seed/user-u6/72',
+    city: 'Denver, CO',
+    bio: 'Experienced with large breeds and reactive dogs.',
     kycStatus: 'Approved',
+    isEmailVerified: true,
+    pointsBalance: 890,
+    language: 'en',
+    themePref: 'dark',
     petsCount: 8,
     careGiven: 27,
     careReceived: 14,
@@ -102,12 +127,18 @@ const MOCK_USERS: User[] = [
     status: 'Active',
   },
   {
-    id: 'u7',
+    id: '550e8400-e29b-41d4-a716-446655440007',
     name: 'Laura Martinez',
     initials: 'LM',
     email: 'laura.m@example.com',
     avatarUrl: 'https://picsum.photos/seed/user-u7/72',
+    city: 'Lyon, France',
+    bio: 'Bilingue FR/EN. Jardin clôturé.',
     kycStatus: 'Approved',
+    isEmailVerified: true,
+    pointsBalance: 340,
+    language: 'fr',
+    themePref: 'system',
     petsCount: 3,
     careGiven: 8,
     careReceived: 6,
@@ -136,12 +167,14 @@ function UserRowActionsMenu({
   userId,
   userName,
   isDeactivated,
+  onViewDetails,
   onDeactivate,
   onDelete,
 }: {
   userId: string;
   userName: string;
   isDeactivated: boolean;
+  onViewDetails: (id: string) => void;
   onDeactivate: (id: string) => void;
   onDelete: (id: string) => void;
 }) {
@@ -170,7 +203,18 @@ function UserRowActionsMenu({
         <MoreHorizontal className="h-4 w-4" aria-hidden="true" />
       </button>
       {open && (
-        <div className="absolute right-0 top-full z-50 mt-1 min-w-[170px] rounded-lg border border-outline/20 bg-white py-1 shadow-lg ring-1 ring-black/5">
+        <div className="absolute right-0 top-full z-50 mt-1 min-w-[188px] rounded-lg border border-outline/20 bg-white py-1 shadow-lg ring-1 ring-black/5">
+          <button
+            type="button"
+            onClick={() => {
+              setOpen(false);
+              onViewDetails(userId);
+            }}
+            className="flex w-full cursor-pointer items-center gap-2 px-3 py-2 text-left text-sm text-on-surface hover:bg-surface-container transition-colors"
+          >
+            <Eye className="h-4 w-4 shrink-0" aria-hidden="true" />
+            {t('viewDetails')}
+          </button>
           <button
             type="button"
             disabled={isDeactivated}
@@ -204,10 +248,36 @@ function UserRowActionsMenu({
 export default function UsersTable() {
   const t = useTranslations('admin.users');
   const [users, setUsers] = useState<User[]>(MOCK_USERS);
+
+  /** Temporary probe — logs real DB users to browser console. Remove once RLS issue is resolved. */
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch('/api/admin/users', { credentials: 'include' });
+        const json = await res.json();
+        if (cancelled) return;
+        if (!res.ok) {
+          console.warn('[Admin Users] API error:', res.status, json);
+          return;
+        }
+        console.log('[Admin Users] Real DB users (non-admin):', json.users);
+      } catch (e) {
+        if (!cancelled) console.error('[Admin Users] fetch error:', e);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, []);
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState<SortKey>('none');
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [deactivateId, setDeactivateId] = useState<string | null>(null);
+  const [detailsUserId, setDetailsUserId] = useState<string | null>(null);
+
+  const detailsUser = useMemo(
+    () => (detailsUserId ? users.find((u) => u.id === detailsUserId) ?? null : null),
+    [users, detailsUserId]
+  );
 
   const filtered = useMemo(() => {
     const q = search.toLowerCase();
@@ -343,6 +413,7 @@ export default function UsersTable() {
                       userId={user.id}
                       userName={user.name}
                       isDeactivated={user.status === 'Deactivated'}
+                      onViewDetails={(id) => setDetailsUserId(id)}
                       onDeactivate={(id) => setDeactivateId(id)}
                       onDelete={(id) => setDeleteId(id)}
                     />
@@ -393,6 +464,12 @@ export default function UsersTable() {
         tone="default"
         onConfirm={handleDeactivate}
         onCancel={() => setDeactivateId(null)}
+      />
+
+      <UserDetailsModal
+        isOpen={!!detailsUserId}
+        user={detailsUser}
+        onClose={() => setDetailsUserId(null)}
       />
     </>
   );
