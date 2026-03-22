@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import type { LucideIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import {
@@ -54,19 +55,24 @@ export default function AdminSidebar({ pathname, locale, adminEmail }: AdminSide
   };
 
   const sidebarContent = (
-    <aside className="flex h-full w-64 flex-col bg-primary text-on-primary">
-      <div className="flex items-center gap-3 border-b border-white/10 px-6 py-6">
-        <div className="size-10 shrink-0 rounded-full bg-white/20 flex items-center justify-center">
-          <PawPrint className="h-5 w-5 text-white" aria-hidden="true" />
-        </div>
-        <div>
-          <span className="block text-xl font-bold">{tSidebar('brand')}</span>
-          <span className="mt-0.5 block text-xs text-white/70">{tSidebar('brandSub')}</span>
-          <span className="mt-1 block text-[11px] text-white/60 truncate">{adminEmail}</span>
+    <aside className="flex h-full w-64 flex-col border-r border-white/20 bg-primary text-white">
+      <div className="flex items-center gap-3 border-b border-white/20 px-6 py-6">
+        <Image
+          src="/logos/logomark-electric-pear.png"
+          alt=""
+          width={40}
+          height={40}
+          className="size-10 shrink-0"
+          priority
+        />
+        <div className="min-w-0">
+          <span className="block text-xl font-bold tracking-tight text-white">{tSidebar('brand')}</span>
+          <span className="mt-0.5 block text-xs text-white/90">{tSidebar('brandSub')}</span>
+          <span className="mt-1 block truncate text-[11px] text-white/60">{adminEmail}</span>
         </div>
       </div>
 
-      <nav className="flex-1 space-y-1 overflow-y-auto px-4 py-6">
+      <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-6">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive =
@@ -76,13 +82,13 @@ export default function AdminSidebar({ pathname, locale, adminEmail }: AdminSide
               key={item.href}
               href={`/${locale}${item.href}`}
               onClick={() => setIsMobileOpen(false)}
-              className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
+              className={`flex items-center gap-3 rounded-full px-3 py-2.5 text-sm font-semibold transition-colors ${
                 isActive
                   ? 'bg-white/15 text-white'
-                  : 'text-white/80 hover:bg-white/10 hover:text-white'
+                  : 'text-white hover:bg-white/15 hover:text-white'
               }`}
             >
-              <Icon className="h-4 w-4" aria-hidden="true" />
+              <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
               <span>{tNav(item.labelKey)}</span>
             </a>
           );
@@ -92,7 +98,7 @@ export default function AdminSidebar({ pathname, locale, adminEmail }: AdminSide
       <button
         type="button"
         onClick={() => setSignOutOpen(true)}
-        className="flex w-full cursor-pointer items-center justify-center gap-2 border-t border-white/10 px-6 py-4 text-sm font-semibold text-white/90 transition-colors hover:bg-white/10"
+        className="flex w-full cursor-pointer items-center justify-center gap-2 border-t border-white/20 px-6 py-4 text-sm font-semibold text-white/90 transition-colors hover:bg-white/10 hover:text-white"
       >
         <LogOut className="h-4 w-4" aria-hidden="true" />
         Sign out
@@ -104,7 +110,7 @@ export default function AdminSidebar({ pathname, locale, adminEmail }: AdminSide
     <>
       <button
         type="button"
-        className="fixed left-4 top-4 z-50 flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg bg-white text-on-surface shadow-md md:hidden"
+        className="fixed left-4 top-4 z-50 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-white text-on-surface shadow-md md:hidden"
         onClick={() => setIsMobileOpen(true)}
         aria-label="Open navigation"
       >

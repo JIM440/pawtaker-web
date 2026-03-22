@@ -7,9 +7,12 @@
       "signIn": "Se connecter",
       "getStarted": "Commencer",
       "tagline": "Garde d'animaux communautaire",
-      "brand": "pawtaker",
+      "brand": "PawTaker",
       "story": "Notre histoire",
-      "download": "Télécharger l'app"
+      "download": "Télécharger l'app",
+      "openMenu": "Ouvrir le menu",
+      "closeMenu": "Fermer le menu",
+      "downloadMenu": "Télécharger l'app"
     },
     "hero": {
       "badge": "Le refuge curaté pour les animaux.",
@@ -51,7 +54,7 @@
       "badge": "Communauté avant tout",
       "title": "Prendre soin des animaux, ensemble.",
       "subtitle": "Connectez‑vous avec des voisins de confiance pour partager la garde de vos animaux. Pas d’argent, seulement de l’amour et des points communautaires.",
-      "heroImageAriaLabel": "Chien heureux caressé par un groupe de voisins souriants dans un parc",
+      "heroImageAriaLabel": "Illustration d'un chien amical avec des accents verts et orange ludiques",
       "primaryCta": "Rejoindre la communauté",
       "secondaryCta": "En savoir plus",
       "stats": {
@@ -60,7 +63,7 @@
         "points": "Points échangés"
       },
       "benefits": {
-        "heading": "Pourquoi pawtaker ?",
+        "heading": "Pourquoi PawTaker ?",
         "subtitle": "Notre communauté repose sur la confiance et un amour partagé des animaux, pour rendre la garde accessible à tous.",
         "cards": {
           "trust": {
@@ -80,11 +83,13 @@
       "cta": {
         "heading": "Prêt à rejoindre la meute ?",
         "subtitle": "Partagez la joie de la garde d’animaux avec vos voisins. L’inscription prend moins de 2 minutes.",
-        "primary": "Commencer gratuitement"
+        "primary": "Commencer gratuitement",
+        "downloadIos": "Télécharger pour iOS",
+        "downloadAndroid": "Télécharger pour Android"
       }
     },
     "features": {
-      "heading": "Pourquoi pawtaker ?",
+      "heading": "Pourquoi PawTaker ?",
       "subtitle": "Une plateforme axée sur la communauté, construite sur la confiance, la transparence et le soin.",
       "zeroCost": {
         "title": "Zéro coût",
@@ -147,7 +152,7 @@
       }
     },
     "footer": {
-      "brand": "pawtaker",
+      "brand": "PawTaker",
       "tagline": "La garde d'animaux communautaire pour tous.",
       "rights": "Tous droits réservés.",
       "terms": "Conditions",
@@ -165,15 +170,15 @@
       "contactTitle": "Contact",
       "contactEmail": "hello@pawtaker.com",
       "contactLocation": "San Francisco, CA",
-      "copyrightLine": "© {year} pawtaker Inc. Tous droits réservés. Conçu avec amour pour les pattes."
+      "copyrightLine": "© {year} PawTaker Inc. Tous droits réservés. Conçu avec amour pour les pattes."
     },
     "about": {
       "heroTitle": "Relier les amoureux des animaux",
       "heroSubtitle": "Parce que chaque animal mérite un village de soins et d'attention, où que la vie vous mène.",
       "narrativeLabel": "Notre récit",
       "heading": "Notre histoire",
-      "mission": "pawtaker est né d'une conviction simple : la garde d'animaux doit reposer sur la communauté, pas sur le commerce. Nous mettons en relation les propriétaires d'animaux avec des voisins de confiance passionnés par les animaux.",
-      "pointsOverProfit": "En remplaçant l'argent par des points, nous supprimons les barrières financières et créons un véritable échange de soins. Chaque membre donne et reçoit — c'est ce qui rend pawtaker différent.",
+      "mission": "PawTaker est né d'une conviction simple : la garde d'animaux doit reposer sur la communauté, pas sur le commerce. Nous mettons en relation les propriétaires d'animaux avec des voisins de confiance passionnés par les animaux.",
+      "pointsOverProfit": "En remplaçant l'argent par des points, nous supprimons les barrières financières et créons un véritable échange de soins. Chaque membre donne et reçoit — c'est ce qui rend PawTaker différent.",
       "missionHeading": "Notre mission : des soins accessibles",
       "missionBody": "Nous rendons la garde de qualité accessible grâce à notre système unique de Points Communautaires. En aidant les autres, vous gagnez des crédits que vous pouvez utiliser pour votre propre animal.",
       "missionCards": {
@@ -214,7 +219,7 @@
     },
     "how": {
       "steps": {
-        "heading": "Comment fonctionne pawtaker",
+        "heading": "Comment fonctionne PawTaker",
         "subtitle": "Quatre étapes simples pour une garde d'animaux sûre et communautaire.",
         "join": {
           "title": "Créez votre profil",
@@ -234,7 +239,7 @@
         }
       },
       "faq": {
-        "heading": "Pourquoi la communauté aime pawtaker",
+        "heading": "Pourquoi la communauté aime PawTaker",
         "subtitle": "Tout ce que vous devez savoir avant de commencer.",
         "kyc": {
           "question": "Pourquoi dois-je vérifier mon identité ?",
@@ -271,7 +276,7 @@
       "profile": "Profil"
     },
     "sidebar": {
-      "brand": "pawtaker",
+      "brand": "PawTaker",
       "brandSub": "Panneau admin"
     },
     "notifications": {
@@ -551,15 +556,15 @@
       "title": "Conditions d'utilisation",
       "lastUpdated": "Dernière mise à jour : {date}",
       "section1Title": "1. Acceptation des conditions",
-      "section1Body": "En accédant à pawtaker ou en l'utilisant (« la Plateforme »), vous acceptez d'être lié(e) par les présentes Conditions d'utilisation. Si vous n'acceptez pas, n'utilisez pas la Plateforme.",
+      "section1Body": "En accédant à PawTaker ou en l'utilisant (« la Plateforme »), vous acceptez d'être lié(e) par les présentes Conditions d'utilisation. Si vous n'acceptez pas, n'utilisez pas la Plateforme.",
       "section2Title": "2. Description du service",
-      "section2Body": "pawtaker est une plateforme communautaire de garde d'animaux où les utilisateurs échangent des services de soins via un système de points. Nous ne traitons pas les paiements ; les soins sont échangés sur une base non monétaire, fondée sur les points.",
+      "section2Body": "PawTaker est une plateforme communautaire de garde d'animaux où les utilisateurs échangent des services de soins via un système de points. Nous ne traitons pas les paiements ; les soins sont échangés sur une base non monétaire, fondée sur les points.",
       "section3Title": "3. Éligibilité",
       "section3Body": "Vous devez avoir au moins 18 ans et être en mesure de conclure un contrat engageant. Vous devez effectuer la vérification d'identité (KYC) avant de proposer ou de demander des soins. Vous êtes responsable de vous assurer que votre utilisation de la Plateforme est conforme aux lois locales.",
       "section4Title": "4. Points et conduite",
       "section4Body": "Les points n'ont aucune valeur monétaire et ne peuvent pas être échangés contre de l'argent. Vous ne devez pas abuser du système, harceler d'autres utilisateurs, ni vous présenter ou présenter vos animaux de manière trompeuse. Nous pouvons suspendre ou résilier les comptes qui enfreignent ces conditions ou nos règles de communauté.",
       "section5Title": "5. Limitation de responsabilité",
-      "section5Body": "pawtaker est fourni « tel quel ». Nous ne sommes pas responsables de tout dommage causé aux utilisateurs, aux animaux ou aux biens résultant d'accords conclus via la Plateforme. Les services de garde sont organisés directement entre utilisateurs ; nous n'employons pas ni ne garantissons les gardiens.",
+      "section5Body": "PawTaker est fourni « tel quel ». Nous ne sommes pas responsables de tout dommage causé aux utilisateurs, aux animaux ou aux biens résultant d'accords conclus via la Plateforme. Les services de garde sont organisés directement entre utilisateurs ; nous n'employons pas ni ne garantissons les gardiens.",
       "section6Title": "6. Modifications",
       "section6Body": "Nous pouvons mettre à jour ces conditions de temps à autre. Continuer à utiliser la Plateforme après les modifications constitue une acceptation. Les changements importants seront communiqués via l'application ou par e-mail, dans la mesure du possible.",
       "section7Title": "7. Contact",

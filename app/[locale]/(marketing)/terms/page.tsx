@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 
 export const metadata: Metadata = {
-  title: 'Terms of Service — pawtaker',
-  description: 'pawtaker Terms of Service and usage rules.',
+  title: 'Terms of Service — PawTaker',
+  description: 'PawTaker Terms of Service and usage rules.',
 };
 
 export default async function TermsPage({ params }: { params: { locale: string } }) {

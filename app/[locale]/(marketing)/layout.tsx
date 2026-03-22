@@ -5,7 +5,7 @@ import LocaleSync from '@/components/i18n/LocaleSync';
 import type { Locale } from '@/lib/i18n/config';
 
 export const metadata: Metadata = {
-  title: 'pawtaker — Community Pet Care',
+  title: 'PawTaker — Community Pet Care',
   description:
     'Community-driven, points-based pet sitting. Earn and spend trust instead of money.',
 };

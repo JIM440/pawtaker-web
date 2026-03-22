@@ -28,7 +28,7 @@ export default function AdminProfilePage() {
                 <dt className="text-xs font-semibold uppercase tracking-wider text-on-surface/60">
                   Workspace
                 </dt>
-                <dd className="sm:col-span-2 text-sm text-on-surface">pawtaker</dd>
+                <dd className="sm:col-span-2 text-sm text-on-surface">PawTaker</dd>
               </div>
               <div className="p-6 grid grid-cols-1 sm:grid-cols-3 gap-2">
                 <dt className="text-xs font-semibold uppercase tracking-wider text-on-surface/60">
@@ -40,10 +40,10 @@ export default function AdminProfilePage() {
           </div>
 
           <div className="p-6 border-t border-outline/15 bg-white flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <button className="px-4 py-2.5 rounded-lg border border-outline/30 bg-surface-container-lowest text-on-surface text-sm font-semibold hover:bg-surface-container transition-colors">
+            <button className="px-4 py-2.5 rounded-full border border-outline/30 bg-surface-container-lowest text-on-surface text-sm font-semibold hover:bg-surface-container transition-colors">
               Edit profile
             </button>
-            <button className="px-4 py-2.5 rounded-lg bg-error text-on-primary text-sm font-semibold hover:bg-error/90 transition-colors">
+            <button className="px-4 py-2.5 rounded-full bg-error text-on-primary text-sm font-semibold hover:bg-error/90 transition-colors">
               Sign out
             </button>
           </div>

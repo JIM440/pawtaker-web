@@ -15,7 +15,7 @@ export default function AdminSettingsPage() {
                 <label className="text-sm font-semibold text-on-surface">Site Name</label>
                 <input
                   type="text"
-                  defaultValue="pawtaker Global"
+                  defaultValue="PawTaker Global"
                   className="w-full px-4 py-3 rounded-lg border border-outline/20 bg-white focus:ring-2 focus:ring-primary/20 outline-none text-sm"
                 />
               </div>
@@ -86,10 +86,10 @@ export default function AdminSettingsPage() {
           </section>
 
           <div className="flex items-center justify-end gap-4 pt-4">
-            <button className="px-6 py-2.5 rounded-lg border border-outline/20 text-primary font-bold text-sm hover:bg-surface-container-lowest transition-colors">
+            <button className="px-6 py-2.5 rounded-full border border-outline/20 text-primary font-bold text-sm hover:bg-surface-container-lowest transition-colors">
               Reset to Default
             </button>
-            <button className="px-8 py-2.5 rounded-lg bg-primary text-on-primary font-bold text-sm shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all flex items-center gap-2">
+            <button className="px-8 py-2.5 rounded-full bg-primary text-on-primary font-bold text-sm shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all flex items-center gap-2">
               <Save className="h-4 w-4" aria-hidden="true" />
               Save Changes
             </button>

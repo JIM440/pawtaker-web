@@ -1,9 +1,10 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
-import { ArrowRight, Eye, EyeOff, Loader2, Lock, Mail, PawPrint, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Eye, EyeOff, Loader2, Lock, Mail, ShieldCheck } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import AppButton from '@/components/ui/AppButton';
 
@@ -60,12 +61,19 @@ export default function AdminLoginPage() {
 
   return (
     <div className="min-h-screen bg-background-base flex items-center justify-center p-6">
-      <div className="w-full max-w-[440px] bg-white/90 backdrop-blur rounded-xl shadow-xl shadow-primary/5 border border-outline/30 p-8 md:p-10">
+      <div className="w-full max-w-[440px] bg-white/90 backdrop-blur rounded-2xl shadow-xl shadow-primary/5 border border-outline/30 p-8 md:p-10">
         <div className="text-center mb-10">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 text-primary mb-3">
-            <PawPrint className="h-8 w-8" aria-hidden="true" />
+          <div className="inline-flex items-center justify-center mb-3">
+            <Image
+              src="/logos/logomark-dusty-plum.png"
+              alt="PawTaker admin"
+              width={72}
+              height={72}
+              className="size-[72px]"
+              priority
+            />
           </div>
-          <h1 className="text-2xl font-bold text-on-surface mb-1 tracking-tight">pawtaker</h1>
+          <h1 className="text-2xl font-bold text-on-surface mb-1 tracking-tight">PawTaker</h1>
           <p className="text-on-surface/70 text-sm">{t('welcome')}</p>
           <div className="inline-flex items-center gap-2 mt-4 rounded-full px-3 py-1 bg-primary/10 text-primary text-xs font-semibold">
             <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />
@@ -172,7 +180,7 @@ export default function AdminLoginPage() {
         </form>
 
         <div className="mt-8 border-t border-outline/20 pt-4 text-center text-xs text-on-surface/60">
-          <p>© 2026 pawtaker. All rights reserved.</p>
+          <p>© 2026 PawTaker. All rights reserved.</p>
           <div className="mt-2 flex justify-center gap-4">
             <a
               className="hover:text-primary transition-colors"

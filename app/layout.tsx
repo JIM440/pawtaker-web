@@ -15,8 +15,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "pawtaker",
+  title: "PawTaker",
   description: "Pet care and community platform",
+  icons: {
+    icon: "/logos/coloured-favicon.png",
+    apple: "/logos/coloured-favicon.png",
+  },
 };
 
 export default function RootLayout({

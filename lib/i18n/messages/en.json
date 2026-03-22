@@ -7,9 +7,12 @@
       "signIn": "Sign In",
       "getStarted": "Get Started",
       "tagline": "Community Pet Care",
-      "brand": "pawtaker",
+      "brand": "PawTaker",
       "story": "Our Story",
-      "download": "Download App"
+      "download": "Download App",
+      "openMenu": "Open menu",
+      "closeMenu": "Close menu",
+      "downloadMenu": "Get the app"
     },
     "hero": {
       "badge": "The Curated Sanctuary for Pets.",
@@ -51,7 +54,7 @@
       "badge": "Community First",
       "title": "Caring for pets, together as a community.",
       "subtitle": "Connect with trusted neighbours to share pet care responsibilities. No money, just love and community points.",
-      "heroImageAriaLabel": "Happy dog being petted by a smiling group of neighbors in a park",
+      "heroImageAriaLabel": "Illustration of a friendly dog with playful green and orange accents",
       "primaryCta": "Join the Community",
       "secondaryCta": "Learn More",
       "stats": {
@@ -80,7 +83,9 @@
       "cta": {
         "heading": "Ready to join the pack?",
         "subtitle": "Start sharing the joy of pet care with your neighbours today. It takes less than 2 minutes to get started.",
-        "primary": "Get Started for Free"
+        "primary": "Get Started for Free",
+        "downloadIos": "Download for iOS",
+        "downloadAndroid": "Download for Android"
       }
     },
     "featuresOld": {
@@ -147,7 +152,7 @@
       }
     },
     "footer": {
-      "brand": "pawtaker",
+      "brand": "PawTaker",
       "tagline": "Community pet care for everyone.",
       "rights": "All rights reserved.",
       "terms": "Terms",
@@ -165,15 +170,15 @@
       "contactTitle": "Contact",
       "contactEmail": "hello@pawtaker.com",
       "contactLocation": "San Francisco, CA",
-      "copyrightLine": "© {year} pawtaker Inc. All rights reserved. Built with love for paws."
+      "copyrightLine": "© {year} PawTaker Inc. All rights reserved. Built with love for paws."
     },
     "about": {
       "heroTitle": "Connecting pet lovers everywhere",
       "heroSubtitle": "Because every pet deserves a village of love and care, no matter where life takes you.",
       "narrativeLabel": "Our narrative",
       "heading": "Our Story",
-      "mission": "pawtaker was born from a simple belief: pet care should be built on community, not commerce. We connect pet owners with trusted neighbours who are passionate about animals.",
-      "pointsOverProfit": "By replacing money with points, we remove financial barriers and create a genuine exchange of care. Every member both gives and receives — that's what makes pawtaker different.",
+      "mission": "PawTaker was born from a simple belief: pet care should be built on community, not commerce. We connect pet owners with trusted neighbours who are passionate about animals.",
+      "pointsOverProfit": "By replacing money with points, we remove financial barriers and create a genuine exchange of care. Every member both gives and receives — that's what makes PawTaker different.",
       "missionHeading": "Our mission: accessible care",
       "missionBody": "We make quality pet care accessible through our unique Community Points system. By helping others in the community, you earn credits that can be used for your own pet's care.",
       "missionCards": {
@@ -214,7 +219,7 @@
     },
     "how": {
       "steps": {
-        "heading": "How pawtaker works",
+        "heading": "How PawTaker works",
         "subtitle": "Four simple steps to safe, community-powered pet care.",
         "join": {
           "title": "Create your profile",
@@ -234,7 +239,7 @@
         }
       },
       "faq": {
-        "heading": "Why the community loves pawtaker",
+        "heading": "Why the community loves PawTaker",
         "subtitle": "Everything you need to know before getting started.",
         "kyc": {
           "question": "Why do I need to verify my identity?",
@@ -271,7 +276,7 @@
       "profile": "Profile"
     },
     "sidebar": {
-      "brand": "pawtaker",
+      "brand": "PawTaker",
       "brandSub": "Admin Panel"
     },
     "notifications": {
@@ -551,15 +556,15 @@
       "title": "Terms of Service",
       "lastUpdated": "Last updated: {date}",
       "section1Title": "1. Acceptance of Terms",
-      "section1Body": "By accessing or using pawtaker (\"the Platform\"), you agree to be bound by these Terms of Service. If you do not agree, do not use the Platform.",
+      "section1Body": "By accessing or using PawTaker (\"the Platform\"), you agree to be bound by these Terms of Service. If you do not agree, do not use the Platform.",
       "section2Title": "2. Description of Service",
-      "section2Body": "pawtaker is a community-based pet care platform where users exchange pet care using a points system. We do not process payments; care is exchanged on a non-monetary, points-based basis.",
+      "section2Body": "PawTaker is a community-based pet care platform where users exchange pet care using a points system. We do not process payments; care is exchanged on a non-monetary, points-based basis.",
       "section3Title": "3. Eligibility",
       "section3Body": "You must be at least 18 years old and able to form a binding contract. You must complete identity verification (KYC) before offering or requesting care. You are responsible for ensuring your use of the Platform complies with local laws.",
       "section4Title": "4. Points and Conduct",
       "section4Body": "Points have no cash value and cannot be exchanged for money. You must not abuse the system, harass other users, or misrepresent yourself or your pets. We may suspend or terminate accounts that violate these terms or our community guidelines.",
       "section5Title": "5. Limitation of Liability",
-      "section5Body": "pawtaker is provided \"as is.\" We are not liable for any harm to users, pets, or property arising from arrangements made through the Platform. Pet care is arranged directly between users; we do not employ or guarantee sitters.",
+      "section5Body": "PawTaker is provided \"as is.\" We are not liable for any harm to users, pets, or property arising from arrangements made through the Platform. Pet care is arranged directly between users; we do not employ or guarantee sitters.",
       "section6Title": "6. Changes",
       "section6Body": "We may update these terms from time to time. Continued use of the Platform after changes constitutes acceptance. Material changes will be communicated via the app or email where possible.",
       "section7Title": "7. Contact",

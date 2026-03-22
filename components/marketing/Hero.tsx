@@ -27,7 +27,7 @@ export function Hero() {
                 {t('badge')}
               </p>
 
-              <h1 className="text-4xl font-black leading-[1.05] tracking-tight text-[#22191c] sm:text-5xl lg:text-6xl">
+              <h1 className="font-wobblite text-4xl font-black leading-[1.05] tracking-tight text-primary sm:text-5xl lg:text-6xl">
                 {t('title')}
               </h1>
 
@@ -38,13 +38,13 @@ export function Hero() {
               <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
                 <Link
                   href="#download"
-                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#8c4a60] px-6 py-3 text-sm font-semibold text-white shadow-md shadow-[#8c4a60]/20 hover:bg-[#7a3f53] transition-colors"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-[#8c4a60] px-6 py-3 text-sm font-semibold text-white shadow-md shadow-[#8c4a60]/20 hover:bg-[#7a3f53] transition-colors"
                 >
                   {t('primaryCta')}
                 </Link>
                 <Link
                   href="#download"
-                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#74565f] bg-white px-6 py-3 text-sm font-semibold text-[#8c4a60] hover:bg-[#fff8f8] transition-colors"
+                  className="inline-flex items-center justify-center gap-2 rounded-full border border-[#74565f] bg-white px-6 py-3 text-sm font-semibold text-[#8c4a60] hover:bg-[#fff8f8] transition-colors"
                 >
                   {t('secondaryCta')}
                 </Link>
