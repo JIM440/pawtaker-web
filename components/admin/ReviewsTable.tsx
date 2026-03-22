@@ -95,6 +95,12 @@ const MOCK_REVIEWS: Review[] = [
 ];
 
 type RatingFilter = 'all' | '1' | '2' | '3' | '4' | '5';
+const REVIEW_EXCERPT_LIMIT = 50;
+
+function truncateReviewBody(text: string, limit = REVIEW_EXCERPT_LIMIT) {
+  if (text.length <= limit) return text;
+  return `${text.slice(0, limit)}...`;
+}
 
 function Stars({ count }: { count: number }) {
   return (
@@ -166,6 +172,7 @@ export default function ReviewsTable() {
   const [search, setSearch] = useState('');
   const [ratingFilter, setRatingFilter] = useState<RatingFilter>('all');
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [expandedReviewIds, setExpandedReviewIds] = useState<Record<string, boolean>>({});
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -190,6 +197,10 @@ export default function ReviewsTable() {
     if (!deleteId) return;
     setReviews((prev) => prev.filter((r) => r.id !== deleteId));
     setDeleteId(null);
+  };
+
+  const toggleExpanded = (reviewId: string) => {
+    setExpandedReviewIds((prev) => ({ ...prev, [reviewId]: !prev[reviewId] }));
   };
 
   return (
@@ -238,7 +249,15 @@ export default function ReviewsTable() {
 
       <div className="rounded-xl border border-outline/20 bg-white shadow-sm">
         <div className="overflow-x-auto min-w-0 rounded-xl">
-          <table className="w-full min-w-[760px] border-collapse text-left">
+          <table className="w-full min-w-[760px] table-fixed border-collapse text-left">
+            <colgroup>
+              <col className="w-[14%]" />
+              <col className="w-[22%]" />
+              <col className="w-[22%]" />
+              <col className="w-[30%]" />
+              <col className="w-[8%]" />
+              <col className="w-[4%]" />
+            </colgroup>
             <thead>
               <tr className="border-b border-outline/10 bg-white text-xs font-bold uppercase tracking-wider text-on-surface/70">
                 <th className="px-6 py-4">{t('columns.stars')}</th>
@@ -293,8 +312,21 @@ export default function ReviewsTable() {
                       </div>
                     </div>
                   </td>
-                  <td className="max-w-md px-6 py-4 align-top">
-                    <p className="wrap-break-word whitespace-pre-wrap text-on-surface/80">{review.body}</p>
+                  <td className="px-6 py-4 align-top">
+                    <p className="wrap-break-word text-on-surface/80">
+                      {expandedReviewIds[review.id]
+                        ? review.body
+                        : truncateReviewBody(review.body)}
+                    </p>
+                    {review.body.length > REVIEW_EXCERPT_LIMIT && (
+                      <button
+                        type="button"
+                        onClick={() => toggleExpanded(review.id)}
+                        className="mt-1 text-xs font-semibold text-primary hover:underline"
+                      >
+                        {expandedReviewIds[review.id] ? 'See less' : 'See more'}
+                      </button>
+                    )}
                   </td>
                   <td className="hidden whitespace-nowrap px-6 py-4 align-top text-on-surface/60 sm:table-cell">
                     {review.date}

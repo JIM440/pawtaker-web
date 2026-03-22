@@ -15,5 +15,10 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|.*\\..*).*)'],
+  // next-intl: include `/` and locale-prefixed paths explicitly (fixes 404 on `/` and `/admin/*` on Next 15+)
+  matcher: [
+    '/',
+    '/(en|fr)/:path*',
+    '/((?!api|_next|_vercel|.*\\..*).*)',
+  ],
 };

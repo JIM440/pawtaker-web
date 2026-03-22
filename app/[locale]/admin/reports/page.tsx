@@ -76,7 +76,7 @@ function ReportRowActionsMenu({
       </button>
 
       {open && (
-        <div className="absolute right-0 top-full z-20 mt-1 min-w-[140px] rounded-lg border border-outline/20 bg-white py-1 shadow-lg ring-1 ring-black/5">
+        <div className="absolute right-0 top-full z-50 mt-1 min-w-[140px] rounded-lg border border-outline/20 bg-white py-1 shadow-lg ring-1 ring-black/5">
           <button
             type="button"
             onClick={() => {
@@ -125,8 +125,8 @@ export default function ReportsPage() {
           />
         </div>
 
-        <div className="bg-white rounded-xl border border-outline/20 shadow-sm">
-          <div className="overflow-x-auto min-w-0 rounded-xl">
+        <div className="bg-white rounded-xl border border-outline/20 shadow-sm overflow-visible">
+          <div className="overflow-x-auto min-w-0">
             <table className="w-full text-left text-sm">
               <thead className="bg-white text-on-surface/70 text-xs uppercase tracking-wider font-semibold border-b border-outline/15">
                 <tr>
@@ -182,7 +182,7 @@ export default function ReportsPage() {
             </table>
           </div>
 
-          <div className="px-6 py-4 bg-white border-t border-outline/20 flex items-center justify-between">
+          <div className="px-6 py-4 bg-white border-t border-outline/20 flex items-center justify-between rounded-b-xl">
             <p className="text-xs text-on-surface/70 font-medium">
               {t('paginationShowing', { shown: filtered.length, total: reports.length })}
             </p>

@@ -30,15 +30,20 @@ function formatRelativeDate(
   return t('relativeYearsAgo', { count: Math.floor(diffDays / 365) });
 }
 
+export type ContactMessageSource = 'app' | 'website';
+
 export interface ContactInquiry {
   id: string;
   name: string;
   email: string;
   location: string;
+  /** ISO date string or parseable date for relative time */
   date: string;
   message: string;
   initials: string;
   imageUrl?: string;
+  /** Where the message was sent from */
+  source: ContactMessageSource;
 }
 
 interface ContactInquiryCardProps {
@@ -82,9 +87,23 @@ export default function ContactInquiryCard({ inquiry, onDelete }: ContactInquiry
             />
             <div className="min-w-0">
               <p className="truncate font-semibold text-on-surface">{inquiry.name}</p>
-              <p className="mt-0.5 text-xs text-on-surface/55">
-                {formatRelativeDate(inquiry.date, t)}
+              <p className="mt-0.5 truncate text-xs text-on-surface/60" title={inquiry.email}>
+                {inquiry.email}
               </p>
+              <div className="mt-1.5 flex flex-wrap items-center gap-2">
+                <span
+                  className={`inline-flex shrink-0 rounded-full px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide ${
+                    inquiry.source === 'app'
+                      ? 'bg-primary/10 text-primary'
+                      : 'bg-slate-100 text-slate-700'
+                  }`}
+                >
+                  {inquiry.source === 'app' ? t('sourceApp') : t('sourceWebsite')}
+                </span>
+                <span className="text-xs text-on-surface/55">
+                  {formatRelativeDate(inquiry.date, t)}
+                </span>
+              </div>
             </div>
           </div>
           <div className="relative shrink-0" ref={menuRef}>
