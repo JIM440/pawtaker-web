@@ -2,6 +2,9 @@ import createMiddleware from 'next-intl/middleware';
 import { NextRequest } from 'next/server';
 import { routing } from '@/lib/i18n/routing';
 
+// Keep default localeDetection (true): next-intl only reads NEXT_LOCALE when localeDetection
+// is enabled; false skips cookie + Accept-Language for unprefixed paths → defaultLocale only.
+// See docs/i18n.md → "Sticky locale, as-needed, and localeDetection".
 const intlMiddleware = createMiddleware(routing);
 
 // Route protection disabled for now; admin routes are open.

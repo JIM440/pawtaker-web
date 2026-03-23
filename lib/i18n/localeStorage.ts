@@ -1,4 +1,5 @@
 import type { Locale } from './config';
+import { setLocaleCookie } from './localeCookie';
 
 const LOCALE_STORAGE_KEY = 'pawtaker_locale';
 
@@ -13,6 +14,7 @@ export function getStoredLocale(): Locale | null {
 export function setStoredLocale(locale: Locale) {
   if (typeof window === 'undefined') return;
   window.localStorage.setItem(LOCALE_STORAGE_KEY, locale);
+  setLocaleCookie(locale);
 }
 
 export { LOCALE_STORAGE_KEY };

@@ -277,11 +277,49 @@
     },
     "sidebar": {
       "brand": "PawTaker",
-      "brandSub": "Panneau admin"
+      "brandSub": "Panneau admin",
+      "closeMenu": "Fermer la navigation",
+      "openNavigation": "Ouvrir la navigation",
+      "logoAlt": "PawTaker"
     },
     "notifications": {
       "title": "Notifications",
-      "markAllRead": "Tout marquer comme lu"
+      "markAllRead": "Tout marquer comme lu",
+      "kycPending": {
+        "title": "Nouvelle soumission KYC à examiner",
+        "preview": "Sarah J. a téléversé une pièce d’identité — en attente de vérification.",
+        "age": "Il y a 2 min"
+      },
+      "reportNew": {
+        "title": "Nouveau signalement : contenu inapproprié",
+        "preview": "Profil « LuluPaws » signalé par un membre.",
+        "age": "Il y a 15 min"
+      },
+      "contactWeb": {
+        "title": "Nouveau message de contact (site web)",
+        "preview": "Question sur le délai de vérification KYC.",
+        "age": "Il y a 32 min"
+      },
+      "reviewFlagged": {
+        "title": "Avis à traiter",
+        "preview": "Avis 1 étoile signalé pour la session de garde #3041.",
+        "age": "Il y a 1 h"
+      },
+      "requestCompleted": {
+        "title": "Demande de garde terminée",
+        "preview": "Demande #8924 marquée comme réussie par le propriétaire.",
+        "age": "Il y a 2 h"
+      },
+      "userRegistered": {
+        "title": "Nouvel utilisateur inscrit",
+        "preview": "Chris P. a terminé l’inscription et vérifié son e-mail.",
+        "age": "Il y a 3 h"
+      },
+      "contactApp": {
+        "title": "Retour depuis l’app mobile",
+        "preview": "Demande de fonctionnalité : suivi des promenades en temps réel.",
+        "age": "Il y a 1 j"
+      }
     },
     "dashboard": {
       "title": "Tableau de bord",
@@ -380,6 +418,7 @@
       "filterApproved": "Approuvé",
       "filterRejected": "Rejeté",
       "all": "Tous",
+      "filterStatusLabel": "Statut",
       "filterByStatusAriaLabel": "Filtrer par statut",
       "searchLabel": "Rechercher par nom ou e-mail",
       "emptyState": "Aucune soumission ne correspond à vos filtres.",
@@ -515,7 +554,9 @@
       },
       "deleteConfirmTitle": "Supprimer l'avis ?",
       "deleteConfirmDesc": "Cela supprimera définitivement l'avis de la plateforme.",
-      "deleteConfirmLabel": "Supprimer"
+      "deleteConfirmLabel": "Supprimer",
+      "seeMore": "Voir plus",
+      "seeLess": "Voir moins"
     },
     "contact": {
       "title": "Contact",
@@ -540,11 +581,29 @@
       "relativeYearsAgo": "Il y a {count} ans",
       "emptyState": "Aucun message de contact pour le moment.",
       "sourceApp": "App",
-      "sourceWebsite": "Site web"
+      "sourceWebsite": "Site web",
+      "feedbackPositive": "Retour positif",
+      "feedbackNegative": "Retour négatif",
+      "feedbackNeutral": "Retour neutre",
+      "reply": "Répondre",
+      "markResolved": "Marquer comme résolu",
+      "markedResolved": "Résolu",
+      "resolvedBadge": "Résolu",
+      "replySubjectPrefix": "Re: PawTaker",
+      "filterLabel": "Source",
+      "filterAll": "Tous",
+      "filterMobile": "Mobile",
+      "filterWeb": "Web",
+      "sortLabel": "Tri",
+      "sortNewest": "Plus récent d’abord",
+      "sortOldest": "Plus ancien d’abord",
+      "emptyFiltered": "Aucun message pour cette source."
     },
     "modal": {
       "cancel": "Annuler",
-      "confirm": "Confirmer"
+      "confirm": "Confirmer",
+      "gotIt": "Compris",
+      "backdropClose": "Fermer la fenêtre"
     },
     "profile": {
       "title": "Profil",
@@ -567,13 +626,38 @@
       "secureAccess": "Accès sécurisé",
       "forgotPassword": "Mot de passe oublié ?",
       "keepAuthenticated": "Rester connecté"
+    },
+    "settings": {
+      "generalTitle": "Configuration générale",
+      "siteNameLabel": "Nom du site",
+      "supportEmailLabel": "E-mail d’assistance",
+      "defaultLocaleLabel": "Langue par défaut",
+      "defaultLocaleAria": "Choisir la langue par défaut de la plateforme",
+      "localeEnUs": "Anglais (États-Unis)",
+      "localeEsMx": "Espagnol (Mexique)",
+      "localeFrFr": "Français (France)",
+      "featureFlagsTitle": "Indicateurs de fonctionnalités",
+      "flagPublicRegTitle": "Inscriptions publiques",
+      "flagPublicRegDesc": "Autoriser les nouveaux utilisateurs à créer un compte sur la plateforme.",
+      "flagAiTitle": "Correspondances assistées par l’IA",
+      "flagAiDesc": "Utiliser l’apprentissage automatique pour suggérer des animaux aux futurs propriétaires.",
+      "flagDonationTitle": "Module de dons",
+      "flagDonationDesc": "Activer les dons directs aux refuges dans l’application.",
+      "reset": "Réinitialiser",
+      "save": "Enregistrer"
     }
   },
   "ui": {
     "localeSelect": {
       "ariaLabel": "Choisir la langue",
+      "label": "Langue",
       "en": "Anglais",
       "fr": "Français"
+    },
+    "notFound": {
+      "title": "Page introuvable",
+      "description": "La page que vous recherchez n'existe pas ou a été déplacée.",
+      "backHome": "Retour à l'accueil"
     }
   },
   "legal": {

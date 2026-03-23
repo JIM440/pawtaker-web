@@ -168,6 +168,7 @@ function RowActionsMenu({
 
 export default function ReviewsTable() {
   const t = useTranslations('admin.reviews');
+  const tModal = useTranslations('admin.modal');
   const [reviews, setReviews] = useState<Review[]>(MOCK_REVIEWS);
   const [search, setSearch] = useState('');
   const [ratingFilter, setRatingFilter] = useState<RatingFilter>('all');
@@ -205,6 +206,8 @@ export default function ReviewsTable() {
 
   return (
     <>
+      <p className="mb-6 max-w-2xl text-sm text-on-surface/70">{t('subtitle')}</p>
+
       <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end">
         <div className="relative min-w-0 flex-1 sm:max-w-md">
           <label htmlFor="reviews-search" className="sr-only">
@@ -235,7 +238,6 @@ export default function ReviewsTable() {
             value={ratingFilter}
             onChange={(e) => setRatingFilter(e.target.value as RatingFilter)}
             className="w-full cursor-pointer appearance-none rounded-full border border-outline/30 bg-white px-3 py-1.5 pr-8 text-xs font-medium text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/25 sm:w-[180px]"
-            aria-label={t('ratingFilterAriaLabel')}
           >
             <option value="all">{t('filterAllRatings')}</option>
             <option value="5">{t('filterStars5')}</option>
@@ -324,7 +326,7 @@ export default function ReviewsTable() {
                         onClick={() => toggleExpanded(review.id)}
                         className="mt-1 text-xs font-semibold text-primary hover:underline"
                       >
-                        {expandedReviewIds[review.id] ? 'See less' : 'See more'}
+                        {expandedReviewIds[review.id] ? t('seeLess') : t('seeMore')}
                       </button>
                     )}
                   </td>
@@ -374,6 +376,7 @@ export default function ReviewsTable() {
         title={t('deleteConfirmTitle')}
         description={t('deleteConfirmDesc')}
         confirmLabel={t('deleteConfirmLabel')}
+        cancelLabel={tModal('cancel')}
         tone="danger"
         onConfirm={handleDelete}
         onCancel={() => setDeleteId(null)}

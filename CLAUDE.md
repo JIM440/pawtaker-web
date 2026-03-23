@@ -5,7 +5,7 @@ Next.js admin panel + marketing website for PawTaker.
 - **Stack:** Next.js 16.1.6, React 19, TypeScript 5, Tailwind CSS v4
 - **Auth:** Supabase Auth (email/password, admin flag on `users` table)
 - **DB:** Same Supabase project as mobile app
-- **i18n:** next-intl (EN + FR)
+- **i18n:** next-intl (EN + FR) — see **[docs/i18n.md](docs/i18n.md)** for translations, `localStorage`, and `NEXT_LOCALE` cookie behavior
 
 ## Owner
 - Web/Admin: Fabrice
@@ -54,9 +54,10 @@ const supabase = createClient(); // anon key
 ## Environment Variables
 ```
 NEXT_PUBLIC_SUPABASE_URL=
-NEXT_PUBLIC_SUPABASE_ANON_KEY=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=          # or NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY (same public key)
 SUPABASE_SERVICE_ROLE_KEY=
 ```
+Public client code uses **`getSupabasePublicKey()`** (`lib/supabase/public-env.ts`): it prefers `PUBLISHABLE_DEFAULT_KEY` then falls back to `ANON_KEY`. Set **one** of them in production or login returns **401 Invalid API key**.
 
 ## Colour Palette
 | Token | Hex | Usage |

@@ -149,31 +149,38 @@ export default function KYCPage() {
     <div className="p-6 md:p-8">
       <div className="mb-8 flex flex-col gap-2">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-        <div className="relative flex flex-col gap-1 sm:w-auto">
-            <select
-              id="kyc-status-filter"
-              value={activeFilter}
-              onChange={(e) => setActiveFilter(e.target.value as KycFilter)}
-              className="w-auto cursor-pointer appearance-none rounded-full border border-outline/30 bg-white px-3 py-1.5 pr-9 text-xs font-medium text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/25"
-              aria-label={t('filterByStatusAriaLabel')}
+        <div className="flex flex-col gap-1.5 sm:w-auto">
+            <label
+              htmlFor="kyc-status-filter"
+              className="text-[11px] font-bold uppercase tracking-wide text-on-surface/50"
             >
-              <option value="All">
-                {t('all')} ({counts.All})
-              </option>
-              <option value="Pending">
-                {t('filterPending')} ({counts.Pending})
-              </option>
-              <option value="Approved">
-                {t('filterApproved')} ({counts.Approved})
-              </option>
-              <option value="Rejected">
-                {t('filterRejected')} ({counts.Rejected})
-              </option>
-            </select>
-            <ChevronDown
-              className="pointer-events-none absolute right-2 top-1/2 h-4 w-4 -translate-y-1/2 text-on-surface/50"
-              aria-hidden="true"
-            />
+              {t('filterStatusLabel')}
+            </label>
+            <div className="relative w-fit">
+              <select
+                id="kyc-status-filter"
+                value={activeFilter}
+                onChange={(e) => setActiveFilter(e.target.value as KycFilter)}
+                className="w-auto min-w-[10rem] cursor-pointer appearance-none rounded-full border border-outline/30 bg-white px-3 py-1.5 pr-9 text-xs font-medium text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/25"
+              >
+                <option value="All">
+                  {t('all')} ({counts.All})
+                </option>
+                <option value="Pending">
+                  {t('filterPending')} ({counts.Pending})
+                </option>
+                <option value="Approved">
+                  {t('filterApproved')} ({counts.Approved})
+                </option>
+                <option value="Rejected">
+                  {t('filterRejected')} ({counts.Rejected})
+                </option>
+              </select>
+              <ChevronDown
+                className="pointer-events-none absolute right-2 top-1/2 h-4 w-4 -translate-y-1/2 text-on-surface/50"
+                aria-hidden="true"
+              />
+            </div>
           </div>
 
           <div className="relative min-w-0 flex-1 sm:max-w-md">

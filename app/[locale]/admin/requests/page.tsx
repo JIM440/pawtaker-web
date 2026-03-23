@@ -168,6 +168,7 @@ function RequestActionsMenu({
 
 export default function RequestsPage() {
   const t = useTranslations('admin.requests');
+  const tModal = useTranslations('admin.modal');
   const [status, setStatus] = useState<StatusFilter>('all');
   const [search, setSearch] = useState('');
   const [requests, setRequests] = useState<CareRequest[]>(MOCK_CARE_REQUESTS);
@@ -379,6 +380,7 @@ export default function RequestsPage() {
         title={t('deleteConfirmTitle')}
         description={t('deleteConfirmDesc')}
         confirmLabel={t('deleteConfirmLabel')}
+        cancelLabel={tModal('cancel')}
         tone="danger"
         onConfirm={handleDelete}
         onCancel={() => setDeleteId(null)}

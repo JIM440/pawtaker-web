@@ -50,6 +50,7 @@ function badgeForStatus(
 
 export default function KycCard({ submission, onStatusChange }: KycCardProps) {
   const t = useTranslations('admin.kyc');
+  const tModal = useTranslations('admin.modal');
   const [currentImage, setCurrentImage] = useState(0);
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
   const [isApproveOpen, setIsApproveOpen] = useState(false);
@@ -202,6 +203,7 @@ export default function KycCard({ submission, onStatusChange }: KycCardProps) {
         title={t('approveConfirmTitle')}
         description={t('approveConfirmDesc')}
         confirmLabel={t('approveConfirmLabel')}
+        cancelLabel={tModal('cancel')}
         tone="default"
         onConfirm={handleApproveConfirm}
         onCancel={() => setIsApproveOpen(false)}
@@ -212,6 +214,7 @@ export default function KycCard({ submission, onStatusChange }: KycCardProps) {
         title={t('rejectConfirmTitle')}
         description={t('rejectConfirmDesc')}
         confirmLabel={t('rejectConfirmLabel')}
+        cancelLabel={tModal('cancel')}
         tone="danger"
         confirmDisabled={rejectionReason.trim() === ''}
         onConfirm={handleRejectConfirm}

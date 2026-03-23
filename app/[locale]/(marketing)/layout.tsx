@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { MarketingNavbar } from '@/components/marketing/Navbar';
+import StoreDownloadLinks from '@/components/marketing/StoreDownloadLinks';
 import { MarketingFooter } from '@/components/marketing/Footer';
-import LocaleSync from '@/components/i18n/LocaleSync';
 import type { Locale } from '@/lib/i18n/config';
 
 export const metadata: Metadata = {
@@ -23,8 +23,10 @@ export default async function MarketingLayout({
 
   return (
     <div className="min-h-screen bg-white pt-16">
-      <MarketingNavbar />
-      <LocaleSync currentLocale={resolvedLocale} />
+      <MarketingNavbar
+        downloadLinksDesktop={<StoreDownloadLinks locale={resolvedLocale} />}
+        downloadLinksMobile={<StoreDownloadLinks locale={resolvedLocale} />}
+      />
       {children}
       <MarketingFooter />
     </div>

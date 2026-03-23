@@ -1,43 +1,58 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 import { ChevronDown } from 'lucide-react';
+import { useLocale, useTranslations } from 'next-intl';
 import { usePathname, useRouter } from '@/lib/i18n/navigation';
 import type { Locale } from '@/lib/i18n/config';
-import { getStoredLocale, setStoredLocale } from '@/lib/i18n/localeStorage';
-import { useTranslations } from 'next-intl';
+import { setStoredLocale } from '@/lib/i18n/localeStorage';
 
 interface LocaleSelectProps {
-  locale: Locale;
   className?: string;
+  /** Show translated “Language” label above the select (mobile menus, forms). */
+  showLabel?: boolean;
+  labelClassName?: string;
 }
 
 const LOCALES: Locale[] = ['en', 'fr'];
 
-export default function LocaleSelect({ locale, className }: LocaleSelectProps) {
+/**
+ * Language follows the URL (next-intl). We persist that choice to localStorage
+ * so it stays in sync — we do NOT override the route from an old stored value.
+ */
+export default function LocaleSelect({
+  className,
+  showLabel = false,
+  labelClassName,
+}: LocaleSelectProps) {
   const t = useTranslations('ui.localeSelect');
+  const locale = useLocale() as Locale;
   const router = useRouter();
   const pathname = usePathname();
+  const reactId = useId();
+  const selectId = `locale-select-${reactId}`;
+  const labelId = `${selectId}-label`;
 
   const [selected, setSelected] = useState<Locale>(locale);
 
-  // Keep the UI in sync with the user's saved preference.
+  // Route is source of truth: mirror it into the UI + localStorage (no redirect away from /fr/...).
   useEffect(() => {
-    const storedLocale = getStoredLocale();
-    if (!storedLocale) return;
-    if (storedLocale === locale) {
-      setSelected(locale);
-      return;
-    }
+    setSelected(locale);
+    setStoredLocale(locale);
+  }, [locale]);
 
-    setSelected(storedLocale);
-    router.push(pathname, { locale: storedLocale });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [locale, pathname]);
+  const selectClassName = showLabel
+    ? 'w-full cursor-pointer appearance-none rounded-full border border-outline/30 bg-background-base px-3 py-2.5 pr-10 text-sm font-semibold text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/25'
+    : 'cursor-pointer appearance-none rounded-full border border-outline/30 bg-background-base px-3 py-1.5 pr-8 text-xs font-semibold text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/25';
 
-  return (
-    <div className={`relative ${className ?? ''}`}>
+  const chevronClassName = showLabel
+    ? 'pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-on-surface/50'
+    : 'pointer-events-none absolute right-2 top-1/2 h-4 w-4 -translate-y-1/2 text-on-surface/50';
+
+  const selectControl = (
+    <>
       <select
+        id={selectId}
         value={selected}
         onChange={(e) => {
           const nextLocale = e.target.value as Locale;
@@ -47,17 +62,34 @@ export default function LocaleSelect({ locale, className }: LocaleSelectProps) {
           setStoredLocale(nextLocale);
           router.push(pathname, { locale: nextLocale });
         }}
-        className="cursor-pointer appearance-none rounded-full border border-outline/30 bg-background-base px-3 py-1.5 pr-8 text-xs font-semibold text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/25"
-        aria-label={t('ariaLabel')}
+        className={selectClassName}
+        aria-labelledby={showLabel ? labelId : undefined}
+        aria-label={showLabel ? undefined : t('ariaLabel')}
       >
         <option value="en">{t('en')}</option>
         <option value="fr">{t('fr')}</option>
       </select>
-      <ChevronDown
-        className="pointer-events-none absolute right-2 top-1/2 h-4 w-4 -translate-y-1/2 text-on-surface/50"
-        aria-hidden="true"
-      />
+      <ChevronDown className={chevronClassName} aria-hidden="true" />
+    </>
+  );
+
+  if (!showLabel) {
+    return <div className={`relative ${className ?? ''}`}>{selectControl}</div>;
+  }
+
+  return (
+    <div className={`flex w-full flex-col gap-2 ${className ?? ''}`}>
+      <label
+        id={labelId}
+        htmlFor={selectId}
+        className={
+          labelClassName ??
+          'text-xs font-semibold uppercase tracking-wide text-slate-600'
+        }
+      >
+        {t('label')}
+      </label>
+      <div className="relative w-full">{selectControl}</div>
     </div>
   );
 }
-

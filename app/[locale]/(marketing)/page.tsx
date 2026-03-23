@@ -12,7 +12,7 @@ export default async function LandingPage() {
   return (
     <main className="flex flex-col items-center">
       {/* Hero — min viewport height below fixed nav; content vertically centered */}
-      <section className="mx-auto flex w-full max-w-[1300px] min-h-[calc(100vh-4rem)] min-h-[calc(100dvh-4rem)] flex-col justify-center px-6 md:px-10">
+      <section className="mx-auto flex w-full max-w-[1300px] min-h-[calc(100vh-4rem)] flex-col justify-center px-6 md:px-10">
         <div className="flex flex-col items-center gap-8 py-8 lg:flex-row lg:items-center lg:gap-10 lg:py-0">
           {/* Mobile: text first, image second; desktop: text left, image right */}
           <div className="order-1 flex w-full flex-col items-center gap-6 text-center lg:w-1/2 lg:items-start lg:text-left">

@@ -1,18 +1,24 @@
 'use client';
 
+import type { ReactNode } from 'react';
 import Image from 'next/image';
-import { Apple, Menu, PlayCircle, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link } from '@/lib/i18n/navigation';
-import { useLocale, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import LocaleSelect from '@/components/i18n/LocaleSelect';
-import { externalLinkProps, getAppStoreUrls } from '@/lib/app-store-urls';
 
-export function MarketingNavbar() {
-  const locale = useLocale();
+/**
+ * `downloadLinksDesktop` / `downloadLinksMobile` are server-rendered `<StoreDownloadLinks />`
+ * passed from the marketing layout so CTA text is not hydrated via client string props.
+ */
+export interface MarketingNavbarProps {
+  downloadLinksDesktop: ReactNode;
+  downloadLinksMobile: ReactNode;
+}
+
+export function MarketingNavbar({ downloadLinksDesktop, downloadLinksMobile }: MarketingNavbarProps) {
   const t = useTranslations('marketing');
-  const tLanding = useTranslations('marketing.landing');
-  const { ios: iosUrl, android: androidUrl } = getAppStoreUrls();
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -35,35 +41,6 @@ export function MarketingNavbar() {
     return () => window.removeEventListener('keydown', onKey);
   }, [menuOpen]);
 
-  const downloadBtnPrimaryContainerClass =
-    'inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-full border border-transparent bg-primary-container px-3 py-2.5 text-sm font-bold text-on-primary-container transition-colors hover:bg-primary-container/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 md:min-h-[40px] md:w-auto md:min-w-[140px] md:text-xs';
-
-  const downloadBtnOutlineClass =
-    'inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-full border border-primary bg-transparent px-3 py-2.5 text-sm font-bold text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 md:min-h-[40px] md:w-auto md:min-w-[140px] md:text-xs';
-
-  const DownloadLinks = ({ onNavigate }: { onNavigate?: () => void }) => (
-    <>
-      <a
-        href={iosUrl}
-        {...externalLinkProps(iosUrl)}
-        className={downloadBtnPrimaryContainerClass}
-        onClick={onNavigate}
-      >
-        <Apple className="size-4 shrink-0" aria-hidden />
-        <span>{tLanding('cta.downloadIos')}</span>
-      </a>
-      <a
-        href={androidUrl}
-        {...externalLinkProps(androidUrl)}
-        className={downloadBtnOutlineClass}
-        onClick={onNavigate}
-      >
-        <PlayCircle className="size-4 shrink-0" aria-hidden />
-        <span>{tLanding('cta.downloadAndroid')}</span>
-      </a>
-    </>
-  );
-
   return (
     <>
       <header className="fixed left-0 right-0 top-0 z-50 border-b border-[#837377]/20 bg-white/80 backdrop-blur-sm">
@@ -81,8 +58,8 @@ export function MarketingNavbar() {
 
           {/* Desktop: download buttons + language */}
           <div className="hidden shrink-0 items-center gap-3 md:flex">
-            <DownloadLinks />
-            <LocaleSelect locale={locale as 'en' | 'fr'} />
+            {downloadLinksDesktop}
+            <LocaleSelect />
           </div>
 
           {/* Mobile: hamburger */}
@@ -101,38 +78,41 @@ export function MarketingNavbar() {
         </nav>
       </header>
 
-      {/* Mobile menu: rendered outside header so position:fixed is viewport-relative (header backdrop-filter would trap fixed children) */}
+      {/* Mobile menu: outside header (viewport fixed). z above header (z-50) so hamburger sits behind overlay + drawer. */}
       {menuOpen ? (
         <>
           <button
             type="button"
-            className="fixed inset-0 z-40 bg-black/40 md:hidden"
+            className="fixed inset-0 z-[100] bg-black/40 md:hidden"
             aria-label={t('nav.closeMenu')}
             onClick={() => setMenuOpen(false)}
           />
           <div
             id="marketing-mobile-menu"
-            className="fixed bottom-0 right-0 top-0 z-60 flex w-[80vw] h-screen min-w-[200px] flex-col overflow-y-auto border-l border-slate-200 bg-white px-4 py-6 shadow-2xl md:hidden"
+            className="fixed bottom-0 right-0 top-0 z-[110] flex w-[80vw] min-w-[200px] flex-col overflow-y-auto border-l border-slate-200 bg-white shadow-2xl md:hidden"
             role="dialog"
             aria-modal="true"
             aria-label={t('nav.downloadMenu')}
           >
-            <div className="flex min-h-0 flex-1 flex-col gap-4">
-              <div className="flex shrink-0 items-center justify-between">
-                <span className="text-sm font-semibold text-slate-900">
-                  {t('nav.downloadMenu')}
-                </span>
-                <button
-                  type="button"
+            <div className="relative flex min-h-0 flex-1 flex-col">
+              <button
+                type="button"
+                onClick={() => setMenuOpen(false)}
+                className="absolute right-3 top-3 z-10 inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-full text-slate-700 transition-colors hover:bg-slate-100"
+                aria-label={t('nav.closeMenu')}
+              >
+                <X className="size-6" aria-hidden />
+              </button>
+              <div className="flex flex-1 flex-col gap-6 px-4 pb-6 pt-16">
+                <p className="pr-12 text-sm font-semibold text-slate-900">{t('nav.downloadMenu')}</p>
+                <div
+                  className="flex flex-col gap-3"
                   onClick={() => setMenuOpen(false)}
-                  className="inline-flex h-9 w-9 items-center justify-center rounded-full text-slate-600 hover:bg-slate-100"
-                  aria-label={t('nav.closeMenu')}
+                  role="presentation"
                 >
-                  <X className="size-5" aria-hidden />
-                </button>
-              </div>
-              <div className="flex flex-1 flex-col justify-start gap-3">
-                <DownloadLinks onNavigate={() => setMenuOpen(false)} />
+                  {downloadLinksMobile}
+                </div>
+                <LocaleSelect showLabel className="border-t border-slate-100 pt-4" />
               </div>
             </div>
           </div>

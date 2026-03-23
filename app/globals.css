@@ -62,7 +62,7 @@
   --color-error-container: var(--color-error-container);
   --color-tertiary: var(--color-tertiary);
   --color-electric-pear: var(--color-electric-pear);
-  --font-sans: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono);
 }
 

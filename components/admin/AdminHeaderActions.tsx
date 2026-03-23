@@ -1,82 +1,92 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Bell } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import TopbarLangToggle from './TopbarLangToggle';
 import Image from 'next/image';
+import TopbarLangToggle from './TopbarLangToggle';
+
+type AdminNotificationKey =
+  | 'kycPending'
+  | 'reportNew'
+  | 'contactWeb'
+  | 'reviewFlagged'
+  | 'requestCompleted'
+  | 'userRegistered'
+  | 'contactApp';
 
 type AdminNotification = {
   id: string;
   title: string;
+  preview: string;
   age: string;
   avatarUrl: string;
   unread: boolean;
-  preview?: string;
 };
 
-interface AdminHeaderActionsProps {
-  locale: string;
-}
+const NOTIFICATION_ORDER: { id: string; i18nKey: AdminNotificationKey; unread: boolean; avatarUrl: string }[] = [
+  {
+    id: 'n1',
+    i18nKey: 'kycPending',
+    unread: true,
+    avatarUrl: 'https://picsum.photos/seed/admin-noti-kyc/64',
+  },
+  {
+    id: 'n2',
+    i18nKey: 'reportNew',
+    unread: true,
+    avatarUrl: 'https://picsum.photos/seed/admin-noti-report/64',
+  },
+  {
+    id: 'n3',
+    i18nKey: 'contactWeb',
+    unread: false,
+    avatarUrl: 'https://picsum.photos/seed/admin-noti-contact/64',
+  },
+  {
+    id: 'n4',
+    i18nKey: 'reviewFlagged',
+    unread: false,
+    avatarUrl: 'https://picsum.photos/seed/admin-noti-review/64',
+  },
+  {
+    id: 'n5',
+    i18nKey: 'requestCompleted',
+    unread: false,
+    avatarUrl: 'https://picsum.photos/seed/admin-noti-request/64',
+  },
+  {
+    id: 'n6',
+    i18nKey: 'userRegistered',
+    unread: false,
+    avatarUrl: 'https://picsum.photos/seed/admin-noti-user/64',
+  },
+  {
+    id: 'n7',
+    i18nKey: 'contactApp',
+    unread: false,
+    avatarUrl: 'https://picsum.photos/seed/admin-noti-app/64',
+  },
+];
 
-export default function AdminHeaderActions({ locale }: AdminHeaderActionsProps) {
+export default function AdminHeaderActions() {
   const t = useTranslations('admin.notifications');
   const [open, setOpen] = useState(false);
+  const [markAllRead, setMarkAllRead] = useState(false);
   const rootRef = useRef<HTMLDivElement | null>(null);
 
-  const notifications: AdminNotification[] = [
-    {
-      id: 'n1',
-      title: 'Mark Webber reacted to your recent post',
-      age: '1m ago',
-      avatarUrl: 'https://picsum.photos/seed/noti-1/64/64',
-      unread: true,
-    },
-    {
-      id: 'n2',
-      title: 'Angela Gray followed you',
-      age: '5m ago',
-      avatarUrl: 'https://picsum.photos/seed/noti-2/64/64',
-      unread: true,
-    },
-    {
-      id: 'n3',
-      title: 'Jacob Thompsonap has joined your group Chess Club',
-      age: '1 day ago',
-      avatarUrl: 'https://picsum.photos/seed/noti-3/64/64',
-      unread: false,
-    },
-    {
-      id: 'n4',
-      title: 'Rizky Hasanuda sent you a private message',
-      age: '5 days ago',
-      avatarUrl: 'https://picsum.photos/seed/noti-4/64/64',
-      unread: false,
-      preview:
-        "Hello, thanks for setting up the Chess Club. I've been a member for a few weeks now and I'm already having lots of fun and improving my game.",
-    },
-    {
-      id: 'n5',
-      title: 'Kimberly Smita commented on your picture',
-      age: '1 week ago',
-      avatarUrl: 'https://picsum.photos/seed/noti-5/64/64',
-      unread: false,
-    },
-    {
-      id: 'n6',
-      title: 'Nathan Petersa reacted to your recent post',
-      age: '2 weeks ago',
-      avatarUrl: 'https://picsum.photos/seed/noti-6/64/64',
-      unread: false,
-    },
-    {
-      id: 'n7',
-      title: 'Anna Kim left the group Chess Club',
-      age: '2 weeks ago',
-      avatarUrl: 'https://picsum.photos/seed/noti-7/64/64',
-      unread: false,
-    },
-  ];
+  const notifications: AdminNotification[] = useMemo(
+    () =>
+      NOTIFICATION_ORDER.map((row) => ({
+        id: row.id,
+        title: t(`${row.i18nKey}.title`),
+        preview: t(`${row.i18nKey}.preview`),
+        age: t(`${row.i18nKey}.age`),
+        avatarUrl: row.avatarUrl,
+        unread: markAllRead ? false : row.unread,
+      })),
+    [t, markAllRead]
+  );
 
   const unreadCount = notifications.filter((n) => n.unread).length;
 
@@ -94,7 +104,7 @@ export default function AdminHeaderActions({ locale }: AdminHeaderActionsProps) 
 
   return (
     <div className="flex items-center gap-3">
-      <TopbarLangToggle locale={locale} />
+      <TopbarLangToggle />
 
       <div ref={rootRef} className="relative">
         <button
@@ -108,21 +118,21 @@ export default function AdminHeaderActions({ locale }: AdminHeaderActionsProps) 
         </button>
 
         {open && (
-          <div className="absolute right-0 top-12 z-50 w-[380px] rounded-xl border border-outline/20 bg-white shadow-xl">
+          <div className="absolute right-0 top-12 z-50 w-[min(100vw-2rem,380px)] rounded-xl border border-outline/20 bg-white shadow-xl">
             <div className="flex items-start justify-between px-4 py-3">
               <div className="flex items-center gap-2">
                 <h3 className="text-sm font-bold text-on-surface">{t('title')}</h3>
-                <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-2 text-[11px] font-semibold text-on-primary">
-                  {unreadCount}
-                </span>
+                {unreadCount > 0 ? (
+                  <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-2 text-[11px] font-semibold text-on-primary">
+                    {unreadCount}
+                  </span>
+                ) : null}
               </div>
               <button
                 type="button"
-                className="text-xs font-semibold text-on-surface/60 hover:text-primary"
-                onClick={() => {
-                  // UI only for now.
-                  setOpen(false);
-                }}
+                className="text-xs font-semibold text-on-surface/60 hover:text-primary disabled:opacity-40"
+                disabled={unreadCount === 0}
+                onClick={() => setMarkAllRead(true)}
               >
                 {t('markAllRead')}
               </button>
@@ -130,7 +140,7 @@ export default function AdminHeaderActions({ locale }: AdminHeaderActionsProps) 
 
             <div className="border-t border-outline/15" />
 
-            <ul className="max-h-[420px] overflow-y-auto p-2 space-y-2">
+            <ul className="max-h-[420px] space-y-2 overflow-y-auto p-2">
               {notifications.map((n) => (
                 <li
                   key={n.id}
@@ -142,23 +152,23 @@ export default function AdminHeaderActions({ locale }: AdminHeaderActionsProps) 
                     <div className="relative size-9 shrink-0">
                       <Image
                         src={n.avatarUrl}
-                        alt="Notification avatar"
+                        alt=""
                         fill
                         unoptimized
                         className="rounded-full object-cover"
                       />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-semibold text-on-surface">{n.title}</p>
+                      <p className="text-sm font-semibold leading-snug text-on-surface">{n.title}</p>
                       <div className="mt-1 flex items-center gap-2">
                         <span className="text-xs text-on-surface/60">{n.age}</span>
-                        {n.unread && <span className="size-1.5 rounded-full bg-primary" aria-hidden="true" />}
+                        {n.unread ? (
+                          <span className="size-1.5 shrink-0 rounded-full bg-primary" aria-hidden="true" />
+                        ) : null}
                       </div>
-                      {n.preview && (
-                        <div className="mt-2 rounded-lg border border-outline/10 bg-white/70 p-3 text-xs text-on-surface/70 whitespace-pre-wrap">
-                          {n.preview}
-                        </div>
-                      )}
+                      <div className="mt-2 rounded-lg border border-outline/10 bg-white/70 p-3 text-xs leading-relaxed text-on-surface/70">
+                        {n.preview}
+                      </div>
                     </div>
                   </div>
                 </li>

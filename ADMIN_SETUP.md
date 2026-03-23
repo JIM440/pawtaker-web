@@ -37,6 +37,24 @@ Use these credentials to sign in to the admin panel (must exist in Supabase):
 3. **Dashboard data**
    - The admin dashboard (Users, KYC, Requests, Reports) currently uses **static data** for display. Replace the static arrays in each page with Supabase queries when you are ready to go live.
 
+---
+
+## Deployed site: `401` on `/auth/v1/token` or “Invalid API key”
+
+That response almost always means the **browser is calling Supabase with a missing or wrong public key**, not bad email/password.
+
+1. **Set environment variables on your host** (e.g. Vercel → Project → Settings → Environment Variables) for **Production** (and Preview if you test there):
+   - `NEXT_PUBLIC_SUPABASE_URL` — same as in Supabase → Project Settings → API → Project URL (e.g. `https://xxxx.supabase.co`).
+   - **One** of these (same value as Dashboard → API → **anon public** key):
+     - `NEXT_PUBLIC_SUPABASE_ANON_KEY` — common name in tutorials (JWT `eyJ...` or `sb_publishable_...`), **or**
+     - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY` — if you copied it from docs that use this name.
+   - `SUPABASE_SERVICE_ROLE_KEY` — **secret** service role (server-only); never prefix with `NEXT_PUBLIC_`.
+
+2. **Redeploy** after changing env vars (Next.js bakes `NEXT_PUBLIC_*` into the client bundle at build time).
+
+3. **Wrong key symptoms:** using the **service role** key in the browser, a typo, an old rotated key, or **URL/key from different projects** also yields `401` / invalid API key.
+
+---
 
 pawtaker.dev@gmail.com
 pawtaker123

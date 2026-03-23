@@ -193,6 +193,7 @@ function PetRowActionsMenu({
 
 export default function PetsTable() {
   const t = useTranslations('admin.pets');
+  const tModal = useTranslations('admin.modal');
   const [pets, setPets] = useState<Pet[]>(MOCK_PETS);
   const [search, setSearch] = useState('');
   const [speciesFilter, setSpeciesFilter] = useState<Species | 'All'>('All');
@@ -378,6 +379,7 @@ export default function PetsTable() {
         title={t('deleteConfirmTitle')}
         description={t('deleteConfirmDesc')}
         confirmLabel={t('deleteConfirmLabel')}
+        cancelLabel={tModal('cancel')}
         tone="danger"
         onConfirm={handleDelete}
         onCancel={() => setDeleteId(null)}

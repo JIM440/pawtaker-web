@@ -277,11 +277,49 @@
     },
     "sidebar": {
       "brand": "PawTaker",
-      "brandSub": "Admin Panel"
+      "brandSub": "Admin Panel",
+      "closeMenu": "Close navigation",
+      "openNavigation": "Open navigation",
+      "logoAlt": "PawTaker"
     },
     "notifications": {
       "title": "Notifications",
-      "markAllRead": "Mark all as read"
+      "markAllRead": "Mark all as read",
+      "kycPending": {
+        "title": "New KYC submission pending review",
+        "preview": "Sarah J. uploaded government ID — awaiting verification.",
+        "age": "2 min ago"
+      },
+      "reportNew": {
+        "title": "New report: inappropriate content",
+        "preview": "Profile “LuluPaws” flagged by a community member.",
+        "age": "15 min ago"
+      },
+      "contactWeb": {
+        "title": "New contact message (website)",
+        "preview": "Question about KYC verification timeline.",
+        "age": "32 min ago"
+      },
+      "reviewFlagged": {
+        "title": "Review needs attention",
+        "preview": "1-star review reported for care session #3041.",
+        "age": "1 h ago"
+      },
+      "requestCompleted": {
+        "title": "Care request completed",
+        "preview": "Request #8924 marked successful by the owner.",
+        "age": "2 h ago"
+      },
+      "userRegistered": {
+        "title": "New user registered",
+        "preview": "Chris P. finished onboarding and verified email.",
+        "age": "3 h ago"
+      },
+      "contactApp": {
+        "title": "Feedback from mobile app",
+        "preview": "Feature request: real-time walk tracking.",
+        "age": "1 day ago"
+      }
     },
     "dashboard": {
       "title": "Dashboard",
@@ -380,6 +418,7 @@
       "filterApproved": "Approved",
       "filterRejected": "Rejected",
       "all": "All",
+      "filterStatusLabel": "Status",
       "filterByStatusAriaLabel": "Filter by status",
       "searchLabel": "Search by name or email",
       "emptyState": "No submissions match your filters.",
@@ -515,7 +554,9 @@
       },
       "deleteConfirmTitle": "Delete review?",
       "deleteConfirmDesc": "This will permanently remove the review from the platform.",
-      "deleteConfirmLabel": "Delete"
+      "deleteConfirmLabel": "Delete",
+      "seeMore": "See more",
+      "seeLess": "See less"
     },
     "contact": {
       "title": "Contact",
@@ -540,11 +581,29 @@
       "relativeYearsAgo": "{count} y ago",
       "emptyState": "No contact messages yet.",
       "sourceApp": "App",
-      "sourceWebsite": "Website"
+      "sourceWebsite": "Website",
+      "feedbackPositive": "Positive feedback",
+      "feedbackNegative": "Negative feedback",
+      "feedbackNeutral": "Neutral feedback",
+      "reply": "Reply",
+      "markResolved": "Mark as resolved",
+      "markedResolved": "Resolved",
+      "resolvedBadge": "Resolved",
+      "replySubjectPrefix": "Re: PawTaker",
+      "filterLabel": "Source",
+      "filterAll": "All",
+      "filterMobile": "Mobile",
+      "filterWeb": "Web",
+      "sortLabel": "Sort",
+      "sortNewest": "Latest first",
+      "sortOldest": "Oldest first",
+      "emptyFiltered": "No messages for this source."
     },
     "modal": {
       "cancel": "Cancel",
-      "confirm": "Confirm"
+      "confirm": "Confirm",
+      "gotIt": "Got it",
+      "backdropClose": "Close dialog"
     },
     "profile": {
       "title": "Profile",
@@ -567,13 +626,38 @@
       "secureAccess": "Secure Access",
       "forgotPassword": "Forgot password?",
       "keepAuthenticated": "Keep me authenticated"
+    },
+    "settings": {
+      "generalTitle": "General configuration",
+      "siteNameLabel": "Site name",
+      "supportEmailLabel": "Support email",
+      "defaultLocaleLabel": "Default locale",
+      "defaultLocaleAria": "Choose default platform locale",
+      "localeEnUs": "English (United States)",
+      "localeEsMx": "Spanish (Mexico)",
+      "localeFrFr": "French (France)",
+      "featureFlagsTitle": "Feature flags",
+      "flagPublicRegTitle": "Public registrations",
+      "flagPublicRegDesc": "Allow new users to create accounts on the platform.",
+      "flagAiTitle": "AI-powered matches",
+      "flagAiDesc": "Use machine learning to suggest pets to potential owners.",
+      "flagDonationTitle": "Donation module",
+      "flagDonationDesc": "Enable direct donations to shelters within the app.",
+      "reset": "Reset to default",
+      "save": "Save changes"
     }
   },
   "ui": {
     "localeSelect": {
       "ariaLabel": "Select language",
+      "label": "Language",
       "en": "English",
       "fr": "French"
+    },
+    "notFound": {
+      "title": "Page not found",
+      "description": "The page you're looking for doesn't exist or may have been moved.",
+      "backHome": "Back to home"
     }
   },
   "legal": {

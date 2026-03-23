@@ -247,6 +247,7 @@ function UserRowActionsMenu({
 
 export default function UsersTable() {
   const t = useTranslations('admin.users');
+  const tModal = useTranslations('admin.modal');
   const [users, setUsers] = useState<User[]>(MOCK_USERS);
 
   /** Temporary probe — logs real DB users to browser console. Remove once RLS issue is resolved. */
@@ -450,6 +451,7 @@ export default function UsersTable() {
         title={t('deleteConfirmTitle')}
         description={t('deleteConfirmDesc')}
         confirmLabel={t('deleteConfirmLabel')}
+        cancelLabel={tModal('cancel')}
         tone="danger"
         onConfirm={handleDelete}
         onCancel={() => setDeleteId(null)}
@@ -461,6 +463,7 @@ export default function UsersTable() {
         title={t('deactivateConfirmTitle')}
         description={t('deactivateConfirmDesc')}
         confirmLabel={t('deactivateConfirmLabel')}
+        cancelLabel={tModal('cancel')}
         tone="default"
         onConfirm={handleDeactivate}
         onCancel={() => setDeactivateId(null)}

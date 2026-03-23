@@ -33,20 +33,14 @@ export async function MarketingFooter() {
     <footer className="border-t border-slate-200 bg-slate-50 px-4 py-14 text-slate-900 sm:px-6 lg:px-16">
       <div className="mx-auto grid max-w-[1300px] grid-cols-1 gap-12 md:grid-cols-12 md:gap-10">
         <div className="md:col-span-4">
-          <div className="mb-5 flex items-center gap-3">
+          <div className="mb-5">
             <Image
-              src="/logos/logomark-dusty-plum.png"
-              alt=""
-              width={48}
-              height={48}
-              className="size-12 shrink-0"
+              src="/logos/primary-logo.png"
+              alt={t('brand')}
+              width={280}
+              height={84}
+              className="h-auto w-[220px] shrink-0 sm:w-[260px]"
             />
-            <div>
-              <span className="block text-xl font-bold tracking-tight text-slate-900">{t('brand')}</span>
-              <span className="text-xs font-medium uppercase tracking-[0.2em] text-slate-600">
-                {t('tagline')}
-              </span>
-            </div>
           </div>
           <p className="max-w-sm text-sm leading-relaxed text-slate-600">{t('description')}</p>
         </div>

@@ -96,6 +96,7 @@ function ReportRowActionsMenu({
 
 export default function ReportsPage() {
   const t = useTranslations('admin.reports');
+  const tModal = useTranslations('admin.modal');
   const [reporterQuery, setReporterQuery] = useState('');
   const [reports, setReports] = useState<Report[]>(MOCK_REPORTS);
   const [deleteId, setDeleteId] = useState<string | null>(null);
@@ -243,6 +244,7 @@ export default function ReportsPage() {
           title={t('deleteConfirmTitle')}
           description={t('deleteConfirmDesc')}
           confirmLabel={t('deleteConfirmLabel')}
+          cancelLabel={tModal('cancel')}
           tone="danger"
           onConfirm={handleDelete}
           onCancel={() => setDeleteId(null)}

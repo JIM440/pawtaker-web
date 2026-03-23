@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useId } from 'react';
 import { useTranslations } from 'next-intl';
 
 interface ConfirmationModalProps {
@@ -37,7 +37,10 @@ export default function ConfirmationModal({
   children,
 }: ConfirmationModalProps) {
   const tModal = useTranslations('admin.modal');
-  const resolvedConfirmLabel = confirmLabel ?? tModal('confirm');
+  const titleId = useId();
+
+  const resolvedConfirmLabel =
+    confirmLabel ?? (variant === 'feedback' ? tModal('gotIt') : tModal('confirm'));
   const resolvedCancelLabel = cancelLabel ?? tModal('cancel');
 
   useEffect(() => {
@@ -66,20 +69,29 @@ export default function ConfirmationModal({
   const handleClose = onClose ?? onCancel;
 
   return (
-    <div
-      className="fixed inset-0 z-80 flex items-center justify-center bg-black/55 backdrop-blur-[1px] px-4"
-      onClick={handleClose}
-    >
+    <div className="fixed inset-0 z-80 flex items-center justify-center px-4">
+      <button
+        type="button"
+        className="absolute inset-0 cursor-default bg-black/55 backdrop-blur-[1px]"
+        aria-label={tModal('backdropClose')}
+        onClick={handleClose}
+      />
       <div
-        className="w-full max-w-[520px] rounded-xl bg-white p-6 shadow-2xl ring-1 ring-outline/20"
+        className="relative z-10 w-full max-w-[520px] rounded-xl bg-white p-6 shadow-2xl ring-1 ring-outline/20"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
         onClick={(e) => e.stopPropagation()}
       >
-        <h2 className="mb-2 text-xl font-bold text-on-surface tracking-tight">{title}</h2>
+        <h2 id={titleId} className="mb-2 text-xl font-bold tracking-tight text-on-surface">
+          {title}
+        </h2>
         <p className="mb-4 text-sm text-on-surface/75">{description}</p>
         {children}
         <div className="mt-6 flex items-center justify-end gap-2">
           {variant === 'confirmation' && showCancel && (
             <button
+              type="button"
               onClick={onCancel}
               className="min-w-24 cursor-pointer rounded-full border border-outline/40 px-4 py-2.5 text-sm font-medium text-on-surface transition-colors hover:bg-surface-container-low"
             >
@@ -87,6 +99,7 @@ export default function ConfirmationModal({
             </button>
           )}
           <button
+            type="button"
             onClick={onConfirm}
             disabled={confirmDisabled}
             className={`${
