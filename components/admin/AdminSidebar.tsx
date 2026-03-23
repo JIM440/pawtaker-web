@@ -16,12 +16,12 @@ import {
   Users,
   X,
 } from 'lucide-react';
-import { useRouter } from '@/lib/i18n/navigation';
+import { Link, usePathname, useRouter } from '@/lib/i18n/navigation';
 import { createClient } from '@/lib/supabase/client';
-import { Link } from '@/lib/i18n/navigation';
 import ConfirmationModal from './ConfirmationModal';
 
 interface AdminSidebarProps {
+  /** Initial path from the server; `usePathname()` is used on the client so active state stays correct after navigations. */
   pathname: string;
   adminEmail: string;
 }
@@ -37,16 +37,34 @@ const navItems = [
   { href: '/admin/contact', labelKey: 'contact', icon: Mail },
 ] satisfies { href: string; labelKey: string; icon: LucideIcon }[];
 
-export default function AdminSidebar({ pathname, adminEmail: _adminEmail }: AdminSidebarProps) {
+/** Longest href wins so overlapping prefixes (e.g. future `/admin` vs `/admin/users`) behave correctly. */
+function getActiveNavHref(path: string, items: { href: string }[]): string | null {
+  const sorted = [...items].sort((a, b) => b.href.length - a.href.length);
+  for (const item of sorted) {
+    if (path === item.href || path.startsWith(`${item.href}/`)) {
+      return item.href;
+    }
+  }
+  return null;
+}
+
+export default function AdminSidebar({ pathname: pathnameFromServer, adminEmail: _adminEmail }: AdminSidebarProps) {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [signOutOpen, setSignOutOpen] = useState(false);
   const router = useRouter();
+  const pathnameFromClient = usePathname();
   const tNav = useTranslations('admin.nav');
   const tSidebar = useTranslations('admin.sidebar');
   const tProfile = useTranslations('admin.profile');
   const tModal = useTranslations('admin.modal');
 
-  const pathWithoutLocale = pathname.replace(/^\/(en|fr)/, '') || pathname;
+  // next-intl's usePathname is locale-aware and updates on client navigation; middleware header can be stale.
+  const pathWithoutLocale =
+    pathnameFromClient ||
+    pathnameFromServer.replace(/^\/(en|fr)(?=\/|$)/, '') ||
+    pathnameFromServer;
+
+  const activeHref = getActiveNavHref(pathWithoutLocale, navItems);
 
   const handleSignOut = async () => {
     setSignOutOpen(false);
@@ -93,8 +111,7 @@ export default function AdminSidebar({ pathname, adminEmail: _adminEmail }: Admi
         <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-6">
           {navItems.map((item) => {
             const Icon = item.icon;
-            const isActive =
-              pathWithoutLocale === item.href || pathWithoutLocale.startsWith(item.href + '/');
+            const isActive = activeHref === item.href;
             return (
               <Link
                 key={item.href}

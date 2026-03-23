@@ -1,22 +1,9 @@
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { getTranslations } from 'next-intl/server';
 import { createAdminClient } from '@/lib/supabase/server';
 import AdminSidebar from '@/components/admin/AdminSidebar';
 import AdminHeaderActions from '@/components/admin/AdminHeaderActions';
-
-const ADMIN_TITLES: Record<string, string> = {
-  '/admin/dashboard': 'dashboard',
-  '/admin/users': 'users',
-  '/admin/kyc': 'kyc',
-  '/admin/requests': 'requests',
-  '/admin/reports': 'reports',
-  '/admin/settings': 'settings',
-  '/admin/profile': 'profile',
-  '/admin/pets': 'pets',
-  '/admin/reviews': 'reviews',
-  '/admin/contact': 'contact',
-};
+import AdminPageHeading from '@/components/admin/AdminPageHeading';
 
 export default async function AdminLayout({
   children,
@@ -27,7 +14,7 @@ export default async function AdminLayout({
 }) {
   const { locale } = await params;
   const pathname = (await headers()).get('x-pathname') ?? '';
-  const pathWithoutLocale = pathname.replace(/^\/(en|fr)/, '') || pathname;
+  const pathWithoutLocale = pathname.replace(/^\/(en|fr)(?=\/|$)/, '') || pathname;
   const isLoginPage = pathWithoutLocale.startsWith('/admin/login');
 
   // Login page renders without the shell and without auth checks
@@ -59,20 +46,13 @@ export default async function AdminLayout({
   }
 
   // --- Admin confirmed — render the shell ---
-  const tNav = await getTranslations('admin.nav');
-  const currentNavKey =
-    Object.entries(ADMIN_TITLES).find(
-      ([route]) => pathWithoutLocale === route || pathWithoutLocale.startsWith(route + '/'),
-    )?.[1] ?? 'dashboard';
-  const currentTitle = tNav(currentNavKey);
-
   return (
     <div className="min-h-screen bg-background-base flex overflow-x-hidden">
       <AdminSidebar pathname={pathname} adminEmail={user.email ?? ''} />
       <main className="flex-1 min-w-0 min-h-0 flex flex-col pt-16 md:max-h-screen">
         <header className="h-16 border-b border-outline/20 bg-white/80 backdrop-blur-sm px-4 md:px-8 flex items-center justify-between fixed top-0 left-0 right-0 z-20 md:left-64">
           <div className="ml-12 md:ml-0">
-            <h1 className="text-lg md:text-xl font-bold text-on-surface tracking-tight">{currentTitle}</h1>
+            <AdminPageHeading />
           </div>
           <div className="ml-4">
             <AdminHeaderActions />
