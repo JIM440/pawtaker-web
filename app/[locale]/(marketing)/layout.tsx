@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { headers } from 'next/headers';
 import { MarketingNavbar } from '@/components/marketing/Navbar';
 import StoreDownloadLinks from '@/components/marketing/StoreDownloadLinks';
 import { MarketingFooter } from '@/components/marketing/Footer';
@@ -20,15 +21,22 @@ export default async function MarketingLayout({
 }) {
   const { locale } = await params;
   const resolvedLocale: Locale = locale === 'fr' || locale === 'en' ? locale : 'en';
+  const pathname = (await headers()).get('x-pathname') ?? '';
+  const pathWithoutLocale = pathname.replace(/^\/(en|fr)/, '') || '/';
+  const showMarketingChrome = new Set(['/', '/about', '/how-it-works', '/privacy', '/terms']).has(
+    pathWithoutLocale
+  );
 
   return (
-    <div className="min-h-screen bg-white pt-16">
-      <MarketingNavbar
-        downloadLinksDesktop={<StoreDownloadLinks locale={resolvedLocale} />}
-        downloadLinksMobile={<StoreDownloadLinks locale={resolvedLocale} />}
-      />
+    <div className={`min-h-screen bg-white ${showMarketingChrome ? 'pt-16' : ''}`}>
+      {showMarketingChrome ? (
+        <MarketingNavbar
+          downloadLinksDesktop={<StoreDownloadLinks locale={resolvedLocale} />}
+          downloadLinksMobile={<StoreDownloadLinks locale={resolvedLocale} />}
+        />
+      ) : null}
       {children}
-      <MarketingFooter />
+      {showMarketingChrome ? <MarketingFooter /> : null}
     </div>
   );
 }

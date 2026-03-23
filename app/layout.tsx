@@ -24,6 +24,17 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "PawTaker",
   description: "Pet care and community platform",
+  openGraph: {
+    title: "PawTaker",
+    description: "Pet care and community platform",
+    images: ["/app_preview.png"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "PawTaker",
+    description: "Pet care and community platform",
+    images: ["/app_preview.png"],
+  },
   icons: {
     icon: "/logos/coloured-favicon.png",
     apple: "/logos/coloured-favicon.png",
