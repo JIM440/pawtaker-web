@@ -47,9 +47,9 @@ export default async function AdminLayout({
 
   // --- Admin confirmed — render the shell ---
   return (
-    <div className="min-h-screen bg-background-base flex overflow-x-hidden">
+    <div className="h-screen bg-background-base flex overflow-hidden">
       <AdminSidebar pathname={pathname} adminEmail={user.email ?? ''} />
-      <main className="flex-1 min-w-0 min-h-0 flex flex-col pt-16 md:max-h-screen">
+      <main className="flex-1 min-w-0 min-h-0 flex flex-col pt-16 overflow-hidden">
         <header className="h-16 border-b border-outline/20 bg-white/80 backdrop-blur-sm px-4 md:px-8 flex items-center justify-between fixed top-0 left-0 right-0 z-20 md:left-64">
           <div className="ml-12 md:ml-0">
             <AdminPageHeading />

@@ -8,144 +8,54 @@ import LabeledSearch from './LabeledSearch';
 import LabeledSelect from './LabeledSelect';
 import UserAvatar from './UserAvatar';
 import UserDetailsModal, { type UserDetailsData } from './UserDetailsModal';
+import Skeleton from '@/components/ui/Skeleton';
+import { useAdminUsersQuery } from '@/lib/queries/admin/users';
+import type { AdminUserRow } from '@/lib/api/admin/users';
 
 type User = UserDetailsData;
 
-const MOCK_USERS: User[] = [
-  {
-    id: '550e8400-e29b-41d4-a716-446655440001',
-    name: 'Sarah Johnson',
-    initials: 'SJ',
-    email: 'sarah.j@example.com',
-    avatarUrl: 'https://picsum.photos/seed/user-u1/72',
-    city: 'Portland, OR',
-    bio: 'Dog lover and weekend hiker. Happy to help neighbors with pet care.',
-    kycStatus: 'Approved',
-    isEmailVerified: true,
-    pointsBalance: 420,
-    language: 'en',
-    themePref: 'system',
-    petsCount: 6,
-    careGiven: 18,
-    careReceived: 12,
-    joined: 'Jan 15, 2025',
-    status: 'Active',
-  },
-  {
-    id: '550e8400-e29b-41d4-a716-446655440002',
-    name: 'Mike Ross',
-    initials: 'MR',
-    email: 'mike.ross@example.com',
-    avatarUrl: 'https://picsum.photos/seed/user-u2/72',
-    city: 'Montreal, QC',
-    bio: 'Cat person. Flexible schedule for drop-in visits.',
-    kycStatus: 'Submitted',
-    isEmailVerified: true,
-    pointsBalance: 88,
-    language: 'en',
-    themePref: 'dark',
-    petsCount: 2,
-    careGiven: 4,
-    careReceived: 7,
-    joined: 'Feb 22, 2025',
-    status: 'Active',
-  },
-  {
-    id: '550e8400-e29b-41d4-a716-446655440003',
-    name: 'Emily Davis',
-    initials: 'ED',
-    email: 'emily.d@example.com',
-    avatarUrl: 'https://picsum.photos/seed/user-u3/72',
-    city: 'Austin, TX',
-    bio: '',
-    kycStatus: 'Approved',
-    isEmailVerified: true,
-    pointsBalance: 256,
-    language: 'en',
-    themePref: 'light',
-    petsCount: 4,
-    careGiven: 11,
-    careReceived: 9,
-    joined: 'Mar 10, 2025',
-    status: 'Active',
-  },
-  {
-    id: '550e8400-e29b-41d4-a716-446655440004',
-    name: 'Chris Parker',
-    initials: 'CP',
-    email: 'chris.p@example.com',
-    avatarUrl: 'https://picsum.photos/seed/user-u4/72',
-    city: 'Seattle, WA',
-    bio: 'New to PawTaker — KYC pending.',
-    kycStatus: 'Pending',
-    isEmailVerified: true,
-    pointsBalance: 12,
-    language: 'en',
-    themePref: 'system',
-    petsCount: 1,
-    careGiven: 1,
-    careReceived: 0,
-    joined: 'Mar 17, 2026',
-    status: 'Active',
-  },
-  {
-    id: '550e8400-e29b-41d4-a716-446655440005',
-    name: 'Anna Taylor',
-    initials: 'AT',
-    email: 'anna.t@example.com',
-    avatarUrl: 'https://picsum.photos/seed/user-u5/72',
-    city: 'Chicago, IL',
-    bio: '—',
-    kycStatus: 'Rejected',
-    isEmailVerified: true,
-    pointsBalance: 0,
-    language: 'fr',
-    themePref: 'light',
+const KYC_STATUS_MAP: Record<AdminUserRow['kyc_status'], User['kycStatus']> = {
+  not_submitted: 'Pending',
+  pending: 'Pending',
+  submitted: 'Submitted',
+  approved: 'Approved',
+  rejected: 'Rejected',
+};
+
+function mapRowToUser(row: AdminUserRow): User {
+  const name = row.full_name ?? row.display_name ?? row.email;
+  const parts = name.trim().split(/\s+/);
+  const initials =
+    parts.length >= 2
+      ? (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
+      : name.slice(0, 2).toUpperCase();
+
+  const joined = new Date(row.created_at).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
+
+  return {
+    id: row.id,
+    name,
+    initials,
+    email: row.email,
+    avatarUrl: row.avatar_url ?? undefined,
+    city: row.city ?? '',
+    bio: row.bio ?? '',
+    kycStatus: KYC_STATUS_MAP[row.kyc_status],
+    isEmailVerified: row.is_email_verified,
+    pointsBalance: row.points_balance,
+    language: row.language,
+    themePref: row.theme_pref,
     petsCount: 0,
-    careGiven: 0,
-    careReceived: 0,
-    joined: 'Nov 3, 2024',
-    status: 'Deactivated',
-  },
-  {
-    id: '550e8400-e29b-41d4-a716-446655440006',
-    name: 'David Wilson',
-    initials: 'DW',
-    email: 'david.w@example.com',
-    avatarUrl: 'https://picsum.photos/seed/user-u6/72',
-    city: 'Denver, CO',
-    bio: 'Experienced with large breeds and reactive dogs.',
-    kycStatus: 'Approved',
-    isEmailVerified: true,
-    pointsBalance: 890,
-    language: 'en',
-    themePref: 'dark',
-    petsCount: 8,
-    careGiven: 27,
-    careReceived: 14,
-    joined: 'Sep 5, 2024',
-    status: 'Active',
-  },
-  {
-    id: '550e8400-e29b-41d4-a716-446655440007',
-    name: 'Laura Martinez',
-    initials: 'LM',
-    email: 'laura.m@example.com',
-    avatarUrl: 'https://picsum.photos/seed/user-u7/72',
-    city: 'Lyon, France',
-    bio: 'Bilingue FR/EN. Jardin clôturé.',
-    kycStatus: 'Approved',
-    isEmailVerified: true,
-    pointsBalance: 340,
-    language: 'fr',
-    themePref: 'system',
-    petsCount: 3,
-    careGiven: 8,
-    careReceived: 6,
-    joined: 'Dec 20, 2024',
-    status: 'Active',
-  },
-];
+    careGiven: row.care_given_count,
+    careReceived: row.care_received_count,
+    joined,
+    status: row.is_deactivated ? 'Deactivated' : 'Active',
+  };
+}
 
 const KYC_COLORS: Record<User['kycStatus'], string> = {
   Approved: 'bg-emerald-100 text-emerald-800',
@@ -248,32 +158,24 @@ function UserRowActionsMenu({
 export default function UsersTable() {
   const t = useTranslations('admin.users');
   const tModal = useTranslations('admin.modal');
-  const [users, setUsers] = useState<User[]>(MOCK_USERS);
-
-  /** Temporary probe — logs real DB users to browser console. Remove once RLS issue is resolved. */
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      try {
-        const res = await fetch('/api/admin/users', { credentials: 'include' });
-        const json = await res.json();
-        if (cancelled) return;
-        if (!res.ok) {
-          console.warn('[Admin Users] API error:', res.status, json);
-          return;
-        }
-        console.log('[Admin Users] Real DB users (non-admin):', json.users);
-      } catch (e) {
-        if (!cancelled) console.error('[Admin Users] fetch error:', e);
-      }
-    })();
-    return () => { cancelled = true; };
-  }, []);
+  const usersQuery = useAdminUsersQuery();
+  const [deletedIds, setDeletedIds] = useState<Set<string>>(new Set());
+  const [deactivatedIds, setDeactivatedIds] = useState<Set<string>>(new Set());
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState<SortKey>('none');
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [deactivateId, setDeactivateId] = useState<string | null>(null);
   const [detailsUserId, setDetailsUserId] = useState<string | null>(null);
+
+  const users = useMemo<User[]>(() => {
+    return (usersQuery.data ?? [])
+      .filter((row) => !deletedIds.has(row.id))
+      .map((row) => {
+        const base = mapRowToUser(row);
+        if (deactivatedIds.has(row.id)) return { ...base, status: 'Deactivated' as const };
+        return base;
+      });
+  }, [usersQuery.data, deletedIds, deactivatedIds]);
 
   const detailsUser = useMemo(
     () => (detailsUserId ? users.find((u) => u.id === detailsUserId) ?? null : null),
@@ -296,20 +198,15 @@ export default function UsersTable() {
 
   const handleDelete = () => {
     if (!deleteId) return;
-    setUsers((prev) => prev.filter((u) => u.id !== deleteId));
+    setDeletedIds((prev) => new Set([...prev, deleteId]));
     setDeleteId(null);
   };
 
   const handleDeactivate = () => {
     if (!deactivateId) return;
-    setUsers((prev) =>
-      prev.map((u) => (u.id === deactivateId ? { ...u, status: 'Deactivated' as const } : u))
-    );
+    setDeactivatedIds((prev) => new Set([...prev, deactivateId]));
     setDeactivateId(null);
   };
-
-  // Data for confirmation modal content lives in the message catalog,
-  // so we don't need to resolve per-row names just to display labels.
 
   return (
     <>
@@ -364,7 +261,45 @@ export default function UsersTable() {
               </tr>
             </thead>
             <tbody className="divide-y divide-outline/10 text-sm">
-              {filtered.map((user) => (
+              {usersQuery.isLoading && (
+                Array.from({ length: 5 }).map((_, i) => (
+                  <tr key={i}>
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-3">
+                        <Skeleton className="size-9 shrink-0 rounded-full" />
+                        <div className="space-y-1.5">
+                          <Skeleton className="h-3.5 w-28" />
+                          <Skeleton className="h-3 w-36" />
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 hidden sm:table-cell"><Skeleton className="h-5 w-16 rounded-full" /></td>
+                    <td className="px-6 py-4"><Skeleton className="h-4 w-6" /></td>
+                    <td className="px-6 py-4"><Skeleton className="h-4 w-6" /></td>
+                    <td className="px-6 py-4"><Skeleton className="h-4 w-6" /></td>
+                    <td className="px-6 py-4 hidden md:table-cell"><Skeleton className="h-5 w-16 rounded-full" /></td>
+                    <td className="px-6 py-4 hidden lg:table-cell"><Skeleton className="h-4 w-20" /></td>
+                    <td className="px-6 py-4"><Skeleton className="h-8 w-8 rounded-full" /></td>
+                  </tr>
+                ))
+              )}
+              {usersQuery.isError && (
+                <tr>
+                  <td colSpan={8} className="px-6 py-10 text-center text-sm text-on-surface/50">
+                    <p className="mb-3">
+                      {usersQuery.error instanceof Error ? usersQuery.error.message : 'Failed to load users.'}
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => usersQuery.refetch()}
+                      className="cursor-pointer rounded-full bg-primary px-4 py-2 text-sm font-semibold text-on-primary hover:bg-primary/90"
+                    >
+                      Retry
+                    </button>
+                  </td>
+                </tr>
+              )}
+              {!usersQuery.isLoading && !usersQuery.isError && filtered.map((user) => (
                 <tr
                   key={user.id}
                   className={`hover:bg-white transition-colors ${user.status === 'Deactivated' ? 'opacity-60' : ''}`}
@@ -421,7 +356,7 @@ export default function UsersTable() {
                   </td>
                 </tr>
               ))}
-              {filtered.length === 0 && (
+              {!usersQuery.isLoading && !usersQuery.isError && filtered.length === 0 && (
                 <tr>
                   <td colSpan={8} className="px-6 py-10 text-center text-sm text-on-surface/50">
                     {t('emptyState')}

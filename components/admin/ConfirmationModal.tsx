@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useId } from 'react';
+import { Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 interface ConfirmationModalProps {
@@ -15,6 +16,7 @@ interface ConfirmationModalProps {
   tone?: 'default' | 'danger';
   showCancel?: boolean;
   confirmDisabled?: boolean;
+  isLoading?: boolean;
   onConfirm: () => void;
   onCancel: () => void;
   children?: React.ReactNode;
@@ -32,6 +34,7 @@ export default function ConfirmationModal({
   tone = 'default',
   showCancel = true,
   confirmDisabled = false,
+  isLoading = false,
   onConfirm,
   onCancel,
   children,
@@ -101,13 +104,14 @@ export default function ConfirmationModal({
           <button
             type="button"
             onClick={onConfirm}
-            disabled={confirmDisabled}
+            disabled={confirmDisabled || isLoading}
             className={`${
               variant === 'confirmation' && showCancel ? 'min-w-24' : 'w-full'
-            } cursor-pointer rounded-full px-4 py-2.5 text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-40 ${
+            } inline-flex items-center justify-center gap-2 cursor-pointer rounded-full px-4 py-2.5 text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-40 ${
               variant === 'feedback' ? feedbackToneClass : confirmToneClass
             }`}
           >
+            {isLoading && <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />}
             {resolvedConfirmLabel}
           </button>
         </div>

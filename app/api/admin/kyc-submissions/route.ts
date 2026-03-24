@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
-import { fetchNonAdminUsersForAdmin } from '@/lib/api/admin/users';
 import { requireAdminClient } from '@/lib/api/admin/auth';
+import { listKycSubmissionsForAdmin } from '@/lib/api/admin/kyc';
 
 /**
- * GET /api/admin/users
- * Returns non-admin users from `public.users` (`is_admin = false`) for authenticated admin sessions only.
+ * GET /api/admin/kyc-submissions
+ * Lists all KYC submissions for admin review.
  */
 export async function GET() {
   try {
@@ -12,16 +12,18 @@ export async function GET() {
     if (result instanceof NextResponse) return result;
     const { admin } = result;
 
-    const { data: users, error } = await fetchNonAdminUsersForAdmin(admin);
+    const { data, error } = await listKycSubmissionsForAdmin(admin);
 
     if (error) {
-      console.error('[api/admin/users]', error);
+      console.error('[api/admin/kyc-submissions] GET', error);
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    return NextResponse.json({ users: users ?? [] });
+    console.log('[KYC DEBUG] count:', data?.length ?? 0);
+    return NextResponse.json({ submissions: data ?? [] });
   } catch (e) {
-    console.error('[api/admin/users]', e);
+    console.error('[api/admin/kyc-submissions] GET', e);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
+

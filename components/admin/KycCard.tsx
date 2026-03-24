@@ -22,7 +22,7 @@ export interface KycSubmission {
 
 interface KycCardProps {
   submission: KycSubmission;
-  onStatusChange: (id: string, status: 'Approved' | 'Rejected', reason?: string) => void;
+  onStatusChange: (id: string, status: 'Approved' | 'Rejected', reason?: string) => void | Promise<void>;
 }
 
 const BADGE_APPROVED = 'bg-emerald-100 text-emerald-800 border border-emerald-200/80';
@@ -56,19 +56,31 @@ export default function KycCard({ submission, onStatusChange }: KycCardProps) {
   const [isApproveOpen, setIsApproveOpen] = useState(false);
   const [isRejectOpen, setIsRejectOpen] = useState(false);
   const [rejectionReason, setRejectionReason] = useState('');
+  const [isApproving, setIsApproving] = useState(false);
+  const [isRejecting, setIsRejecting] = useState(false);
 
   const images = normalizeKycImages(submission.images);
   const badge = badgeForStatus(submission.status, t);
 
-  const handleApproveConfirm = () => {
-    onStatusChange(submission.id, 'Approved');
-    setIsApproveOpen(false);
+  const handleApproveConfirm = async () => {
+    setIsApproving(true);
+    try {
+      await onStatusChange(submission.id, 'Approved');
+      setIsApproveOpen(false);
+    } finally {
+      setIsApproving(false);
+    }
   };
 
-  const handleRejectConfirm = () => {
-    onStatusChange(submission.id, 'Rejected', rejectionReason);
-    setIsRejectOpen(false);
-    setRejectionReason('');
+  const handleRejectConfirm = async () => {
+    setIsRejecting(true);
+    try {
+      await onStatusChange(submission.id, 'Rejected', rejectionReason);
+      setIsRejectOpen(false);
+      setRejectionReason('');
+    } finally {
+      setIsRejecting(false);
+    }
   };
 
   return (
@@ -205,8 +217,9 @@ export default function KycCard({ submission, onStatusChange }: KycCardProps) {
         confirmLabel={t('approveConfirmLabel')}
         cancelLabel={tModal('cancel')}
         tone="default"
+        isLoading={isApproving}
         onConfirm={handleApproveConfirm}
-        onCancel={() => setIsApproveOpen(false)}
+        onCancel={() => { if (!isApproving) setIsApproveOpen(false); }}
       />
 
       <ConfirmationModal
@@ -217,8 +230,10 @@ export default function KycCard({ submission, onStatusChange }: KycCardProps) {
         cancelLabel={tModal('cancel')}
         tone="danger"
         confirmDisabled={rejectionReason.trim() === ''}
+        isLoading={isRejecting}
         onConfirm={handleRejectConfirm}
         onCancel={() => {
+          if (isRejecting) return;
           setIsRejectOpen(false);
           setRejectionReason('');
         }}

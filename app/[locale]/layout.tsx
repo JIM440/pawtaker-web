@@ -3,6 +3,7 @@ import { getMessages } from 'next-intl/server';
 import { hasLocale } from 'next-intl';
 import { notFound } from 'next/navigation';
 import LocaleSync from '@/components/i18n/LocaleSync';
+import ReactQueryProvider from '@/components/providers/ReactQueryProvider';
 import type { Locale } from '@/lib/i18n/config';
 import { routing } from '@/lib/i18n/routing';
 
@@ -23,8 +24,10 @@ export default async function LocaleLayout({
   const messages = await getMessages({ locale });
   return (
     <NextIntlClientProvider messages={messages} locale={locale}>
-      <LocaleSync currentLocale={locale as Locale} />
-      {children}
+      <ReactQueryProvider>
+        <LocaleSync currentLocale={locale as Locale} />
+        {children}
+      </ReactQueryProvider>
     </NextIntlClientProvider>
   );
 }

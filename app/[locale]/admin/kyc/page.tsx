@@ -4,103 +4,12 @@ import { useMemo, useState } from 'react';
 import { ChevronDown, Search } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import KycCard, { type KycSubmission } from '@/components/admin/KycCard';
-
-const MOCK_SUBMISSIONS: KycSubmission[] = [
-  {
-    id: 'kyc1',
-    userName: 'Sarah Johnson',
-    userEmail: 'sarah.j@example.com',
-    userInitials: 'SJ',
-    userImage: 'https://picsum.photos/seed/kyc-user-1/72',
-    submittedAt: 'Mar 16, 2026',
-    documentType: 'Government ID',
-    status: 'Pending',
-    images: [
-      'https://picsum.photos/seed/kyc1a/400/250',
-      'https://picsum.photos/seed/kyc1b/400/250',
-      'https://picsum.photos/seed/kyc1c/400/250',
-    ],
-  },
-  {
-    id: 'kyc2',
-    userName: 'Mike Ross',
-    userEmail: 'mike.ross@example.com',
-    userInitials: 'MR',
-    userImage: 'https://picsum.photos/seed/kyc-user-2/72',
-    submittedAt: 'Mar 15, 2026',
-    documentType: 'Passport',
-    status: 'Pending',
-    images: ['https://picsum.photos/seed/kyc2a/400/250', 'https://picsum.photos/seed/kyc2b/400/250'],
-  },
-  {
-    id: 'kyc3',
-    userName: 'Emily Davis',
-    userEmail: 'emily.d@example.com',
-    userInitials: 'ED',
-    userImage: 'https://picsum.photos/seed/kyc-user-3/72',
-    submittedAt: 'Mar 12, 2026',
-    documentType: "Driver's License",
-    status: 'Approved',
-    images: [
-      'https://picsum.photos/seed/kyc3a/400/250',
-      'https://picsum.photos/seed/kyc3b/400/250',
-      'https://picsum.photos/seed/kyc3c/400/250',
-    ],
-  },
-  {
-    id: 'kyc4',
-    userName: 'Chris Parker',
-    userEmail: 'chris.p@example.com',
-    userInitials: 'CP',
-    userImage: 'https://picsum.photos/seed/kyc-user-4/72',
-    submittedAt: 'Mar 10, 2026',
-    documentType: 'Government ID',
-    status: 'Rejected',
-    rejectionReason: 'Document image was blurry and unreadable.',
-    images: ['https://picsum.photos/seed/kyc4a/400/250', 'https://picsum.photos/seed/kyc4b/400/250'],
-  },
-  {
-    id: 'kyc5',
-    userName: 'Anna Taylor',
-    userEmail: 'anna.t@example.com',
-    userInitials: 'AT',
-    userImage: 'https://picsum.photos/seed/kyc-user-5/72',
-    submittedAt: 'Mar 8, 2026',
-    documentType: 'Proof of Address',
-    status: 'Approved',
-    images: [
-      'https://picsum.photos/seed/kyc5a/400/250',
-      'https://picsum.photos/seed/kyc5b/400/250',
-      'https://picsum.photos/seed/kyc5c/400/250',
-    ],
-  },
-  {
-    id: 'kyc6',
-    userName: 'David Wilson',
-    userEmail: 'david.w@example.com',
-    userInitials: 'DW',
-    userImage: 'https://picsum.photos/seed/kyc-user-6/72',
-    submittedAt: 'Mar 7, 2026',
-    documentType: 'Passport',
-    status: 'Approved',
-    images: ['https://picsum.photos/seed/kyc6a/400/250', 'https://picsum.photos/seed/kyc6b/400/250'],
-  },
-  {
-    id: 'kyc7',
-    userName: 'Laura Martinez',
-    userEmail: 'laura.m@example.com',
-    userInitials: 'LM',
-    userImage: 'https://picsum.photos/seed/kyc-user-7/72',
-    submittedAt: 'Mar 5, 2026',
-    documentType: 'Government ID',
-    status: 'Pending',
-    images: [
-      'https://picsum.photos/seed/kyc7a/400/250',
-      'https://picsum.photos/seed/kyc7b/400/250',
-      'https://picsum.photos/seed/kyc7c/400/250',
-    ],
-  },
-];
+import Skeleton from '@/components/ui/Skeleton';
+import {
+  useAdminKycSubmissionsQuery,
+  useApproveKycSubmissionMutation,
+  useRejectKycSubmissionMutation,
+} from '@/lib/queries/admin/kyc';
 
 type KycFilter = 'All' | 'Pending' | 'Approved' | 'Rejected';
 
@@ -110,9 +19,36 @@ function isApprovedLike(s: KycSubmission): boolean {
 
 export default function KYCPage() {
   const t = useTranslations('admin.kyc');
-  const [submissions, setSubmissions] = useState<KycSubmission[]>(MOCK_SUBMISSIONS);
   const [activeFilter, setActiveFilter] = useState<KycFilter>('All');
   const [search, setSearch] = useState('');
+  const kycQuery = useAdminKycSubmissionsQuery();
+  const approveMutation = useApproveKycSubmissionMutation();
+  const rejectMutation = useRejectKycSubmissionMutation();
+
+  const submissions: KycSubmission[] = useMemo(() => {
+    const formatDate = (value: string) => {
+      const d = new Date(value);
+      if (Number.isNaN(d.getTime())) return value;
+      return d.toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+      });
+    };
+
+    return (kycQuery.data ?? []).map((s) => ({
+      id: s.id,
+      userName: s.userName,
+      userEmail: s.userEmail,
+      userInitials: s.userInitials,
+      userImage: s.userImage ?? undefined,
+      submittedAt: formatDate(s.submittedAt),
+      documentType: s.documentType,
+      status: s.status,
+      images: s.images,
+      rejectionReason: s.rejectionReason,
+    }));
+  }, [kycQuery.data]);
 
   const counts: Record<KycFilter, number> = useMemo(() => {
     return {
@@ -139,16 +75,21 @@ export default function KYCPage() {
       );
   }, [submissions, activeFilter, search]);
 
-  const handleStatusChange = (id: string, status: 'Approved' | 'Rejected', reason?: string) => {
-    setSubmissions((prev) =>
-      prev.map((s) => (s.id === id ? { ...s, status, rejectionReason: reason } : s))
-    );
+  const handleStatusChange = async (id: string, status: 'Approved' | 'Rejected', reason?: string) => {
+    try {
+      if (status === 'Approved') {
+        await approveMutation.mutateAsync({ id });
+      } else {
+        await rejectMutation.mutateAsync({ id, reviewer_notes: reason ?? '' });
+      }
+    } catch (error) {
+      console.error('[admin/kyc] failed to update status', error);
+    }
   };
 
   return (
-    <div className="p-6 md:p-8">
-      <div className="mb-8 flex flex-col gap-2">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+    <div className="overflow-x-hidden p-6 md:p-8">
+      <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div className="flex flex-col gap-1.5 sm:w-auto">
             <label
               htmlFor="kyc-status-filter"
@@ -156,12 +97,12 @@ export default function KYCPage() {
             >
               {t('filterStatusLabel')}
             </label>
-            <div className="relative w-fit">
+            <div className="relative w-full sm:w-fit">
               <select
                 id="kyc-status-filter"
                 value={activeFilter}
                 onChange={(e) => setActiveFilter(e.target.value as KycFilter)}
-                className="w-auto min-w-[10rem] cursor-pointer appearance-none rounded-full border border-outline/30 bg-white px-3 py-1.5 pr-9 text-xs font-medium text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/25"
+                className="w-full min-w-40 cursor-pointer appearance-none rounded-full border border-outline/30 bg-white px-3 py-1.5 pr-9 text-xs font-medium text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/25 sm:w-auto"
               >
                 <option value="All">
                   {t('all')} ({counts.All})
@@ -183,29 +124,55 @@ export default function KYCPage() {
             </div>
           </div>
 
-          <div className="relative min-w-0 flex-1 sm:max-w-md">
-            <label htmlFor="kyc-search" className="sr-only">
-              {t('searchLabel')}
-            </label>
-            <Search
-              className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-on-surface/40"
-              aria-hidden="true"
-            />
-            <input
-              id="kyc-search"
-              type="search"
-              placeholder={t('searchPlaceholder')}
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full cursor-text rounded-full border border-outline/30 bg-white py-2 pl-9 pr-4 text-sm text-on-surface placeholder:text-on-surface/50 focus:outline-none focus:ring-2 focus:ring-primary"
-            />
-          </div>
+        <div className="relative min-w-0 w-full sm:max-w-md">
+          <label htmlFor="kyc-search" className="sr-only">
+            {t('searchLabel')}
+          </label>
+          <Search
+            className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-on-surface/40"
+            aria-hidden="true"
+          />
+          <input
+            id="kyc-search"
+            type="search"
+            placeholder={t('searchPlaceholder')}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full cursor-text rounded-full border border-outline/30 bg-white py-2 pl-9 pr-4 text-sm text-on-surface placeholder:text-on-surface/50 focus:outline-none focus:ring-2 focus:ring-primary"
+          />
         </div>
-
-        {/* Status counts moved into the select options */}
       </div>
 
-      {filtered.length === 0 ? (
+      {kycQuery.isLoading ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div
+              key={i}
+              className="flex flex-col overflow-hidden rounded-2xl border border-outline/20 bg-white shadow-sm"
+            >
+              <Skeleton className="h-[190px] w-full rounded-none" />
+              <div className="p-4 space-y-3">
+                <Skeleton className="h-4 w-1/2" />
+                <Skeleton className="h-3 w-2/3" />
+                <Skeleton className="h-10 w-full rounded-full" />
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : kycQuery.isError ? (
+        <div className="text-center py-16 text-on-surface/60">
+          <p className="text-sm mb-4">
+            {kycQuery.error instanceof Error ? kycQuery.error.message : 'Failed to load KYC submissions.'}
+          </p>
+          <button
+            type="button"
+            onClick={() => kycQuery.refetch()}
+            className="cursor-pointer rounded-full bg-primary px-4 py-2 text-sm font-semibold text-on-primary hover:bg-primary/90"
+          >
+            Retry
+          </button>
+        </div>
+      ) : filtered.length === 0 ? (
         <div className="text-center py-16 text-on-surface/50">
           <Search className="mx-auto mb-3 h-10 w-10" aria-hidden="true" />
           <p className="text-sm">{t('emptyState')}</p>
