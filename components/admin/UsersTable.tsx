@@ -9,7 +9,8 @@ import LabeledSelect from './LabeledSelect';
 import UserAvatar from './UserAvatar';
 import UserDetailsModal, { type UserDetailsData } from './UserDetailsModal';
 import Skeleton from '@/components/ui/Skeleton';
-import { useAdminUsersQuery } from '@/lib/queries/admin/users';
+import { useToast } from '@/components/ui/ToastProvider';
+import { useAdminUsersQuery, useDeactivateAdminUserMutation, useDeleteAdminUserMutation } from '@/lib/queries/admin/users';
 import type { AdminUserRow } from '@/lib/api/admin/users';
 
 type User = UserDetailsData;
@@ -158,9 +159,10 @@ function UserRowActionsMenu({
 export default function UsersTable() {
   const t = useTranslations('admin.users');
   const tModal = useTranslations('admin.modal');
+  const { showToast } = useToast();
   const usersQuery = useAdminUsersQuery();
-  const [deletedIds, setDeletedIds] = useState<Set<string>>(new Set());
-  const [deactivatedIds, setDeactivatedIds] = useState<Set<string>>(new Set());
+  const deactivateMutation = useDeactivateAdminUserMutation();
+  const deleteMutation = useDeleteAdminUserMutation();
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState<SortKey>('none');
   const [deleteId, setDeleteId] = useState<string | null>(null);
@@ -168,14 +170,8 @@ export default function UsersTable() {
   const [detailsUserId, setDetailsUserId] = useState<string | null>(null);
 
   const users = useMemo<User[]>(() => {
-    return (usersQuery.data ?? [])
-      .filter((row) => !deletedIds.has(row.id))
-      .map((row) => {
-        const base = mapRowToUser(row);
-        if (deactivatedIds.has(row.id)) return { ...base, status: 'Deactivated' as const };
-        return base;
-      });
-  }, [usersQuery.data, deletedIds, deactivatedIds]);
+    return (usersQuery.data ?? []).map((row) => mapRowToUser(row));
+  }, [usersQuery.data]);
 
   const detailsUser = useMemo(
     () => (detailsUserId ? users.find((u) => u.id === detailsUserId) ?? null : null),
@@ -196,15 +192,25 @@ export default function UsersTable() {
     return result;
   }, [users, search, sort]);
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (!deleteId) return;
-    setDeletedIds((prev) => new Set([...prev, deleteId]));
+    try {
+      await deleteMutation.mutateAsync(deleteId);
+      showToast(t('deleteConfirmLabel'), 'success');
+    } catch (error) {
+      showToast(error instanceof Error ? error.message : 'Failed to delete user.', 'error');
+    }
     setDeleteId(null);
   };
 
-  const handleDeactivate = () => {
+  const handleDeactivate = async () => {
     if (!deactivateId) return;
-    setDeactivatedIds((prev) => new Set([...prev, deactivateId]));
+    try {
+      await deactivateMutation.mutateAsync(deactivateId);
+      showToast(t('deactivateConfirmLabel'), 'success');
+    } catch (error) {
+      showToast(error instanceof Error ? error.message : 'Failed to deactivate user.', 'error');
+    }
     setDeactivateId(null);
   };
 

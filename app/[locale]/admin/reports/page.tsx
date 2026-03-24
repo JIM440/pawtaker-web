@@ -6,6 +6,8 @@ import { useTranslations } from 'next-intl';
 import LabeledSearch from '@/components/admin/LabeledSearch';
 import ConfirmationModal from '@/components/admin/ConfirmationModal';
 import UserAvatar from '@/components/admin/UserAvatar';
+import { useDeleteAdminReportMutation, useAdminReportsQuery } from '@/lib/queries/admin/reports';
+import { useToast } from '@/components/ui/ToastProvider';
 
 type Report = {
   id: string;
@@ -13,33 +15,6 @@ type Report = {
   reason: string;
   reporterImage?: string;
 };
-
-const MOCK_REPORTS: Report[] = [
-  {
-    id: 'rep1',
-    reporter: 'Sarah Jenkins',
-    reason: 'Severe Harassment',
-    reporterImage: 'https://picsum.photos/seed/reporter-rep1/64',
-  },
-  {
-    id: 'rep2',
-    reporter: 'Alex Rivera',
-    reason: 'Fraudulent Listing',
-    reporterImage: 'https://picsum.photos/seed/reporter-rep2/64',
-  },
-  {
-    id: 'rep3',
-    reporter: 'Anonymous_77',
-    reason: 'Inappropriate Media',
-    reporterImage: 'https://picsum.photos/seed/reporter-rep3/64',
-  },
-  {
-    id: 'rep4',
-    reporter: 'Emily Chen',
-    reason: 'Spam Activity',
-    reporterImage: 'https://picsum.photos/seed/reporter-rep4/64',
-  },
-];
 
 function ReportRowActionsMenu({
   reportId,
@@ -97,9 +72,12 @@ function ReportRowActionsMenu({
 export default function ReportsPage() {
   const t = useTranslations('admin.reports');
   const tModal = useTranslations('admin.modal');
+  const { showToast } = useToast();
+  const reportsQuery = useAdminReportsQuery();
+  const deleteReportMutation = useDeleteAdminReportMutation();
   const [reporterQuery, setReporterQuery] = useState('');
-  const [reports, setReports] = useState<Report[]>(MOCK_REPORTS);
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const reports = useMemo(() => (reportsQuery.data ?? []) as Report[], [reportsQuery.data]);
 
   const filtered = useMemo(() => {
     const q = reporterQuery.trim().toLowerCase();
@@ -107,9 +85,14 @@ export default function ReportsPage() {
     return reports.filter((r) => r.reporter.toLowerCase().includes(q));
   }, [reporterQuery, reports]);
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (!deleteId) return;
-    setReports((prev) => prev.filter((r) => r.id !== deleteId));
+    try {
+      await deleteReportMutation.mutateAsync(deleteId);
+      showToast(t('deleteConfirmLabel'), 'success');
+    } catch (error) {
+      showToast(error instanceof Error ? error.message : 'Failed to delete report.', 'error');
+    }
     setDeleteId(null);
   };
 
@@ -137,7 +120,32 @@ export default function ReportsPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-outline/15">
-                {filtered.map((r) => (
+                {reportsQuery.isLoading && (
+                  <tr>
+                    <td colSpan={3} className="px-6 py-12 text-center text-sm text-on-surface/50">
+                      Loading...
+                    </td>
+                  </tr>
+                )}
+                {reportsQuery.isError && (
+                  <tr>
+                    <td colSpan={3} className="px-6 py-12 text-center text-sm text-on-surface/50">
+                      <p className="mb-3">
+                        {reportsQuery.error instanceof Error
+                          ? reportsQuery.error.message
+                          : 'Failed to load reports.'}
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => reportsQuery.refetch()}
+                        className="cursor-pointer rounded-full bg-primary px-4 py-2 text-sm font-semibold text-on-primary hover:bg-primary/90"
+                      >
+                        Retry
+                      </button>
+                    </td>
+                  </tr>
+                )}
+                {!reportsQuery.isLoading && !reportsQuery.isError && filtered.map((r) => (
                   <tr key={r.id} className="hover:bg-white transition-colors">
                     <td className="px-6 py-5">
                       <div className="flex items-start gap-3">
@@ -172,7 +180,7 @@ export default function ReportsPage() {
                   </tr>
                 ))}
 
-                {filtered.length === 0 && (
+                {!reportsQuery.isLoading && !reportsQuery.isError && filtered.length === 0 && (
                   <tr>
                     <td colSpan={3} className="px-6 py-12 text-center text-sm text-on-surface/50">
                       {t('emptyState')}

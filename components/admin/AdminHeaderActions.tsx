@@ -5,15 +5,7 @@ import { Bell } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import TopbarLangToggle from './TopbarLangToggle';
-
-type AdminNotificationKey =
-  | 'kycPending'
-  | 'reportNew'
-  | 'contactWeb'
-  | 'reviewFlagged'
-  | 'requestCompleted'
-  | 'userRegistered'
-  | 'contactApp';
+import { useAdminNotificationsQuery } from '@/lib/queries/admin/notifications';
 
 type AdminNotification = {
   id: string;
@@ -24,68 +16,16 @@ type AdminNotification = {
   unread: boolean;
 };
 
-const NOTIFICATION_ORDER: { id: string; i18nKey: AdminNotificationKey; unread: boolean; avatarUrl: string }[] = [
-  {
-    id: 'n1',
-    i18nKey: 'kycPending',
-    unread: true,
-    avatarUrl: 'https://picsum.photos/seed/admin-noti-kyc/64',
-  },
-  {
-    id: 'n2',
-    i18nKey: 'reportNew',
-    unread: true,
-    avatarUrl: 'https://picsum.photos/seed/admin-noti-report/64',
-  },
-  {
-    id: 'n3',
-    i18nKey: 'contactWeb',
-    unread: false,
-    avatarUrl: 'https://picsum.photos/seed/admin-noti-contact/64',
-  },
-  {
-    id: 'n4',
-    i18nKey: 'reviewFlagged',
-    unread: false,
-    avatarUrl: 'https://picsum.photos/seed/admin-noti-review/64',
-  },
-  {
-    id: 'n5',
-    i18nKey: 'requestCompleted',
-    unread: false,
-    avatarUrl: 'https://picsum.photos/seed/admin-noti-request/64',
-  },
-  {
-    id: 'n6',
-    i18nKey: 'userRegistered',
-    unread: false,
-    avatarUrl: 'https://picsum.photos/seed/admin-noti-user/64',
-  },
-  {
-    id: 'n7',
-    i18nKey: 'contactApp',
-    unread: false,
-    avatarUrl: 'https://picsum.photos/seed/admin-noti-app/64',
-  },
-];
-
 export default function AdminHeaderActions() {
   const t = useTranslations('admin.notifications');
+  const notificationsQuery = useAdminNotificationsQuery();
   const [open, setOpen] = useState(false);
   const [markAllRead, setMarkAllRead] = useState(false);
   const rootRef = useRef<HTMLDivElement | null>(null);
 
   const notifications: AdminNotification[] = useMemo(
-    () =>
-      NOTIFICATION_ORDER.map((row) => ({
-        id: row.id,
-        title: t(`${row.i18nKey}.title`),
-        preview: t(`${row.i18nKey}.preview`),
-        age: t(`${row.i18nKey}.age`),
-        avatarUrl: row.avatarUrl,
-        unread: markAllRead ? false : row.unread,
-      })),
-    [t, markAllRead]
+    () => (notificationsQuery.data ?? []).map((row) => ({ ...row, unread: markAllRead ? false : row.unread })),
+    [notificationsQuery.data, markAllRead]
   );
 
   const unreadCount = notifications.filter((n) => n.unread).length;
@@ -141,6 +81,18 @@ export default function AdminHeaderActions() {
             <div className="border-t border-outline/15" />
 
             <ul className="max-h-[420px] space-y-2 overflow-y-auto p-2">
+              {notificationsQuery.isLoading ? (
+                <li className="rounded-xl border border-outline/10 px-3 py-4 text-xs text-on-surface/60">
+                  Loading...
+                </li>
+              ) : null}
+              {notificationsQuery.isError ? (
+                <li className="rounded-xl border border-outline/10 px-3 py-4 text-xs text-on-surface/60">
+                  {notificationsQuery.error instanceof Error
+                    ? notificationsQuery.error.message
+                    : 'Failed to load notifications.'}
+                </li>
+              ) : null}
               {notifications.map((n) => (
                 <li
                   key={n.id}
@@ -173,6 +125,11 @@ export default function AdminHeaderActions() {
                   </div>
                 </li>
               ))}
+              {!notificationsQuery.isLoading && !notificationsQuery.isError && notifications.length === 0 ? (
+                <li className="rounded-xl border border-outline/10 px-3 py-4 text-xs text-on-surface/60">
+                  {t('title')}: 0
+                </li>
+              ) : null}
             </ul>
           </div>
         )}

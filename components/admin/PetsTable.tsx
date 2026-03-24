@@ -7,6 +7,8 @@ import ConfirmationModal from './ConfirmationModal';
 import LabeledSearch from './LabeledSearch';
 import LabeledSelect from './LabeledSelect';
 import UserAvatar from './UserAvatar';
+import { useToast } from '@/components/ui/ToastProvider';
+import { useAdminPetsQuery, useDeleteAdminPetMutation } from '@/lib/queries/admin/pets';
 
 type Species = 'Dog' | 'Cat' | 'Other';
 type CareSort = 'most' | 'least';
@@ -24,113 +26,6 @@ interface Pet {
   tags: string[];
   careRequests: number;
 }
-
-const MOCK_PETS: Pet[] = [
-  {
-    id: 'p1',
-    name: 'Buddy',
-    image: 'https://picsum.photos/seed/pawtaker-p1/160',
-    species: 'Dog',
-    breed: 'Golden Retriever',
-    ownerName: 'Sarah Johnson',
-    ownerImage: 'https://picsum.photos/seed/pets-owner-1/72',
-    ownerEmail: 'sarah.j@example.com',
-    dob: '2019-06-10',
-    tags: ['Vaccinated'],
-    careRequests: 18,
-  },
-  {
-    id: 'p2',
-    name: 'Luna',
-    image: 'https://picsum.photos/seed/pawtaker-p2/160',
-    species: 'Cat',
-    breed: 'Siamese',
-    ownerName: 'Mike Ross',
-    ownerImage: 'https://picsum.photos/seed/pets-owner-2/72',
-    ownerEmail: 'mike.ross@example.com',
-    dob: '2021-02-20',
-    tags: ['Indoor only'],
-    careRequests: 7,
-  },
-  {
-    id: 'p3',
-    name: 'Max',
-    image: 'https://picsum.photos/seed/pawtaker-p3/160',
-    species: 'Dog',
-    breed: 'Beagle',
-    ownerName: 'Emily Davis',
-    ownerImage: 'https://picsum.photos/seed/pets-owner-3/72',
-    ownerEmail: 'emily.d@example.com',
-    dob: '2020-11-05',
-    tags: ['Special needs', 'Vaccinated'],
-    careRequests: 25,
-  },
-  {
-    id: 'p4',
-    name: 'Bella',
-    image: 'https://picsum.photos/seed/pawtaker-p4/160',
-    species: 'Other',
-    breed: 'Rabbit',
-    ownerName: 'Chris Parker',
-    ownerImage: 'https://picsum.photos/seed/pets-owner-4/72',
-    ownerEmail: 'chris.p@example.com',
-    dob: '2022-04-01',
-    tags: [],
-    careRequests: 2,
-  },
-  {
-    id: 'p5',
-    name: 'Oliver',
-    image: 'https://picsum.photos/seed/pawtaker-p5/160',
-    species: 'Cat',
-    breed: 'Persian',
-    ownerName: 'Anna Taylor',
-    ownerImage: 'https://picsum.photos/seed/pets-owner-5/72',
-    ownerEmail: 'anna.t@example.com',
-    dob: '2018-09-15',
-    tags: ['Indoor only', 'Senior'],
-    careRequests: 11,
-  },
-  {
-    id: 'p6',
-    name: 'Charlie',
-    image: 'https://picsum.photos/seed/pawtaker-p6/160',
-    species: 'Dog',
-    breed: 'Poodle',
-    ownerName: 'David Wilson',
-    ownerImage: 'https://picsum.photos/seed/pets-owner-6/72',
-    ownerEmail: 'david.w@example.com',
-    dob: '2021-07-22',
-    tags: ['Vaccinated'],
-    careRequests: 9,
-  },
-  {
-    id: 'p7',
-    name: 'Mochi',
-    image: 'https://picsum.photos/seed/pawtaker-p7/160',
-    species: 'Cat',
-    breed: 'Maine Coon',
-    ownerName: 'Laura Martinez',
-    ownerImage: 'https://picsum.photos/seed/pets-owner-7/72',
-    ownerEmail: 'laura.m@example.com',
-    dob: '2020-03-14',
-    tags: ['Indoor only'],
-    careRequests: 15,
-  },
-  {
-    id: 'p8',
-    name: 'Rocky',
-    image: 'https://picsum.photos/seed/pawtaker-p8/160',
-    species: 'Dog',
-    breed: 'Labrador',
-    ownerName: 'Sarah Johnson',
-    ownerImage: 'https://picsum.photos/seed/pets-owner-1/72',
-    ownerEmail: 'sarah.j@example.com',
-    dob: '2017-12-01',
-    tags: ['Senior', 'Vaccinated'],
-    careRequests: 31,
-  },
-];
 
 function getAge(dob: string): string {
   const birth = new Date(dob);
@@ -194,11 +89,14 @@ function PetRowActionsMenu({
 export default function PetsTable() {
   const t = useTranslations('admin.pets');
   const tModal = useTranslations('admin.modal');
-  const [pets, setPets] = useState<Pet[]>(MOCK_PETS);
+  const { showToast } = useToast();
+  const petsQuery = useAdminPetsQuery();
+  const deletePetMutation = useDeleteAdminPetMutation();
   const [search, setSearch] = useState('');
   const [speciesFilter, setSpeciesFilter] = useState<Species | 'All'>('All');
   const [careRequestsSort, setCareRequestsSort] = useState<CareSort>('most');
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const pets = useMemo(() => (petsQuery.data ?? []) as Pet[], [petsQuery.data]);
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -220,9 +118,14 @@ export default function PetsTable() {
     return sorted;
   }, [pets, search, speciesFilter, careRequestsSort]);
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (!deleteId) return;
-    setPets((prev) => prev.filter((p) => p.id !== deleteId));
+    try {
+      await deletePetMutation.mutateAsync(deleteId);
+      showToast(t('deleteConfirmLabel'), 'success');
+    } catch (error) {
+      showToast(error instanceof Error ? error.message : 'Failed to delete pet.', 'error');
+    }
     setDeleteId(null);
   };
 
@@ -283,7 +186,30 @@ export default function PetsTable() {
               </tr>
             </thead>
             <tbody className="divide-y divide-outline/10 text-sm">
-              {filtered.map((pet) => (
+              {petsQuery.isLoading && (
+                <tr>
+                  <td colSpan={6} className="px-6 py-10 text-center text-sm text-on-surface/50">
+                    Loading...
+                  </td>
+                </tr>
+              )}
+              {petsQuery.isError && (
+                <tr>
+                  <td colSpan={6} className="px-6 py-10 text-center text-sm text-on-surface/50">
+                    <p className="mb-3">
+                      {petsQuery.error instanceof Error ? petsQuery.error.message : 'Failed to load pets.'}
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => petsQuery.refetch()}
+                      className="cursor-pointer rounded-full bg-primary px-4 py-2 text-sm font-semibold text-on-primary hover:bg-primary/90"
+                    >
+                      Retry
+                    </button>
+                  </td>
+                </tr>
+              )}
+              {!petsQuery.isLoading && !petsQuery.isError && filtered.map((pet) => (
                 <tr key={pet.id} className="hover:bg-white transition-colors">
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
@@ -345,7 +271,7 @@ export default function PetsTable() {
                 </tr>
               ))}
 
-              {filtered.length === 0 && (
+              {!petsQuery.isLoading && !petsQuery.isError && filtered.length === 0 && (
                 <tr>
                   <td colSpan={6} className="px-6 py-10 text-center text-sm text-on-surface/50">
                     {t('emptyState')}

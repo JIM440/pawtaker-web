@@ -7,6 +7,8 @@ import ConfirmationModal from '@/components/admin/ConfirmationModal';
 import LabeledSearch from '@/components/admin/LabeledSearch';
 import LabeledSelect from '@/components/admin/LabeledSelect';
 import UserAvatar from '@/components/admin/UserAvatar';
+import { useToast } from '@/components/ui/ToastProvider';
+import { useAdminRequestsQuery, useDeleteAdminRequestMutation } from '@/lib/queries/admin/requests';
 
 type RequestStatus = 'ongoing' | 'completed' | 'canceled';
 type StatusFilter = 'all' | RequestStatus;
@@ -28,84 +30,6 @@ interface CareRequest {
   serviceDates: string;
   status: RequestStatus;
 }
-
-const MOCK_CARE_REQUESTS: CareRequest[] = [
-  {
-    id: 'cr1',
-    petName: 'Buddy',
-    petBreed: 'Golden Retriever',
-    petImage: 'https://picsum.photos/seed/pawtaker-cr1/160',
-    ownerName: 'Sarah Johnson',
-    ownerImage: 'https://picsum.photos/seed/req-owner-cr1/72',
-    ownerEmail: 'sarah.j@example.com',
-    careGivenByName: 'Anna Taylor',
-    careGivenByImage: 'https://picsum.photos/seed/req-cgiver-cr1/72',
-    careGivenByEmail: 'anna.t@example.com',
-    careType: 'daytime',
-    serviceDates: 'Oct 12 - Oct 15',
-    status: 'ongoing',
-  },
-  {
-    id: 'cr2',
-    petName: 'Luna',
-    petBreed: 'Siamese',
-    petImage: 'https://picsum.photos/seed/pawtaker-cr2/160',
-    ownerName: 'Mike Ross',
-    ownerImage: 'https://picsum.photos/seed/req-owner-cr2/72',
-    ownerEmail: 'mike.ross@example.com',
-    careGivenByName: 'Laura Martinez',
-    careGivenByImage: 'https://picsum.photos/seed/req-cgiver-cr2/72',
-    careGivenByEmail: 'laura.m@example.com',
-    careType: 'play/walk',
-    serviceDates: 'Oct 14 - Oct 14',
-    status: 'ongoing',
-  },
-  {
-    id: 'cr3',
-    petName: 'Max',
-    petBreed: 'Beagle',
-    petImage: 'https://picsum.photos/seed/pawtaker-cr3/160',
-    ownerName: 'Emily Davis',
-    ownerImage: 'https://picsum.photos/seed/req-owner-cr3/72',
-    ownerEmail: 'emily.d@example.com',
-    careGivenByName: 'David Wilson',
-    careGivenByImage: 'https://picsum.photos/seed/req-cgiver-cr3/72',
-    careGivenByEmail: 'david.w@example.com',
-    careType: 'vacation',
-    serviceDates: 'Oct 10 - Oct 20',
-    status: 'completed',
-  },
-  {
-    id: 'cr4',
-    petName: 'Bella',
-    petBreed: 'Rabbit',
-    petImage: 'https://picsum.photos/seed/pawtaker-cr4/160',
-    ownerName: 'Chris Pratt',
-    ownerImage: 'https://picsum.photos/seed/req-owner-cr4/72',
-    ownerEmail: 'chris.pratt@example.com',
-    careGivenByName: 'Mike Ross',
-    careGivenByImage: 'https://picsum.photos/seed/req-cgiver-cr4/72',
-    careGivenByEmail: 'mike.ross@example.com',
-    careType: 'night',
-    serviceDates: 'Oct 01 - Oct 03',
-    status: 'canceled',
-  },
-  {
-    id: 'cr5',
-    petName: 'Charlie',
-    petBreed: 'Poodle',
-    petImage: 'https://picsum.photos/seed/pawtaker-cr5/160',
-    ownerName: 'Anna Taylor',
-    ownerImage: 'https://picsum.photos/seed/req-owner-cr5/72',
-    ownerEmail: 'anna.t@example.com',
-    careGivenByName: 'Sarah Johnson',
-    careGivenByImage: 'https://picsum.photos/seed/req-cgiver-cr5/72',
-    careGivenByEmail: 'sarah.j@example.com',
-    careType: 'daytime',
-    serviceDates: 'Oct 05 - Oct 06',
-    status: 'completed',
-  },
-];
 
 function getInitials(name: string) {
   return name
@@ -169,10 +93,13 @@ function RequestActionsMenu({
 export default function RequestsPage() {
   const t = useTranslations('admin.requests');
   const tModal = useTranslations('admin.modal');
+  const { showToast } = useToast();
+  const requestsQuery = useAdminRequestsQuery();
+  const deleteRequestMutation = useDeleteAdminRequestMutation();
   const [status, setStatus] = useState<StatusFilter>('all');
   const [search, setSearch] = useState('');
-  const [requests, setRequests] = useState<CareRequest[]>(MOCK_CARE_REQUESTS);
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const requests = useMemo(() => (requestsQuery.data ?? []) as CareRequest[], [requestsQuery.data]);
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -195,9 +122,14 @@ export default function RequestsPage() {
     });
   }, [requests, search, status]);
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (!deleteId) return;
-    setRequests((prev) => prev.filter((r) => r.id !== deleteId));
+    try {
+      await deleteRequestMutation.mutateAsync(deleteId);
+      showToast(t('deleteConfirmLabel'), 'success');
+    } catch (error) {
+      showToast(error instanceof Error ? error.message : 'Failed to delete request.', 'error');
+    }
     setDeleteId(null);
   };
 
@@ -246,7 +178,32 @@ export default function RequestsPage() {
             </thead>
 
             <tbody className="divide-y divide-outline/10 text-sm">
-              {filtered.map((r) => {
+              {requestsQuery.isLoading && (
+                <tr>
+                  <td colSpan={7} className="px-6 py-10 text-center text-sm text-on-surface/50">
+                    Loading...
+                  </td>
+                </tr>
+              )}
+              {requestsQuery.isError && (
+                <tr>
+                  <td colSpan={7} className="px-6 py-10 text-center text-sm text-on-surface/50">
+                    <p className="mb-3">
+                      {requestsQuery.error instanceof Error
+                        ? requestsQuery.error.message
+                        : 'Failed to load care requests.'}
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => requestsQuery.refetch()}
+                      className="cursor-pointer rounded-full bg-primary px-4 py-2 text-sm font-semibold text-on-primary hover:bg-primary/90"
+                    >
+                      Retry
+                    </button>
+                  </td>
+                </tr>
+              )}
+              {!requestsQuery.isLoading && !requestsQuery.isError && filtered.map((r) => {
                 const statusClass =
                   r.status === 'ongoing'
                     ? 'bg-blue-100 text-blue-800'
@@ -329,7 +286,7 @@ export default function RequestsPage() {
                 );
               })}
 
-              {filtered.length === 0 && (
+              {!requestsQuery.isLoading && !requestsQuery.isError && filtered.length === 0 && (
                 <tr>
                   <td colSpan={7} className="px-6 py-10 text-center text-sm text-on-surface/50">
                     {t('emptyState')}

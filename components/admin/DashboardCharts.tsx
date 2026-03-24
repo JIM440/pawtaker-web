@@ -13,35 +13,13 @@ import {
   Legend,
 } from 'recharts';
 import { useTranslations } from 'next-intl';
-
-const growthData = [
-  { month: 'Apr', users: 2100 },
-  { month: 'May', users: 2800 },
-  { month: 'Jun', users: 3600 },
-  { month: 'Jul', users: 4500 },
-  { month: 'Aug', users: 5400 },
-  { month: 'Sep', users: 6200 },
-  { month: 'Oct', users: 7000 },
-  { month: 'Nov', users: 7800 },
-  { month: 'Dec', users: 8300 },
-  { month: 'Jan', users: 8700 },
-  { month: 'Feb', users: 9200 },
-  { month: 'Mar', users: 9840 },
-];
-
-const careData = [
-  { week: 'W1', given: 42, received: 38 },
-  { week: 'W2', given: 55, received: 50 },
-  { week: 'W3', given: 48, received: 45 },
-  { week: 'W4', given: 63, received: 58 },
-  { week: 'W5', given: 71, received: 66 },
-  { week: 'W6', given: 59, received: 54 },
-  { week: 'W7', given: 78, received: 72 },
-  { week: 'W8', given: 84, received: 79 },
-];
+import { useAdminDashboardQuery } from '@/lib/queries/admin/dashboard';
 
 export default function DashboardCharts() {
   const t = useTranslations('admin.dashboard');
+  const dashboardQuery = useAdminDashboardQuery();
+  const growthData = dashboardQuery.data?.charts.growth ?? [];
+  const careData = dashboardQuery.data?.charts.careActivity ?? [];
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
       {/* Platform Growth */}
@@ -77,6 +55,9 @@ export default function DashboardCharts() {
             />
           </AreaChart>
         </ResponsiveContainer>
+        {dashboardQuery.isError ? (
+          <p className="mt-3 text-xs text-on-surface/60">Failed to load chart data.</p>
+        ) : null}
       </div>
 
       {/* Care Given vs Received */}
@@ -96,6 +77,9 @@ export default function DashboardCharts() {
             <Bar dataKey="received" name={t('careReceived')} fill="#74565f" radius={[6, 6, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
+        {dashboardQuery.isError ? (
+          <p className="mt-3 text-xs text-on-surface/60">Failed to load chart data.</p>
+        ) : null}
       </div>
     </div>
   );

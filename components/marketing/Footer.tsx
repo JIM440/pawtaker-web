@@ -6,14 +6,14 @@ import { Link } from '@/lib/i18n/navigation';
 
 function footerLinkClass(pathWithoutLocale: string, href: string, isHash = false) {
   if (isHash) {
-    return 'text-slate-600 transition-colors hover:bg-primary/10 hover:text-primary rounded-full px-2 py-1 -mx-2 inline-block';
+    return 'inline-block max-w-full rounded-full px-2 py-1 text-slate-600 transition-colors hover:bg-primary/10 hover:text-primary';
   }
   const active =
     href === '/'
       ? pathWithoutLocale === '/' || pathWithoutLocale === ''
       : pathWithoutLocale === href || pathWithoutLocale.startsWith(`${href}/`);
   return [
-    'inline-block rounded-full px-3 py-1 -mx-2 text-sm font-medium transition-colors',
+    'inline-block max-w-full rounded-full px-3 py-1 text-sm font-medium transition-colors',
     active
       ? 'bg-primary/10 text-primary shadow-sm'
       : 'text-slate-700 hover:bg-primary/5 hover:text-primary',
@@ -30,22 +30,22 @@ export async function MarketingFooter() {
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-50 rounded-sm';
 
   return (
-    <footer className="border-t border-slate-200 bg-slate-50 px-4 py-14 text-slate-900 sm:px-6 lg:px-16">
+    <footer className="overflow-x-clip border-t border-slate-200 bg-slate-50 px-4 py-14 text-slate-900 sm:px-6 lg:px-16">
       <div className="mx-auto grid max-w-[1300px] grid-cols-1 gap-12 md:grid-cols-12 md:gap-10">
-        <div className="md:col-span-4">
+        <div className="min-w-0 md:col-span-4">
           <div className="mb-5">
             <Image
               src="/logos/primary-logo.png"
               alt={t('brand')}
               width={280}
               height={84}
-              className="h-auto w-[220px] shrink-0 sm:w-[260px]"
+              className="h-auto w-[220px] max-w-full shrink-0 sm:w-[260px]"
             />
           </div>
-          <p className="max-w-sm text-sm leading-relaxed text-slate-600">{t('description')}</p>
+          <p className="max-w-sm break-words text-sm leading-relaxed text-slate-600">{t('description')}</p>
         </div>
 
-        <div className="md:col-span-3">
+        <div className="min-w-0 md:col-span-3">
           <h5 className="mb-4 text-xs font-bold uppercase tracking-wider text-slate-500">
             {t('platformTitle')}
           </h5>
@@ -71,7 +71,7 @@ export async function MarketingFooter() {
           </ul>
         </div>
 
-        <div className="md:col-span-3">
+        <div className="min-w-0 md:col-span-3">
           <h5 className="mb-4 text-xs font-bold uppercase tracking-wider text-slate-500">
             {t('companyTitle')}
           </h5>
@@ -102,7 +102,7 @@ export async function MarketingFooter() {
           </ul>
         </div>
 
-        <div className="md:col-span-2">
+        <div className="min-w-0 md:col-span-2">
           <h5 className="mb-4 text-xs font-bold uppercase tracking-wider text-slate-500">
             {t('contactTitle')}
           </h5>
@@ -111,14 +111,14 @@ export async function MarketingFooter() {
               <Mail className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
               <a
                 href={`mailto:${t('contactEmail')}`}
-                className={`text-slate-700 transition-colors hover:text-primary ${focusRing}`}
+                className={`max-w-full break-all text-slate-700 transition-colors hover:text-primary ${focusRing}`}
               >
                 {t('contactEmail')}
               </a>
             </li>
             <li className="flex items-start gap-2.5">
               <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
-              <span className="text-slate-600">{t('contactLocation')}</span>
+              <span className="break-words text-slate-600">{t('contactLocation')}</span>
             </li>
           </ul>
         </div>

@@ -4,6 +4,7 @@ import { hasLocale } from 'next-intl';
 import { notFound } from 'next/navigation';
 import LocaleSync from '@/components/i18n/LocaleSync';
 import ReactQueryProvider from '@/components/providers/ReactQueryProvider';
+import ToastProvider from '@/components/ui/ToastProvider';
 import type { Locale } from '@/lib/i18n/config';
 import { routing } from '@/lib/i18n/routing';
 
@@ -25,8 +26,10 @@ export default async function LocaleLayout({
   return (
     <NextIntlClientProvider messages={messages} locale={locale}>
       <ReactQueryProvider>
-        <LocaleSync currentLocale={locale as Locale} />
-        {children}
+        <ToastProvider>
+          <LocaleSync currentLocale={locale as Locale} />
+          {children}
+        </ToastProvider>
       </ReactQueryProvider>
     </NextIntlClientProvider>
   );

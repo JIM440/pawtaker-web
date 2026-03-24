@@ -28,7 +28,7 @@ export default async function MarketingLayout({
   );
 
   return (
-    <div className={`min-h-screen bg-white ${showMarketingChrome ? 'pt-16' : ''}`}>
+    <div className={`min-h-screen overflow-x-clip bg-white ${showMarketingChrome ? 'pt-16' : ''}`}>
       {showMarketingChrome ? (
         <MarketingNavbar
           downloadLinksDesktop={<StoreDownloadLinks locale={resolvedLocale} />}

@@ -5,6 +5,8 @@ import { useTranslations } from 'next-intl';
 import { ChevronLeft, ChevronRight, MoreHorizontal, Search, Star, Trash2 } from 'lucide-react';
 import ConfirmationModal from './ConfirmationModal';
 import UserAvatar from './UserAvatar';
+import { useToast } from '@/components/ui/ToastProvider';
+import { useAdminReviewsQuery, useDeleteAdminReviewMutation } from '@/lib/queries/admin/reviews';
 
 interface Review {
   id: string;
@@ -18,81 +20,6 @@ interface Review {
   body: string;
   date: string;
 }
-
-const MOCK_REVIEWS: Review[] = [
-  {
-    id: 'r1',
-    stars: 5,
-    reviewerName: 'Sarah Johnson',
-    reviewerEmail: 'sarah.j@example.com',
-    reviewerImage: 'https://picsum.photos/seed/review-rev-r1/72',
-    revieweeName: 'Mike Ross',
-    revieweeEmail: 'mike.ross@example.com',
-    revieweeImage: 'https://picsum.photos/seed/review-ee-r1/72',
-    body: 'Mike was absolutely fantastic with Buddy. He sent photos every hour and followed all care instructions perfectly.',
-    date: 'Mar 10, 2026',
-  },
-  {
-    id: 'r2',
-    stars: 4,
-    reviewerName: 'Emily Davis',
-    reviewerEmail: 'emily.d@example.com',
-    reviewerImage: 'https://picsum.photos/seed/review-rev-r2/72',
-    revieweeName: 'Alice Johnson',
-    revieweeEmail: 'alice.j@example.com',
-    revieweeImage: 'https://picsum.photos/seed/review-ee-r2/72',
-    body: 'Alice was very welcoming and communicative. A small issue with timing but overall a great experience.',
-    date: 'Mar 8, 2026',
-  },
-  {
-    id: 'r3',
-    stars: 2,
-    reviewerName: 'Bob Smith',
-    reviewerEmail: 'bob@example.com',
-    reviewerImage: 'https://picsum.photos/seed/review-rev-r3/72',
-    revieweeName: 'Charlie Davis',
-    revieweeEmail: 'charlie.d@example.com',
-    revieweeImage: 'https://picsum.photos/seed/review-ee-r3/72',
-    body: 'The care was average at best. Instructions were not fully followed and communication was poor throughout the stay.',
-    date: 'Mar 5, 2026',
-  },
-  {
-    id: 'r4',
-    stars: 5,
-    reviewerName: 'Diana Prince',
-    reviewerEmail: 'diana@example.com',
-    reviewerImage: 'https://picsum.photos/seed/review-rev-r4/72',
-    revieweeName: 'Evan Wright',
-    revieweeEmail: 'evan.w@example.com',
-    revieweeImage: 'https://picsum.photos/seed/review-ee-r4/72',
-    body: 'Evan is a natural with animals. Max was so happy and well cared for. Will definitely request again.',
-    date: 'Feb 28, 2026',
-  },
-  {
-    id: 'r5',
-    stars: 1,
-    reviewerName: 'Evan Wright',
-    reviewerEmail: 'evan@example.com',
-    reviewerImage: 'https://picsum.photos/seed/review-rev-r5/72',
-    revieweeName: 'Unknown User',
-    revieweeEmail: 'unknown@example.com',
-    revieweeImage: 'https://picsum.photos/seed/review-ee-r5/72',
-    body: 'The owner was unreachable for 2 hours during pickup. Very stressful situation for everyone involved.',
-    date: 'Feb 20, 2026',
-  },
-  {
-    id: 'r6',
-    stars: 3,
-    reviewerName: 'Laura Martinez',
-    reviewerEmail: 'laura.m@example.com',
-    reviewerImage: 'https://picsum.photos/seed/review-rev-r6/72',
-    revieweeName: 'Tom Baker',
-    revieweeEmail: 'tom.baker@example.com',
-    revieweeImage: 'https://picsum.photos/seed/review-ee-r6/72',
-    body: 'Decent care overall. The pet was safe and fed, but there were fewer check-in photos than expected.',
-    date: 'Feb 14, 2026',
-  },
-];
 
 type RatingFilter = 'all' | '1' | '2' | '3' | '4' | '5';
 const REVIEW_EXCERPT_LIMIT = 50;
@@ -169,7 +96,10 @@ function RowActionsMenu({
 export default function ReviewsTable() {
   const t = useTranslations('admin.reviews');
   const tModal = useTranslations('admin.modal');
-  const [reviews, setReviews] = useState<Review[]>(MOCK_REVIEWS);
+  const { showToast } = useToast();
+  const reviewsQuery = useAdminReviewsQuery();
+  const deleteReviewMutation = useDeleteAdminReviewMutation();
+  const reviews = useMemo(() => (reviewsQuery.data ?? []) as Review[], [reviewsQuery.data]);
   const [search, setSearch] = useState('');
   const [ratingFilter, setRatingFilter] = useState<RatingFilter>('all');
   const [deleteId, setDeleteId] = useState<string | null>(null);
@@ -194,9 +124,14 @@ export default function ReviewsTable() {
     });
   }, [reviews, search, ratingFilter]);
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (!deleteId) return;
-    setReviews((prev) => prev.filter((r) => r.id !== deleteId));
+    try {
+      await deleteReviewMutation.mutateAsync(deleteId);
+      showToast(t('deleteConfirmLabel'), 'success');
+    } catch (error) {
+      showToast(error instanceof Error ? error.message : 'Failed to delete review.', 'error');
+    }
     setDeleteId(null);
   };
 
@@ -271,7 +206,32 @@ export default function ReviewsTable() {
               </tr>
             </thead>
             <tbody className="divide-y divide-outline/10 text-sm">
-              {filtered.map((review) => (
+              {reviewsQuery.isLoading && (
+                <tr>
+                  <td colSpan={6} className="px-6 py-10 text-center text-sm text-on-surface/50">
+                    Loading...
+                  </td>
+                </tr>
+              )}
+              {reviewsQuery.isError && (
+                <tr>
+                  <td colSpan={6} className="px-6 py-10 text-center text-sm text-on-surface/50">
+                    <p className="mb-3">
+                      {reviewsQuery.error instanceof Error
+                        ? reviewsQuery.error.message
+                        : 'Failed to load reviews.'}
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => reviewsQuery.refetch()}
+                      className="cursor-pointer rounded-full bg-primary px-4 py-2 text-sm font-semibold text-on-primary hover:bg-primary/90"
+                    >
+                      Retry
+                    </button>
+                  </td>
+                </tr>
+              )}
+              {!reviewsQuery.isLoading && !reviewsQuery.isError && filtered.map((review) => (
                 <tr key={review.id} className="transition-colors hover:bg-white">
                   <td className="align-top px-6 py-4">
                     <Stars count={review.stars} />
@@ -338,7 +298,7 @@ export default function ReviewsTable() {
                   </td>
                 </tr>
               ))}
-              {filtered.length === 0 && (
+              {!reviewsQuery.isLoading && !reviewsQuery.isError && filtered.length === 0 && (
                 <tr>
                   <td colSpan={6} className="px-6 py-10 text-center text-sm text-on-surface/50">
                     {t('emptyState')}
