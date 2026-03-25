@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Bell } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/lib/i18n/navigation';
 import TopbarLangToggle from './TopbarLangToggle';
 import { useNotifications, type AdminNotification } from './NotificationProvider';
 

@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/lib/i18n/navigation';
 import { toast } from 'sonner';
 import { createClient } from '@/lib/supabase/client';
 
@@ -69,9 +69,18 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
           // Show Sonner toast
           toast(newNotif.title, {
             description: newNotif.message,
-            duration: 6000,
+            duration: 12000,
+            style: {
+              background: '#8c4a60',
+              color: '#fff',
+              border: 'none',
+            },
+            classNames: {
+              description: 'text-white/80',
+              actionButton: '!bg-white !text-[#8c4a60] font-semibold',
+            },
             action: {
-              label: 'View',
+              label: 'View KYC →',
               onClick: () => {
                 if (newNotif.type === 'kyc_submitted') {
                   router.push('/admin/kyc');
