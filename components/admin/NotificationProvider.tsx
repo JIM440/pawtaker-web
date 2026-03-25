@@ -76,8 +76,10 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
               border: 'none',
             },
             classNames: {
-              description: 'text-white/80',
-              actionButton: '!bg-white !text-[#8c4a60] font-semibold',
+              title: '!text-white font-semibold',
+              description: '!text-white/80',
+              actionButton: '!bg-white !text-[#8c4a60] !font-semibold',
+              closeButton: '!bg-white/20 !text-white !border-white/20',
             },
             action: {
               label: 'View KYC →',
