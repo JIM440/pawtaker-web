@@ -1,9 +1,12 @@
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
+import { Toaster } from 'sonner';
 import { createAdminClient } from '@/lib/supabase/server';
 import AdminSidebar from '@/components/admin/AdminSidebar';
 import AdminHeaderActions from '@/components/admin/AdminHeaderActions';
 import AdminPageHeading from '@/components/admin/AdminPageHeading';
+import { NotificationProvider } from '@/components/admin/NotificationProvider';
+import { PushSubscriber } from '@/components/admin/PushSubscriber';
 
 export default async function AdminLayout({
   children,
@@ -47,21 +50,25 @@ export default async function AdminLayout({
 
   // --- Admin confirmed — render the shell ---
   return (
-    <div className="fixed inset-0 bg-background-base flex overflow-hidden">
-      <AdminSidebar pathname={pathname} adminEmail={user.email ?? ''} />
-      <main className="flex-1 min-w-0 min-h-0 flex flex-col pt-16 overflow-hidden">
-        <header className="h-16 border-b border-outline/20 bg-white/80 backdrop-blur-sm px-4 md:px-8 flex items-center justify-between fixed top-0 left-0 right-0 z-20 md:left-64">
-          <div className="ml-12 md:ml-0">
-            <AdminPageHeading />
+    <NotificationProvider>
+      <PushSubscriber />
+      <Toaster position="bottom-right" richColors closeButton />
+      <div className="fixed inset-0 bg-background-base flex overflow-hidden">
+        <AdminSidebar pathname={pathname} adminEmail={user.email ?? ''} />
+        <main className="flex-1 min-w-0 min-h-0 flex flex-col pt-16 overflow-hidden">
+          <header className="h-16 border-b border-outline/20 bg-white/80 backdrop-blur-sm px-4 md:px-8 flex items-center justify-between fixed top-0 left-0 right-0 z-20 md:left-64">
+            <div className="ml-12 md:ml-0">
+              <AdminPageHeading />
+            </div>
+            <div className="ml-4">
+              <AdminHeaderActions />
+            </div>
+          </header>
+          <div className="flex-1 min-h-0 min-w-0 overflow-y-auto overflow-x-hidden">
+            {children}
           </div>
-          <div className="ml-4">
-            <AdminHeaderActions />
-          </div>
-        </header>
-        <div className="flex-1 min-h-0 min-w-0 overflow-y-auto overflow-x-hidden">
-          {children}
-        </div>
-      </main>
-    </div>
+        </main>
+      </div>
+    </NotificationProvider>
   );
 }

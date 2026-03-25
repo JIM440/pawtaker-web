@@ -1,34 +1,30 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Bell } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import TopbarLangToggle from './TopbarLangToggle';
-import { useAdminNotificationsQuery } from '@/lib/queries/admin/notifications';
+import { useNotifications, type AdminNotification } from './NotificationProvider';
 
-type AdminNotification = {
-  id: string;
-  title: string;
-  preview: string;
-  age: string;
-  avatarUrl: string;
-  unread: boolean;
-};
+function formatAge(dateStr: string): string {
+  const diff = Date.now() - new Date(dateStr).getTime();
+  const mins  = Math.floor(diff / 60_000);
+  const hours = Math.floor(diff / 3_600_000);
+  const days  = Math.floor(diff / 86_400_000);
+  if (mins < 1)   return 'just now';
+  if (mins < 60)  return `${mins}m ago`;
+  if (hours < 24) return `${hours}h ago`;
+  return `${days}d ago`;
+}
 
 export default function AdminHeaderActions() {
   const t = useTranslations('admin.notifications');
-  const notificationsQuery = useAdminNotificationsQuery();
+  const { notifications, unreadCount, markAllRead, markOneRead } = useNotifications();
   const [open, setOpen] = useState(false);
-  const [markAllRead, setMarkAllRead] = useState(false);
   const rootRef = useRef<HTMLDivElement | null>(null);
-
-  const notifications: AdminNotification[] = useMemo(
-    () => (notificationsQuery.data ?? []).map((row) => ({ ...row, unread: markAllRead ? false : row.unread })),
-    [notificationsQuery.data, markAllRead]
-  );
-
-  const unreadCount = notifications.filter((n) => n.unread).length;
+  const router = useRouter();
 
   useEffect(() => {
     if (!open) return;
@@ -37,10 +33,17 @@ export default function AdminHeaderActions() {
       if (!el) return;
       if (e.target instanceof Node && !el.contains(e.target)) setOpen(false);
     };
-
     document.addEventListener('mousedown', onMouseDown);
     return () => document.removeEventListener('mousedown', onMouseDown);
   }, [open]);
+
+  const handleNotificationClick = (n: AdminNotification) => {
+    markOneRead(n.id);
+    if (n.type === 'kyc_submitted') {
+      router.push('/admin/kyc');
+    }
+    setOpen(false);
+  };
 
   return (
     <div className="flex items-center gap-3">
@@ -49,12 +52,17 @@ export default function AdminHeaderActions() {
       <div ref={rootRef} className="relative">
         <button
           type="button"
-          className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-outline/30 bg-surface-container-low text-on-surface/70 transition-colors hover:bg-surface-container"
+          className="relative flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-outline/30 bg-surface-container-low text-on-surface/70 transition-colors hover:bg-surface-container"
           aria-label={t('title')}
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
         >
           <Bell className="h-4 w-4" aria-hidden="true" />
+          {unreadCount > 0 && (
+            <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-on-primary">
+              {unreadCount > 99 ? '99+' : unreadCount}
+            </span>
+          )}
         </button>
 
         {open && (
@@ -72,7 +80,7 @@ export default function AdminHeaderActions() {
                 type="button"
                 className="text-xs font-semibold text-on-surface/60 hover:text-primary disabled:opacity-40"
                 disabled={unreadCount === 0}
-                onClick={() => setMarkAllRead(true)}
+                onClick={() => markAllRead()}
               >
                 {t('markAllRead')}
               </button>
@@ -81,53 +89,48 @@ export default function AdminHeaderActions() {
             <div className="border-t border-outline/15" />
 
             <ul className="max-h-[420px] space-y-2 overflow-y-auto p-2">
-              {notificationsQuery.isLoading ? (
-                <li className="rounded-xl border border-outline/10 px-3 py-4 text-xs text-on-surface/60">
-                  Loading...
-                </li>
-              ) : null}
-              {notificationsQuery.isError ? (
-                <li className="rounded-xl border border-outline/10 px-3 py-4 text-xs text-on-surface/60">
-                  {notificationsQuery.error instanceof Error
-                    ? notificationsQuery.error.message
-                    : 'Failed to load notifications.'}
-                </li>
-              ) : null}
               {notifications.map((n) => (
                 <li
                   key={n.id}
-                  className={`rounded-xl border border-outline/10 px-3 py-3 ${
-                    n.unread ? 'bg-[#f5f0f0]' : 'bg-white'
+                  onClick={() => handleNotificationClick(n)}
+                  className={`cursor-pointer rounded-xl border border-outline/10 px-3 py-3 transition-colors hover:bg-[#f5f0f0]/60 ${
+                    !n.is_read ? 'bg-[#f5f0f0]' : 'bg-white'
                   }`}
                 >
                   <div className="flex items-start gap-3">
                     <div className="relative size-9 shrink-0">
-                      <Image
-                        src={n.avatarUrl}
-                        alt=""
-                        fill
-                        unoptimized
-                        className="rounded-full object-cover"
-                      />
+                      {n.user?.avatar_url ? (
+                        <Image
+                          src={n.user.avatar_url}
+                          alt={n.user.full_name ?? ''}
+                          fill
+                          unoptimized
+                          className="rounded-full object-cover"
+                        />
+                      ) : (
+                        <div className="flex size-9 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">
+                          {n.user?.full_name?.[0]?.toUpperCase() ?? '?'}
+                        </div>
+                      )}
                     </div>
                     <div className="min-w-0 flex-1">
                       <p className="text-sm font-semibold leading-snug text-on-surface">{n.title}</p>
                       <div className="mt-1 flex items-center gap-2">
-                        <span className="text-xs text-on-surface/60">{n.age}</span>
-                        {n.unread ? (
+                        <span className="text-xs text-on-surface/60">{formatAge(n.created_at)}</span>
+                        {!n.is_read ? (
                           <span className="size-1.5 shrink-0 rounded-full bg-primary" aria-hidden="true" />
                         ) : null}
                       </div>
                       <div className="mt-2 rounded-lg border border-outline/10 bg-white/70 p-3 text-xs leading-relaxed text-on-surface/70">
-                        {n.preview}
+                        {n.message}
                       </div>
                     </div>
                   </div>
                 </li>
               ))}
-              {!notificationsQuery.isLoading && !notificationsQuery.isError && notifications.length === 0 ? (
+              {notifications.length === 0 ? (
                 <li className="rounded-xl border border-outline/10 px-3 py-4 text-xs text-on-surface/60">
-                  {t('title')}: 0
+                  No notifications yet.
                 </li>
               ) : null}
             </ul>

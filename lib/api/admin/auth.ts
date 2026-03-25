@@ -9,7 +9,7 @@ import { createAdminClient } from '@/lib/supabase/admin';
  * Returns a NextResponse for unauthorized access, or an admin client for privileged operations.
  */
 export async function requireAdminClient(): Promise<
-  { admin: ReturnType<typeof createAdminClient> } | NextResponse
+  { admin: ReturnType<typeof createAdminClient>; userId: string } | NextResponse
 > {
   const cookieStore = await cookies();
 
@@ -44,6 +44,6 @@ export async function requireAdminClient(): Promise<
     return NextResponse.json({ error: 'Forbidden - admin access required.' }, { status: 403 });
   }
 
-  return { admin: adminClient };
+  return { admin: adminClient, userId: user.id };
 }
 

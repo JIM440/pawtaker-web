@@ -27,6 +27,7 @@ export interface Database {
           care_received_count: number;
           language: 'en' | 'fr';
           theme_pref: 'system' | 'light' | 'dark';
+          push_subscription: Json | null;
           created_at: string;
           updated_at: string;
         };
@@ -53,6 +54,7 @@ export interface Database {
           care_received_count?: number;
           language?: 'en' | 'fr';
           theme_pref?: 'system' | 'light' | 'dark';
+          push_subscription?: Json | null;
           created_at?: string;
           updated_at?: string;
         };
@@ -79,9 +81,45 @@ export interface Database {
           care_received_count?: number;
           language?: 'en' | 'fr';
           theme_pref?: 'system' | 'light' | 'dark';
+          push_subscription?: Json | null;
           updated_at?: string;
         };
         Relationships: [];
+      };
+      admin_notifications: {
+        Row: {
+          id: string;
+          type: string;
+          title: string;
+          message: string;
+          triggered_by: string | null;
+          reference_id: string | null;
+          reference_type: string | null;
+          is_read: boolean;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          type: string;
+          title: string;
+          message: string;
+          triggered_by?: string | null;
+          reference_id?: string | null;
+          reference_type?: string | null;
+          is_read?: boolean;
+          created_at?: string;
+        };
+        Update: {
+          is_read?: boolean;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'admin_notifications_triggered_by_fkey';
+            columns: ['triggered_by'];
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          }
+        ];
       };
       care_requests: {
         Row: {

@@ -1,27 +1,20 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
+// The notifications system is now driven by NotificationProvider (Supabase Realtime + context).
+// This file is kept for any legacy imports; the canonical type lives in NotificationProvider.tsx.
 
-export interface AdminNotificationDto {
+export type AdminNotificationDto = {
   id: string;
+  type: string;
   title: string;
-  preview: string;
-  age: string;
-  avatarUrl: string;
-  unread: boolean;
-}
-
-const QUERY_KEY = ['admin', 'notifications'] as const;
-
-export function useAdminNotificationsQuery() {
-  return useQuery({
-    queryKey: QUERY_KEY,
-    queryFn: async () => {
-      const res = await fetch('/api/admin/notifications', { credentials: 'include' });
-      const json = await res.json();
-      if (!res.ok) throw new Error(json?.error ?? 'Failed to fetch notifications.');
-      return (json.notifications ?? []) as AdminNotificationDto[];
-    },
-  });
-}
-
+  message: string;
+  is_read: boolean;
+  created_at: string;
+  triggered_by: string | null;
+  reference_id: string | null;
+  reference_type: string | null;
+  user?: {
+    full_name: string;
+    avatar_url: string | null;
+  } | null;
+};
