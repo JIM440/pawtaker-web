@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState, useCallback } from 'react';
+import { createContext, useContext, useEffect, useRef, useState, useCallback } from 'react';
 import { useRouter } from '@/lib/i18n/navigation';
 import { toast } from 'sonner';
 import { createClient } from '@/lib/supabase/client';
@@ -37,7 +37,9 @@ const NotificationContext = createContext<NotificationContextType>({
 
 export function NotificationProvider({ children }: { children: React.ReactNode }) {
   const [notifications, setNotifications] = useState<AdminNotification[]>([]);
-  const router = useRouter();
+  const router    = useRouter();
+  const routerRef = useRef(router);
+  useEffect(() => { routerRef.current = router; });
 
   const unreadCount = notifications.filter((n) => !n.is_read).length;
 
@@ -85,7 +87,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
               label: 'View KYC →',
               onClick: () => {
                 if (newNotif.type === 'kyc_submitted') {
-                  router.push('/admin/kyc');
+                  routerRef.current.push('/admin/kyc');
                 }
               },
             },
@@ -95,7 +97,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
       .subscribe();
 
     return () => { supabase.removeChannel(channel); };
-  }, [router]);
+  }, []);
 
   const markAllRead = useCallback(async () => {
     await fetch('/api/admin/notifications/mark-read', {
