@@ -86,6 +86,31 @@ export interface Database {
         };
         Relationships: [];
       };
+      admin_push_subscriptions: {
+        Row: {
+          id: string;
+          user_id: string;
+          subscription: Json;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          subscription: Json;
+          created_at?: string;
+        };
+        Update: {
+          subscription?: Json;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'admin_push_subscriptions_user_id_fkey';
+            columns: ['user_id'];
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          }
+        ];
+      };
       admin_notifications: {
         Row: {
           id: string;

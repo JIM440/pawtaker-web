@@ -9,6 +9,7 @@ webpush.setVapidDetails(
 );
 
 export async function POST(req: Request) {
+  // This route is called by the DB trigger — validate with internal secret only
   const authHeader = req.headers.get('x-internal-secret');
   if (authHeader !== process.env.INTERNAL_API_SECRET) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -17,26 +18,40 @@ export async function POST(req: Request) {
   const { title, message, url } = await req.json();
   const admin = createAdminClient();
 
-  const { data: admins, error } = await admin
-    .from('users')
-    .select('id, push_subscription')
-    .eq('is_admin', true)
-    .not('push_subscription', 'is', null);
+  // Get ALL subscriptions for ALL admins across ALL devices
+  const { data: subs, error } = await admin
+    .from('admin_push_subscriptions')
+    .select('id, subscription');
 
-  if (error || !admins?.length) {
-    return NextResponse.json({ sent: 0 });
+  if (error || !subs?.length) {
+    return NextResponse.json({ sent: 0, failed: 0 });
   }
 
   const payload = JSON.stringify({ title, message, url });
 
-  const results = await Promise.allSettled(
-    admins.map((a) =>
-      webpush.sendNotification(a.push_subscription as unknown as webpush.PushSubscription, payload)
-    )
-  );
+  let sent   = 0;
+  let failed = 0;
 
-  const sent   = results.filter((r) => r.status === 'fulfilled').length;
-  const failed = results.filter((r) => r.status === 'rejected').length;
+  for (const row of subs) {
+    try {
+      await webpush.sendNotification(
+        row.subscription as unknown as webpush.PushSubscription,
+        payload
+      );
+      sent++;
+    } catch (err: unknown) {
+      failed++;
+      // 404 / 410 means the subscription is expired or the browser unsubscribed —
+      // remove it so stale rows don't pile up
+      const status = (err as { statusCode?: number }).statusCode;
+      if (status === 404 || status === 410) {
+        await admin
+          .from('admin_push_subscriptions')
+          .delete()
+          .eq('id', row.id);
+      }
+    }
+  }
 
   return NextResponse.json({ sent, failed });
 }

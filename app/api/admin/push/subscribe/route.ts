@@ -12,10 +12,18 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Invalid subscription object.' }, { status: 400 });
   }
 
+  // Delete any existing row for this exact endpoint first, then insert fresh.
+  // This avoids the upsert JSONB expression conflict issue and handles
+  // re-subscriptions cleanly (e.g. after browser clears service workers).
+  await admin
+    .from('admin_push_subscriptions')
+    .delete()
+    .eq('user_id', userId)
+    .eq('subscription->>endpoint', subscription.endpoint);
+
   const { error } = await admin
-    .from('users')
-    .update({ push_subscription: subscription })
-    .eq('id', userId);
+    .from('admin_push_subscriptions')
+    .insert({ user_id: userId, subscription });
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
