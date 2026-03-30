@@ -9,6 +9,7 @@ import LabeledSelect from '@/components/admin/LabeledSelect';
 import UserAvatar from '@/components/admin/UserAvatar';
 import { useToast } from '@/components/ui/ToastProvider';
 import { useAdminRequestsQuery, useDeleteAdminRequestMutation } from '@/lib/queries/admin/requests';
+import Skeleton from '@/components/ui/Skeleton';
 
 type RequestStatus = 'ongoing' | 'completed' | 'canceled';
 type StatusFilter = 'all' | RequestStatus;
@@ -178,13 +179,50 @@ export default function RequestsPage() {
             </thead>
 
             <tbody className="divide-y divide-outline/10 text-sm">
-              {requestsQuery.isLoading && (
-                <tr>
-                  <td colSpan={7} className="px-6 py-10 text-center text-sm text-on-surface/50">
-                    Loading...
-                  </td>
-                </tr>
-              )}
+              {requestsQuery.isLoading &&
+                Array.from({ length: 6 }).map((_, i) => (
+                  <tr key={i}>
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-3">
+                        <Skeleton className="size-10 rounded-lg" />
+                        <div className="space-y-2">
+                          <Skeleton className="h-4 w-28" />
+                          <Skeleton className="h-3 w-24" />
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-3">
+                        <Skeleton className="size-8 rounded-full" />
+                        <div className="space-y-2">
+                          <Skeleton className="h-4 w-24" />
+                          <Skeleton className="h-3 w-28" />
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-3">
+                        <Skeleton className="size-8 rounded-full" />
+                        <div className="space-y-2">
+                          <Skeleton className="h-4 w-24" />
+                          <Skeleton className="h-3 w-28" />
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 hidden sm:table-cell">
+                      <Skeleton className="h-4 w-36" />
+                    </td>
+                    <td className="px-6 py-4">
+                      <Skeleton className="h-6 w-24 rounded-full" />
+                    </td>
+                    <td className="px-6 py-4">
+                      <Skeleton className="h-6 w-24 rounded-full" />
+                    </td>
+                    <td className="px-6 py-4 text-center">
+                      <Skeleton className="mx-auto h-8 w-8 rounded-full" />
+                    </td>
+                  </tr>
+                ))}
               {requestsQuery.isError && (
                 <tr>
                   <td colSpan={7} className="px-6 py-10 text-center text-sm text-on-surface/50">

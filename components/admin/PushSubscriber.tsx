@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useState } from 'react';
 import { Bell, CheckCircle } from 'lucide-react';
+import { toast } from 'sonner';
 
 function urlBase64ToUint8Array(base64String: string): Uint8Array {
   const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
@@ -10,18 +11,32 @@ function urlBase64ToUint8Array(base64String: string): Uint8Array {
   return Uint8Array.from([...rawData].map((c) => c.charCodeAt(0)));
 }
 
-async function subscribeAndSave(registration: ServiceWorkerRegistration) {
+async function createPushSubscription(registration: ServiceWorkerRegistration) {
   const keyArray = urlBase64ToUint8Array(process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!);
-  const subscription = await registration.pushManager.subscribe({
+  return await registration.pushManager.subscribe({
     userVisibleOnly:      true,
     applicationServerKey: keyArray.buffer as ArrayBuffer,
   });
-  await fetch('/api/admin/push/subscribe', {
+}
+
+async function saveSubscription(subscription: PushSubscription, timeoutMs = 7000) {
+  const controller = new AbortController();
+  const timeoutId = window.setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const res = await fetch('/api/admin/push/subscribe', {
     method:      'POST',
     headers:     { 'Content-Type': 'application/json' },
     credentials: 'include',
     body:        JSON.stringify({ subscription }),
+      signal: controller.signal,
   });
+    const json = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      throw new Error(json?.error ?? 'Failed to save push subscription.');
+    }
+  } finally {
+    window.clearTimeout(timeoutId);
+  }
 }
 
 type Status = 'idle' | 'prompt' | 'loading' | 'success';
@@ -30,6 +45,7 @@ export function PushSubscriber() {
   const titleId  = useId();
   const [status,       setStatus]       = useState<Status>('idle');
   const [registration, setRegistration] = useState<ServiceWorkerRegistration | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     if (!('serviceWorker' in navigator) || !('PushManager' in window)) return;
@@ -42,7 +58,9 @@ export function PushSubscriber() {
         const perm = Notification.permission;
         if (perm === 'granted') {
           // Already allowed — subscribe silently
-          await subscribeAndSave(reg);
+          createPushSubscription(reg)
+            .then((sub) => saveSubscription(sub))
+            .catch((err) => console.error('[Push] Silent subscribe failed:', err));
         } else if (perm === 'default') {
           // Not yet asked — show our prompt
           setStatus('prompt');
@@ -59,18 +77,40 @@ export function PushSubscriber() {
   const handleEnable = async () => {
     if (!registration) return;
     setStatus('loading');
+    setErrorMessage(null);
     try {
-      const perm = await Notification.requestPermission();
+      const perm = await Promise.race<NotificationPermission>([
+        Notification.requestPermission(),
+        new Promise<never>((_, reject) =>
+          window.setTimeout(() => reject(new Error('Permission prompt timed out.')), 15000)
+        ),
+      ]);
       if (perm !== 'granted') {
         setStatus('idle'); // dismissed or denied — close quietly
+        toast.error('Notifications were not enabled. Please allow permission in your browser.');
         return;
       }
-      await subscribeAndSave(registration);
+      // Create the browser subscription first (this is the "real" enable step),
+      // then confirm immediately. Persisting to DB happens in the background.
+      const subscription = await Promise.race<PushSubscription>([
+        createPushSubscription(registration),
+        new Promise<never>((_, reject) =>
+          window.setTimeout(() => reject(new Error('Creating push subscription took too long.')), 12000)
+        ),
+      ]);
       setStatus('success');
       setTimeout(() => setStatus('idle'), 3000);
+      saveSubscription(subscription).catch((err) => {
+        console.error('[Push] Save subscription failed:', err);
+        toast.error('Notifications enabled, but saving failed. Please retry.');
+      });
     } catch (err) {
       console.error('[Push] Subscribe failed:', err);
-      setStatus('idle');
+      const message =
+        err instanceof Error ? err.message : 'Could not enable notifications. Please try again.';
+      setErrorMessage(message);
+      setStatus('prompt');
+      toast.error(message);
     }
   };
 
@@ -87,8 +127,8 @@ export function PushSubscriber() {
           aria-modal="true"
         >
           <div className="mb-4 flex items-center justify-center">
-            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-emerald-100">
-              <CheckCircle className="h-7 w-7 text-emerald-600" aria-hidden="true" />
+            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
+              <CheckCircle className="h-7 w-7 text-primary" aria-hidden="true" />
             </div>
           </div>
           <h2 className="mb-2 text-center text-xl font-bold tracking-tight text-on-surface">
@@ -101,7 +141,7 @@ export function PushSubscriber() {
             <button
               type="button"
               onClick={() => setStatus('idle')}
-              className="w-full inline-flex items-center justify-center cursor-pointer rounded-full bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-emerald-700"
+              className="w-full inline-flex items-center justify-center cursor-pointer rounded-full bg-primary px-4 py-2.5 text-sm font-semibold text-on-primary transition-colors hover:bg-primary/90"
             >
               Got it
             </button>
@@ -138,11 +178,13 @@ export function PushSubscriber() {
         <p className="text-center text-sm text-on-surface/75">
           Get instant OS-level alerts when a user submits KYC documents — even when this tab is in the background.
         </p>
+        {errorMessage ? (
+          <p className="mt-3 text-center text-xs font-medium text-error">{errorMessage}</p>
+        ) : null}
         <div className="mt-6 flex items-center justify-end gap-2">
           <button
             type="button"
             onClick={() => setStatus('idle')}
-            disabled={status === 'loading'}
             className="min-w-24 cursor-pointer rounded-full border border-outline/40 px-4 py-2.5 text-sm font-medium text-on-surface transition-colors hover:bg-surface-container-low disabled:opacity-40"
           >
             Not now

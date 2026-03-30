@@ -8,6 +8,7 @@ import ConfirmationModal from '@/components/admin/ConfirmationModal';
 import UserAvatar from '@/components/admin/UserAvatar';
 import { useDeleteAdminReportMutation, useAdminReportsQuery } from '@/lib/queries/admin/reports';
 import { useToast } from '@/components/ui/ToastProvider';
+import Skeleton from '@/components/ui/Skeleton';
 
 type Report = {
   id: string;
@@ -120,13 +121,30 @@ export default function ReportsPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-outline/15">
-                {reportsQuery.isLoading && (
-                  <tr>
-                    <td colSpan={3} className="px-6 py-12 text-center text-sm text-on-surface/50">
-                      Loading...
-                    </td>
-                  </tr>
-                )}
+                {reportsQuery.isLoading &&
+                  Array.from({ length: 6 }).map((_, i) => (
+                    <tr key={i}>
+                      <td className="px-6 py-5">
+                        <div className="flex items-start gap-3">
+                          <Skeleton className="size-8 rounded-full" />
+                          <div className="min-w-0 space-y-2">
+                            <Skeleton className="h-4 w-36" />
+                            <Skeleton className="h-3 w-24" />
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-6 py-5">
+                        <div className="space-y-2">
+                          <Skeleton className="h-3 w-24" />
+                          <Skeleton className="h-3 w-full" />
+                          <Skeleton className="h-3 w-3/4" />
+                        </div>
+                      </td>
+                      <td className="px-6 py-5 text-right">
+                        <Skeleton className="ml-auto h-8 w-10 rounded-full" />
+                      </td>
+                    </tr>
+                  ))}
                 {reportsQuery.isError && (
                   <tr>
                     <td colSpan={3} className="px-6 py-12 text-center text-sm text-on-surface/50">

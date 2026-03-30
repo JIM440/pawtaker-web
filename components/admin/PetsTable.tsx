@@ -9,8 +9,9 @@ import LabeledSelect from './LabeledSelect';
 import UserAvatar from './UserAvatar';
 import { useToast } from '@/components/ui/ToastProvider';
 import { useAdminPetsQuery, useDeleteAdminPetMutation } from '@/lib/queries/admin/pets';
+import Skeleton from '@/components/ui/Skeleton';
 
-type Species = 'Dog' | 'Cat' | 'Other';
+type Species = string;
 type CareSort = 'most' | 'least';
 
 interface Pet {
@@ -29,6 +30,7 @@ interface Pet {
 
 function getAge(dob: string): string {
   const birth = new Date(dob);
+  if (Number.isNaN(birth.getTime())) return dob || '< 1 yr';
   const now = new Date();
   const years = now.getFullYear() - birth.getFullYear();
   return years <= 0 ? '< 1 yr' : `${years} yr${years !== 1 ? 's' : ''}`;
@@ -98,6 +100,21 @@ export default function PetsTable() {
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const pets = useMemo(() => (petsQuery.data ?? []) as Pet[], [petsQuery.data]);
 
+  const speciesOptions = useMemo(() => {
+    const speciesSet = new Set<string>();
+    for (const p of pets) {
+      if (p.species) speciesSet.add(p.species);
+    }
+    const speciesList = Array.from(speciesSet.values()).sort((a, b) => a.localeCompare(b));
+    return [
+      { value: 'All' as const, label: t('allSpecies') },
+      ...speciesList.map((s) => ({
+        value: s,
+        label: s === 'Dog' ? t('speciesDog') : s === 'Cat' ? t('speciesCat') : s === 'Other' ? t('speciesOther') : s,
+      })),
+    ];
+  }, [pets, t]);
+
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
     const base = pets.filter((p) => {
@@ -139,12 +156,7 @@ export default function PetsTable() {
               label={t('filterSpecies')}
               value={speciesFilter}
               onChange={(next) => setSpeciesFilter(next as Species | 'All')}
-              options={[
-                { value: 'All', label: t('allSpecies') },
-                { value: 'Dog', label: t('speciesDog') },
-                { value: 'Cat', label: t('speciesCat') },
-                { value: 'Other', label: t('speciesOther') },
-              ]}
+              options={speciesOptions}
             />
           </div>
           <div className="w-full sm:w-fit">
@@ -186,13 +198,41 @@ export default function PetsTable() {
               </tr>
             </thead>
             <tbody className="divide-y divide-outline/10 text-sm">
-              {petsQuery.isLoading && (
-                <tr>
-                  <td colSpan={6} className="px-6 py-10 text-center text-sm text-on-surface/50">
-                    Loading...
-                  </td>
-                </tr>
-              )}
+              {petsQuery.isLoading &&
+                Array.from({ length: 6 }).map((_, i) => (
+                  <tr key={i}>
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-3">
+                        <Skeleton className="size-9 rounded-lg" />
+                        <div className="space-y-2">
+                          <Skeleton className="h-4 w-24" />
+                          <Skeleton className="h-3 w-16" />
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="flex items-start gap-3">
+                        <Skeleton className="size-8 rounded-full" />
+                        <div className="space-y-2">
+                          <Skeleton className="h-4 w-28" />
+                          <Skeleton className="h-3 w-20" />
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 text-on-surface/70 hidden sm:table-cell">
+                      <Skeleton className="h-4 w-16" />
+                    </td>
+                    <td className="px-6 py-4">
+                      <Skeleton className="h-7 w-16 rounded-full" />
+                    </td>
+                    <td className="px-6 py-4 hidden md:table-cell">
+                      <Skeleton className="h-7 w-24 rounded-full" />
+                    </td>
+                    <td className="px-6 py-4 text-center">
+                      <Skeleton className="mx-auto h-8 w-8 rounded-full" />
+                    </td>
+                  </tr>
+                ))}
               {petsQuery.isError && (
                 <tr>
                   <td colSpan={6} className="px-6 py-10 text-center text-sm text-on-surface/50">
@@ -258,7 +298,9 @@ export default function PetsTable() {
                         ? t('speciesDog')
                         : pet.species === 'Cat'
                           ? t('speciesCat')
-                          : t('speciesOther')}
+                          : pet.species === 'Other'
+                            ? t('speciesOther')
+                            : pet.species}
                     </span>
                   </td>
                   <td className="px-6 py-4 text-center">

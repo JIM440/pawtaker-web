@@ -5,6 +5,7 @@ import type { LucideIcon } from 'lucide-react';
 import { CheckCircle2, Flag, PawPrint, ShieldCheck, User, Users, WalletCards } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useAdminDashboardQuery, type AdminDashboardData } from '@/lib/queries/admin/dashboard';
+import Skeleton from '@/components/ui/Skeleton';
 
 const METRICS = [
   { labelKey: 'totalVerifiedUsers', icon: Users, bg: 'bg-primary', deltaColor: 'text-white/70' },
@@ -17,10 +18,27 @@ export default function DashboardPage() {
   const t = useTranslations('admin.dashboard');
   const dashboardQuery = useAdminDashboardQuery();
   const data = dashboardQuery.data;
+
+  // Prevent hydration mismatches: never rely on the host/user locale.
+  const formatUtcDate = (value: string | Date) => {
+    const d = typeof value === 'string' ? new Date(value) : value;
+    if (Number.isNaN(d.getTime())) return '';
+    return new Intl.DateTimeFormat('en-US', {
+      timeZone: 'UTC',
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+    }).format(d);
+  };
+
   return (
     <div className="p-6 md:p-8 space-y-8">
       <header className="flex flex-col sm:flex-row sm:justify-end sm:items-center gap-2">
-        <div className="text-sm font-medium text-on-surface/60 sm:text-right">{new Date().toLocaleDateString()}</div>
+        <div className="text-sm font-medium text-on-surface/60 sm:text-right">
+          {formatUtcDate(new Date())}
+        </div>
       </header>
 
       {/* Metric cards */}
@@ -88,14 +106,25 @@ export default function DashboardPage() {
                 </div>
               </div>
               <span className="text-xs text-on-surface/50 font-medium shrink-0">
-                {item.time ? new Date(item.time).toLocaleString() : ''}
+                {item.time ? formatUtcDate(item.time) : ''}
               </span>
             </div>
             );
           })}
-          {dashboardQuery.isLoading ? (
-            <p className="text-sm text-on-surface/60">Loading activity...</p>
-          ) : null}
+          {dashboardQuery.isLoading &&
+            Array.from({ length: 6 }).map((_, i) => (
+              <div
+                key={`sk-${i}`}
+                className="bg-white p-3 rounded-xl shadow-sm border border-outline/15 flex items-center justify-between gap-3"
+              >
+                <Skeleton className="size-9 rounded-full" />
+                <div className="min-w-0 space-y-2">
+                  <Skeleton className="h-4 w-36" />
+                  <Skeleton className="h-3 w-28" />
+                </div>
+                <Skeleton className="h-4 w-12" />
+              </div>
+            ))}
           {!dashboardQuery.isLoading && !dashboardQuery.isError && (data?.recentActivity?.length ?? 0) === 0 ? (
             <p className="text-sm text-on-surface/60">No recent activity.</p>
           ) : null}

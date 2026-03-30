@@ -5,11 +5,13 @@ import type { AdminUserRow } from '@/lib/api/admin/users';
 
 export const ADMIN_USERS_QUERY_KEY = ['admin', 'users'] as const;
 
-async function fetchAdminUsers(): Promise<AdminUserRow[]> {
+export type AdminUserListRow = AdminUserRow & { pets_count: number };
+
+async function fetchAdminUsers(): Promise<AdminUserListRow[]> {
   const res = await fetch('/api/admin/users', { credentials: 'include' });
   const json = await res.json();
   if (!res.ok) throw new Error(json?.error ?? 'Failed to fetch users.');
-  return (json.users ?? []) as AdminUserRow[];
+  return (json.users ?? []) as AdminUserListRow[];
 }
 
 export function useAdminUsersQuery() {
