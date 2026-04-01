@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { headers } from 'next/headers';
 import { MarketingNavbar } from '@/components/marketing/Navbar';
+import { MarketingScrollToTop } from '@/components/marketing/MarketingScrollToTop';
 import StoreDownloadLinks from '@/components/marketing/StoreDownloadLinks';
 import { MarketingFooter } from '@/components/marketing/Footer';
 import type { Locale } from '@/lib/i18n/config';
@@ -23,20 +24,24 @@ export default async function MarketingLayout({
   const resolvedLocale: Locale = locale === 'fr' || locale === 'en' ? locale : 'en';
   const pathname = (await headers()).get('x-pathname') ?? '';
   const pathWithoutLocale = pathname.replace(/^\/(en|fr)/, '') || '/';
+  const isMarketingHome = pathWithoutLocale === '/' || pathWithoutLocale === '';
   const showMarketingChrome = new Set(['/', '/about', '/how-it-works', '/privacy', '/terms']).has(
     pathWithoutLocale
   );
 
   return (
-    <div className={`min-h-screen overflow-x-clip bg-white ${showMarketingChrome ? 'pt-16' : ''}`}>
-      {showMarketingChrome ? (
+    <div
+      className={`min-h-screen overflow-x-clip ${isMarketingHome ? 'bg-[#f5f0f0]' : 'bg-white'} ${showMarketingChrome && !isMarketingHome ? 'pt-16' : ''}`}
+    >
+      {showMarketingChrome && !isMarketingHome ? (
         <MarketingNavbar
-          downloadLinksDesktop={<StoreDownloadLinks locale={resolvedLocale} />}
+          downloadLinksDesktop={<StoreDownloadLinks locale={resolvedLocale} variant="navbarDesktop" />}
           downloadLinksMobile={<StoreDownloadLinks locale={resolvedLocale} />}
         />
       ) : null}
       {children}
       {showMarketingChrome ? <MarketingFooter /> : null}
+      {showMarketingChrome ? <MarketingScrollToTop /> : null}
     </div>
   );
 }

@@ -14,6 +14,7 @@
       "closeMenu": "Fermer le menu",
       "downloadMenu": "Télécharger l'app"
     },
+    "scrollToTop": "Retour en haut",
     "hero": {
       "badge": "Le refuge curaté pour les animaux.",
       "title": "Vous cherchez une bonne ambiance ?",
@@ -51,12 +52,53 @@
       }
     },
     "landing": {
+      "brandWordmark": "pawtaker",
+      "storeIos": "Télécharger sur l’App Store",
+      "storeAndroid": "Disponible sur Play Store",
+      "languageLabel": "Langue",
+      "languageEnglish": "English",
+      "languageFrancais": "Francais",
+      "sidebarFooter": "Commencez à partager la joie de la garde d’animaux avec vos voisins dès aujourd’hui.",
       "badge": "Communauté avant tout",
       "title": "Prendre soin des animaux, ensemble.",
       "subtitle": "Connectez‑vous avec des voisins de confiance pour partager la garde de vos animaux. Pas d’argent, seulement de l’amour et des points communautaires.",
       "heroImageAriaLabel": "Illustration d'un chien amical avec des accents verts et orange ludiques",
       "primaryCta": "Rejoindre la communauté",
       "secondaryCta": "En savoir plus",
+      "hero": {
+        "line1": "des soins pour vos animaux…",
+        "line2": "animés par",
+        "line3": "la gentillesse",
+        "subA": "Rejoignez une communauté où les voisins échangent de la garde contre des points.",
+        "subB": "Pas un centime : c’est le réseau d’entraide mutuelle que votre meilleur ami attendait.",
+        "imageAlt": "Illustration de chien amical avec accents ludiques"
+      },
+      "careGap": {
+        "heading": "le fossé des soins",
+        "intro": "Les services pour animaux sont souvent transactionnels et froids. Nous voulons réduire la « solitude du propriétaire » en bâtissant un réseau fiable, au rythme du quotidien.",
+        "timeTitle": "Le manque de temps",
+        "timeStat": "72 %",
+        "timeBody": "des propriétaires disent que leur emploi du temps les empêche d’offrir assez d’interaction à leurs animaux en journée.",
+        "socialTitle": "Le vide social",
+        "socialStat": "65 %",
+        "socialBody": "des chiens n’ont pas assez de contacts réguliers avec de nouvelles personnes et milieux hors du foyer.",
+        "trustTitle": "Le déficit de confiance",
+        "trustStat": "1 sur 4",
+        "trustBody": "des propriétaires se sentent « coupables » d’utiliser des applis où la garde ressemble à un simple « job » pour le prestataire."
+      },
+      "why": {
+        "heading": "alors… pourquoi pawtaker ?",
+        "intro": "Parce que la garde devrait ressembler à un coup de main de voisin, pas à une transaction corporate. Nous bâtissons un village où la confiance est la base et chaque animal est traité comme un membre de la famille.",
+        "kindnessTitle": "La monnaie : la gentillesse",
+        "kindnessBody": "Chaque promenade ou moment de jeu vous rapporte des points. Dépensez-les quand vous avez besoin d’un coup de main. Pas de paiement, pas de frais — juste des amoureux des animaux qui s’entraident. Réciprocité simple.",
+        "kindnessCta": "Commencer",
+        "freedomTitle": "La liberté",
+        "freedomBody": "Des soins à votre rythme. Promenade à midi, nuit ou week-end ? Parcourez les « Takers » près de chez vous et trouvez la bonne personne. Gérez tout dans un espace clair et simple.",
+        "freedomCta": "Découvrir",
+        "trustTitle": "La confiance : des séjours sûrs, du cœur partagé",
+        "trustBody": "Nous bâtissons un réseau vérifié de vrais passionnés. Accords mutuels et avis communautaires : vous savez que votre animal est entre bonnes mains.",
+        "trustCta": "Explorer la communauté"
+      },
       "stats": {
         "activeMembers": "Membres actifs",
         "pets": "Animaux gardés",
@@ -83,6 +125,10 @@
       "cta": {
         "heading": "Prêt à rejoindre la meute ?",
         "subtitle": "Partagez la joie de la garde d’animaux avec vos voisins. L’inscription prend moins de 2 minutes.",
+        "headingLine1": "prêt à rejoindre",
+        "headingLine2": "la meute ?",
+        "subtitleLine1": "Partagez la joie de la garde avec vos voisins dès aujourd’hui.",
+        "subtitleLine2": "Cela prend moins de 2 minutes pour commencer.",
         "primary": "Commencer gratuitement",
         "downloadIos": "Télécharger pour iOS",
         "downloadAndroid": "Télécharger pour Android"
@@ -153,11 +199,17 @@
     },
     "footer": {
       "brand": "PawTaker",
-      "tagline": "La garde d'animaux communautaire pour tous.",
+      "tagline": "take them good",
       "rights": "Tous droits réservés.",
       "terms": "Conditions",
       "privacy": "Confidentialité",
       "description": "Rendre la garde d'animaux sociale, abordable et sûre pour chaque amoureux des animaux dans le monde.",
+      "theAppTitle": "L’app",
+      "legalTitle": "Légal",
+      "contactTitle": "Contact",
+      "linkAppStore": "Télécharger sur l’App Store",
+      "linkPlayStore": "Disponible sur Play Store",
+      "linkWhyPawtaker": "Pourquoi PawTaker ?",
       "platformTitle": "Plateforme",
       "platformHowItWorks": "Comment ça marche",
       "platformSafetyMeasures": "Mesures de sécurité",
@@ -167,10 +219,9 @@
       "companyCareers": "Carrières",
       "privacyPolicy": "Politique de confidentialité",
       "termsOfService": "Conditions d'utilisation",
-      "contactTitle": "Contact",
-      "contactEmail": "hello@pawtaker.com",
-      "contactLocation": "San Francisco, CA",
-      "copyrightLine": "© {year} PawTaker Inc. Tous droits réservés. Conçu avec amour pour les pattes."
+      "contactEmail": "pawtaker.support@gmail.com",
+      "contactLocation": "B-871 13e Avenue, Campbell River,  C.-B.",
+      "copyrightLine": "© {year} PawTaker. Tous droits réservés."
     },
     "about": {
       "heroTitle": "Relier les amoureux des animaux",

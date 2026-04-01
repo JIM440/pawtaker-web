@@ -14,6 +14,7 @@
       "closeMenu": "Close menu",
       "downloadMenu": "Get the app"
     },
+    "scrollToTop": "Back to top",
     "hero": {
       "badge": "The Curated Sanctuary for Pets.",
       "title": "Looking for a good time?",
@@ -51,12 +52,53 @@
       }
     },
     "landing": {
+      "brandWordmark": "pawtaker",
+      "storeIos": "Download on the App Store",
+      "storeAndroid": "Get it on Playstore",
+      "languageLabel": "Language",
+      "languageEnglish": "English",
+      "languageFrancais": "Francais",
+      "sidebarFooter": "Start sharing the joy of pet care with your neighbours today.",
       "badge": "Community First",
       "title": "Caring for pets, together as a community.",
       "subtitle": "Connect with trusted neighbours to share pet care responsibilities. No money, just love and community points.",
       "heroImageAriaLabel": "Illustration of a friendly dog with playful green and orange accents",
       "primaryCta": "Join the Community",
       "secondaryCta": "Learn More",
+      "hero": {
+        "line1": "pet care... ",
+        "line2": "powered by ",
+        "line3": "only kindness",
+        "subA": "Join a community where neighbours swap pet sitting for points.",
+        "subB": "Not a single dollar spent. It’s the mutual care network your best friend has been waiting for.",
+        "imageAlt": "Friendly dog illustration with playful accents"
+      },
+      "careGap": {
+        "heading": "the care gap",
+        "intro": "Current pet services are often transactional and disconnected. we’re solving the \"loneliness of pet ownership\" by building a reliable, heartbeat-driven network.",
+        "timeTitle": "The Time Crunch",
+        "timeStat": "72%",
+        "timeBody": "of pet owners say their busy schedules prevent them from giving their pets enough midday interaction.",
+        "socialTitle": "The Social Void",
+        "socialStat": "65%",
+        "socialBody": "of dogs don’t get enough regular socialization with new people and environments outside their home.",
+        "trustTitle": "The Trust Deficit",
+        "trustStat": "1 in 4",
+        "trustBody": "owners feel \"guilty\" using corporate apps where care feels like just another \"gig\" to the provider."
+      },
+      "why": {
+        "heading": "so...why pawtaker?",
+        "intro": "Because pet care should feel like a neighbourly hand, not a corporate transaction. we are building  a village where trust is the foundation and every pet is treated like family.",
+        "kindnessTitle": "The currency: kindness",
+        "kindnessBody": "Every walk or playdate earns you points. Use your points whenever you need a hand with your own pet. No payments, no fees, just pet lovers helping pet lovers keep tails wagging. Just reciprocity. ",
+        "kindnessCta": "Start Now",
+        "freedomTitle": "The Freedom",
+        "freedomBody": "Care on your schedule. Need a midday walk, overnight care or a weekend stay? Browse local \"Takers\" and find the perfect match. Manage every detail in one clean, simple space.",
+        "freedomCta": "Get started",
+        "trustTitle": "The Trust: safe stays, share hearts",
+        "trustBody": "We’re building a verified network of real pet lovers. With mutual agreements and community ratings, you can rest easy knowing they’re in safe hands. Illustration: Two different pets (maybe a bird and a dog) sharing a single oversized scarf or heart.",
+        "trustCta": "Explore Community"
+      },
       "stats": {
         "activeMembers": "Active Members",
         "pets": "Pets Cared For",
@@ -83,6 +125,10 @@
       "cta": {
         "heading": "Ready to join the pack?",
         "subtitle": "Start sharing the joy of pet care with your neighbours today. It takes less than 2 minutes to get started.",
+        "headingLine1": "ready to join ",
+        "headingLine2": "the pack?",
+        "subtitleLine1": "Start sharing the joy of pet care with your neighbours today. ",
+        "subtitleLine2": "It takes less than 2 minutes to get started.",
         "primary": "Get Started for Free",
         "downloadIos": "Download for iOS",
         "downloadAndroid": "Download for Android"
@@ -153,11 +199,17 @@
     },
     "footer": {
       "brand": "PawTaker",
-      "tagline": "Community pet care for everyone.",
+      "tagline": "take them good",
       "rights": "All rights reserved.",
       "terms": "Terms",
       "privacy": "Privacy",
       "description": "Making pet care social, affordable, and safe for every animal lover across the globe.",
+      "theAppTitle": "The App",
+      "legalTitle": "Legal",
+      "contactTitle": "Contact",
+      "linkAppStore": "Download on App Store",
+      "linkPlayStore": "Get it on Playstore",
+      "linkWhyPawtaker": "Why Pawtaker?",
       "platformTitle": "Platform",
       "platformHowItWorks": "How it works",
       "platformSafetyMeasures": "Safety Measures",
@@ -167,10 +219,9 @@
       "companyCareers": "Careers",
       "privacyPolicy": "Privacy Policy",
       "termsOfService": "Terms of Service",
-      "contactTitle": "Contact",
-      "contactEmail": "hello@pawtaker.com",
-      "contactLocation": "San Francisco, CA",
-      "copyrightLine": "© {year} PawTaker Inc. All rights reserved. Built with love for paws."
+      "contactEmail": "pawtaker.support@gmail.com",
+      "contactLocation": "B-871 13th Ave, Campbell River,  BC",
+      "copyrightLine": "© {year} PawTaker. All rights reserved."
     },
     "about": {
       "heroTitle": "Connecting pet lovers everywhere",
