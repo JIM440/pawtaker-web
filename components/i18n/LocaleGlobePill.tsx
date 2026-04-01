@@ -30,7 +30,7 @@ export default function LocaleGlobePill({ className }: LocaleGlobePillProps) {
 
   return (
     <label
-      className={`relative flex h-10 w-full max-w-[110px] shrink-0 cursor-pointer items-center gap-2 overflow-hidden rounded-full pl-4 py-2.5 ${className ?? ''}`}
+      className={`relative flex h-10 w-fit shrink-0 cursor-pointer items-center gap-2 overflow-hidden rounded-full py-2.5 min-[950px]:w-[110px] min-[950px]:pl-4 ${className ?? ''}`}
       aria-label={t('languageLabel')}
     >
       <Globe className="pointer-events-none size-[18px] shrink-0 text-[#e1e2c7]" aria-hidden />

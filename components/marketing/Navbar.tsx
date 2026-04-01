@@ -63,11 +63,11 @@ export function MarketingNavbar({ downloadLinksDesktop, downloadLinksMobile }: M
           </div>
 
           {/* Under 950px: language selector stays outside sidebar + menu button */}
-          <div className="flex items-center gap-0 min-[950px]:hidden">
+          <div className="flex items-center min-[950px]:hidden">
             <LocaleSelect
               className="shrink-0"
-              selectClassName="w-[100px] max-w-[100px] cursor-pointer appearance-none rounded-full border border-outline/30 bg-background-base px-3 py-1.5 pr-8 text-xs font-semibold text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/25"
-              labelClassName="w-[100px]"
+              selectClassName="w-[100px] max-w-[100px] cursor-pointer appearance-none rounded-full border border-outline/30 bg-background-base px-3 pr-0 py-1.5 text-xs font-semibold text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/25"
+              labelClassName="w-[100px] pr-0"
             />
             <button
               type="button"

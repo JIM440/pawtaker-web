@@ -58,7 +58,7 @@
       "languageLabel": "Langue",
       "languageEnglish": "English",
       "languageFrancais": "Français",
-      "sidebarFooter": "Commencez à partager la joie de la garde d’animaux avec vos voisins dès aujourd’hui.",
+      "sidebarFooter": "Commencez à partager la joie de la garde d’animaux avec vos voisins dès aujourd’hui. Il suffit de moins de 2 minutes pour commencer.",
       "badge": "Communauté avant tout",
       "title": "Prendre soin des animaux, ensemble.",
       "subtitle": "Connectez‑vous avec des voisins de confiance pour partager la garde de vos animaux. Pas d’argent, seulement de l’amour et des points communautaires.",
@@ -66,9 +66,9 @@
       "primaryCta": "Rejoindre la communauté",
       "secondaryCta": "En savoir plus",
       "hero": {
-        "line1": "Des soins pour vos animaux…",
-        "line2": "Animés par",
-        "line3": "La gentillesse",
+        "line1": "Des soins pour vos animaux… ",
+        "line2": "animés par ",
+        "line3": "la gentillesse",
         "subA": "Rejoignez une communauté où les voisins échangent de la garde contre des points.",
         "subB": "Pas un centime : c’est le réseau d’entraide mutuelle que votre meilleur ami attendait.",
         "imageAlt": "Illustration de chien amical avec accents ludiques"
@@ -231,7 +231,7 @@
       "mission": "PawTaker est né d'une conviction simple : la garde d'animaux doit reposer sur la communauté, pas sur le commerce. Nous mettons en relation les propriétaires d'animaux avec des voisins de confiance passionnés par les animaux.",
       "pointsOverProfit": "En remplaçant l'argent par des points, nous supprimons les barrières financières et créons un véritable échange de soins. Chaque membre donne et reçoit — c'est ce qui rend PawTaker différent.",
       "missionHeading": "Notre mission : des soins accessibles",
-      "missionBody": "Nous rendons la garde de qualité accessible grâce à notre système unique de Points Communautaires. En aidant les autres, vous gagnez des crédits que vous pouvez utiliser pour votre propre animal.",
+      "missionBody": "Nous rendons la garde de qualité accessible grâce à notre système unique de points communautaires. En aidant les autres, vous gagnez des crédits que vous pouvez utiliser pour votre propre animal.",
       "missionCards": {
         "give": {
           "title": "Donner de l'amour",

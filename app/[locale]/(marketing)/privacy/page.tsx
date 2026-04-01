@@ -3,8 +3,8 @@ import { getTranslations } from 'next-intl/server';
 import { LandingNavbar } from '@/components/marketing/landing/LandingNavbar';
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy — PawTaker',
-  description: 'PawTaker Privacy Policy and data practices.',
+  title: 'Privacy policy — PawTaker',
+  description: 'PawTaker privacy policy and data practices.',
 };
 
 export default async function PrivacyPage({ params }: { params: { locale: string } }) {

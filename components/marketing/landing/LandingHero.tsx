@@ -178,10 +178,10 @@ export function LandingHero() {
 
   return (
     <section
-      className="flex w-full flex-col bg-[#8c4a60] pt-[52px] text-[#e1e2c7] min-[800px]:min-h-screen"
+      className="flex w-full flex-col bg-[#8c4a60] px-5 pt-[52px] text-[#e1e2c7] sm:px-8 lg:px-10 xl:px-[80px] min-[800px]:min-h-screen"
       aria-labelledby="landing-hero-heading"
     >
-      <div className="mx-auto flex min-h-0 w-full max-w-[1440px] flex-1 flex-col px-5 sm:px-8 lg:px-10 xl:px-[80px]">
+      <div className="mx-auto flex min-h-0 w-full max-w-[1440px] flex-1 flex-col">
         <header className="flex shrink-0 items-start justify-between gap-3 pb-8 sm:items-center min-[800px]:pb-4">
           <Link href="/" className="relative block min-w-0 shrink py-1">
             <Image
@@ -249,7 +249,7 @@ export function LandingHero() {
               height={654}
               priority
               fetchPriority="high"
-              className="h-auto w-full max-w-[min(100%,562px)] object-contain object-right min-[800px]:h-full min-[800px]:max-w-none"
+              className="animate-float-y-slow h-auto w-full max-w-[min(100%,562px)] object-contain object-right min-[800px]:h-full min-[800px]:max-w-none"
               sizes="(max-width: 799px) 100vw, (max-width: 1440px) 45vw, 562px"
             />
           </div>

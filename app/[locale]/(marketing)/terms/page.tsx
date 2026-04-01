@@ -3,8 +3,8 @@ import { getTranslations } from 'next-intl/server';
 import { LandingNavbar } from '@/components/marketing/landing/LandingNavbar';
 
 export const metadata: Metadata = {
-  title: 'Terms of Service — PawTaker',
-  description: 'PawTaker Terms of Service and usage rules.',
+  title: 'Terms of service — PawTaker',
+  description: 'PawTaker terms of service and usage rules.',
 };
 
 export default async function TermsPage({ params }: { params: { locale: string } }) {

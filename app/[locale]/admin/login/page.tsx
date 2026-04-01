@@ -188,7 +188,7 @@ export default function AdminLoginPage() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Privacy Policy
+              Privacy policy
             </a>
             <a
               className="hover:text-primary transition-colors"
@@ -196,7 +196,7 @@ export default function AdminLoginPage() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Terms of Service
+              Terms of service
             </a>
           </div>
         </div>
