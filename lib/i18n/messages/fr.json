@@ -57,7 +57,7 @@
       "storeAndroid": "Disponible sur Play Store",
       "languageLabel": "Langue",
       "languageEnglish": "English",
-      "languageFrancais": "Francais",
+      "languageFrancais": "Français",
       "sidebarFooter": "Commencez à partager la joie de la garde d’animaux avec vos voisins dès aujourd’hui.",
       "badge": "Communauté avant tout",
       "title": "Prendre soin des animaux, ensemble.",
@@ -66,15 +66,15 @@
       "primaryCta": "Rejoindre la communauté",
       "secondaryCta": "En savoir plus",
       "hero": {
-        "line1": "des soins pour vos animaux…",
-        "line2": "animés par",
-        "line3": "la gentillesse",
+        "line1": "Des soins pour vos animaux…",
+        "line2": "Animés par",
+        "line3": "La gentillesse",
         "subA": "Rejoignez une communauté où les voisins échangent de la garde contre des points.",
         "subB": "Pas un centime : c’est le réseau d’entraide mutuelle que votre meilleur ami attendait.",
         "imageAlt": "Illustration de chien amical avec accents ludiques"
       },
       "careGap": {
-        "heading": "le fossé des soins",
+        "heading": "Le fossé des soins",
         "intro": "Les services pour animaux sont souvent transactionnels et froids. Nous voulons réduire la « solitude du propriétaire » en bâtissant un réseau fiable, au rythme du quotidien.",
         "timeTitle": "Le manque de temps",
         "timeStat": "72 %",
@@ -87,7 +87,7 @@
         "trustBody": "des propriétaires se sentent « coupables » d’utiliser des applis où la garde ressemble à un simple « job » pour le prestataire."
       },
       "why": {
-        "heading": "alors… pourquoi pawtaker ?",
+        "heading": "Alors… pourquoi PawTaker ?",
         "intro": "Parce que la garde devrait ressembler à un coup de main de voisin, pas à une transaction corporate. Nous bâtissons un village où la confiance est la base et chaque animal est traité comme un membre de la famille.",
         "kindnessTitle": "La monnaie : la gentillesse",
         "kindnessBody": "Chaque promenade ou moment de jeu vous rapporte des points. Dépensez-les quand vous avez besoin d’un coup de main. Pas de paiement, pas de frais — juste des amoureux des animaux qui s’entraident. Réciprocité simple.",
@@ -125,7 +125,7 @@
       "cta": {
         "heading": "Prêt à rejoindre la meute ?",
         "subtitle": "Partagez la joie de la garde d’animaux avec vos voisins. L’inscription prend moins de 2 minutes.",
-        "headingLine1": "prêt à rejoindre",
+        "headingLine1": "Prêt à rejoindre",
         "headingLine2": "la meute ?",
         "subtitleLine1": "Partagez la joie de la garde avec vos voisins dès aujourd’hui.",
         "subtitleLine2": "Cela prend moins de 2 minutes pour commencer.",
@@ -708,7 +708,8 @@
     "notFound": {
       "title": "Page introuvable",
       "description": "La page que vous recherchez n'existe pas ou a été déplacée.",
-      "backHome": "Retour à l'accueil"
+      "backHome": "Retour à l'accueil",
+      "imageAlt": "Illustration de page introuvable"
     }
   },
   "legal": {
@@ -718,9 +719,9 @@
       "section1Title": "1. Acceptation des conditions",
       "section1Body": "En accédant à PawTaker ou en l'utilisant (« la Plateforme »), vous acceptez d'être lié(e) par les présentes Conditions d'utilisation. Si vous n'acceptez pas, n'utilisez pas la Plateforme.",
       "section2Title": "2. Description du service",
-      "section2Body": "PawTaker est une plateforme communautaire de garde d'animaux où les utilisateurs échangent des services de soins via un système de points. Nous ne traitons pas les paiements ; les soins sont échangés sur une base non monétaire, fondée sur les points.",
+      "section2Body": "PawTaker est une plateforme communautaire de garde d'animaux où les utilisateurs créent leur profil, partagent leur localisation et leurs disponibilités, et échangent des services de soins via un système de points. Les utilisateurs peuvent aussi ajouter un profil animal comprenant l'image, le nom et l'âge de l'animal. Nous ne traitons pas les paiements ; les soins sont échangés sur une base non monétaire, fondée sur les points.",
       "section3Title": "3. Éligibilité",
-      "section3Body": "Vous devez avoir au moins 18 ans et être en mesure de conclure un contrat engageant. Vous devez effectuer la vérification d'identité (KYC) avant de proposer ou de demander des soins. Vous êtes responsable de vous assurer que votre utilisation de la Plateforme est conforme aux lois locales.",
+      "section3Body": "Vous devez avoir 18 ans ou plus et être en mesure de conclure un contrat engageant. Vous devez effectuer la vérification d'identité (KYC) avant de proposer ou de demander des soins. Vous êtes responsable de l'exactitude des informations de votre compte et de la conformité de votre utilisation de la Plateforme aux lois locales.",
       "section4Title": "4. Points et conduite",
       "section4Body": "Les points n'ont aucune valeur monétaire et ne peuvent pas être échangés contre de l'argent. Vous ne devez pas abuser du système, harceler d'autres utilisateurs, ni vous présenter ou présenter vos animaux de manière trompeuse. Nous pouvons suspendre ou résilier les comptes qui enfreignent ces conditions ou nos règles de communauté.",
       "section5Title": "5. Limitation de responsabilité",
@@ -734,11 +735,11 @@
       "title": "Politique de confidentialité",
       "lastUpdated": "Dernière mise à jour : {date}",
       "section1Title": "1. Informations que nous collectons",
-      "section1Body": "Nous collectons les informations que vous fournissez lors de votre inscription (e-mail, nom, informations de profil), lorsque vous ajoutez des animaux ou publiez des demandes de soins, et lorsque vous communiquez avec d'autres utilisateurs. Nous collectons également les documents de vérification d'identité (KYC) et les données associées afin de maintenir une communauté de confiance.",
+      "section1Body": "Nous collectons les informations que vous fournissez lors de l'inscription, notamment votre nom, e-mail, mot de passe, localisation et disponibilités. Si vous ajoutez des animaux, nous collectons les données du profil animal, dont l'image, le nom et l'âge de l'animal. Nous collectons également le contenu des demandes de soins, les messages envoyés sur la Plateforme, ainsi que les documents de vérification d'identité (KYC), afin de maintenir une communauté de confiance.",
       "section2Title": "2. Comment nous utilisons vos informations",
-      "section2Body": "Nous utilisons vos informations pour faire fonctionner la Plateforme, vous mettre en relation avec d'autres utilisateurs, traiter le KYC, appliquer nos conditions et envoyer des communications liées au service. Nous ne vendons pas vos données personnelles à des tiers.",
+      "section2Body": "Nous utilisons vos informations pour faire fonctionner la Plateforme, gérer votre compte, vous mettre en relation avec d'autres utilisateurs selon la localisation et les disponibilités, traiter le KYC, appliquer nos conditions et envoyer des communications liées au service. Nous ne vendons pas vos données personnelles à des tiers.",
       "section3Title": "3. Partage avec d'autres",
-      "section3Body": "Votre profil (nom, photo, localisation générale si vous le souhaitez) peut être visible par d'autres utilisateurs vérifiés afin de faciliter les arrangements de garde. Nous pouvons partager des données avec des prestataires de services (par exemple hébergement, analyses) dans le cadre d'accords stricts. Nous pouvons divulguer des informations lorsque la loi l'exige.",
+      "section3Body": "Les informations de profil nécessaires à la mise en relation (telles que le nom, la localisation générale, les disponibilités et les informations du profil animal) peuvent être visibles par d'autres utilisateurs vérifiés afin de faciliter les arrangements de garde. Nous pouvons partager des données avec des prestataires de services (par exemple hébergement, analyses) dans le cadre d'accords stricts. Nous pouvons divulguer des informations lorsque la loi l'exige.",
       "section4Title": "4. Sécurité des données",
       "section4Body": "Nous mettons en place des mesures conformes aux pratiques courantes de l'industrie pour protéger vos données. Les documents d'identité et les données sensibles sont stockés de manière sécurisée et utilisés uniquement à des fins de vérification et de sécurité.",
       "section5Title": "5. Vos droits",

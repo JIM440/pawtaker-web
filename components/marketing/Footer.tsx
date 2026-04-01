@@ -31,7 +31,7 @@ export async function MarketingFooter() {
               className="block w-full max-w-[389px] rounded-sm sm:max-w-[320px]"
             >
               <Image
-                src="/logos/primary-logo.png"
+                src="/logos/primary-logo.svg"
                 alt={t('brand')}
                 width={389}
                 height={98}

@@ -83,7 +83,7 @@ export default function AdminSidebar({ pathname: pathnameFromServer, adminEmail:
         <div className="flex items-center justify-between gap-3 border-b border-white/20 px-6 py-6">
           <div className="flex min-w-0 flex-1 items-center gap-3">
             <Image
-              src="/logos/logomark-electric-pear.png"
+              src="/logos/logomark-electric-pear.svg"
               alt={tSidebar('logoAlt')}
               width={32}
               height={32}

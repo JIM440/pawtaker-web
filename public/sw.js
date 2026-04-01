@@ -11,8 +11,8 @@ self.addEventListener('push', (event) => {
   event.waitUntil(
     self.registration.showNotification(data.title, {
       body:  data.message,
-      icon:  '/logos/logomark-dusty-plum.png',
-      badge: '/logos/coloured-favicon.png',
+      icon:  '/logos/logomark-dusty-plum.svg',
+      badge: '/logos/coloured-favicon.svg',
       data: {
         url: data.url ?? '/admin/kyc',
       },

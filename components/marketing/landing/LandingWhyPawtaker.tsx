@@ -2,9 +2,9 @@ import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
 
-/** Figma: outline M3 button — 14px medium, px-24 py-14; first two CTAs w-[124px] */
+/** Figma: outline M3 button — 14px medium, px-24 py-14; CTAs hug content width */
 const outlineBtnSmall =
-  'inline-flex w-full max-w-[340px] items-center justify-center rounded-full border border-[#d5c2c6] border-solid px-4 py-3.5 text-sm font-medium leading-5 tracking-[-0.2px] text-[#8c4a60] transition-colors hover:bg-[#8c4a60]/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8c4a60]/30 sm:w-[124px] sm:max-w-none';
+  'inline-flex w-fit max-w-full items-center justify-center rounded-full border border-[#d5c2c6] border-solid px-4 py-3.5 text-sm font-medium leading-5 tracking-[-0.2px] text-[#8c4a60] transition-colors hover:bg-[#8c4a60]/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8c4a60]/30';
 
 const outlineBtnWide =
   'inline-flex w-fit max-w-full items-center justify-center rounded-full border border-[#d5c2c6] border-solid px-4 py-3.5 text-sm font-medium leading-5 tracking-[-0.2px] text-[#8c4a60] transition-colors hover:bg-[#8c4a60]/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8c4a60]/30';
@@ -22,7 +22,7 @@ export async function LandingWhyPawtaker() {
         <div className="mx-auto flex max-w-[900px] flex-col gap-6 text-center">
           <h2
             id="why-pawtaker-heading"
-            className="font-wobblite text-[clamp(2.5rem,12vw,6.25rem)] font-bold leading-[0.8] tracking-[-0.5px] text-[#8c4a60] xl:text-[100px] xl:leading-[80px]"
+            className="font-wobblite capitalize text-[clamp(2.5rem,12vw,6.25rem)] font-bold leading-[0.8] tracking-[-0.5px] text-[#8c4a60] xl:text-[100px] xl:leading-[80px]"
           >
             {t('heading')}
           </h2>
@@ -34,7 +34,7 @@ export async function LandingWhyPawtaker() {
         {/* Feature 1 — narrow: single column centered; 800px+: two cols as before */}
         <div className="flex min-h-[320px] flex-col gap-16 rounded-xl max-[799px]:items-center min-[800px]:flex-row min-[800px]:items-center min-[800px]:justify-between min-[800px]:gap-20">
           <div className="flex w-full max-w-[540px] flex-col gap-4 text-center min-[800px]:text-left">
-            <h3 className="text-[32px] font-bold leading-10 tracking-[-0.5px] text-[#8c4a60]">{t('kindnessTitle')}</h3>
+            <h3 className="text-[32px] font-bold capitalize leading-10 tracking-[-0.5px] text-[#8c4a60]">{t('kindnessTitle')}</h3>
             <p className="whitespace-pre-wrap text-base font-normal leading-6 tracking-[-0.2px] text-[#665459]">
               {t('kindnessBody')}
             </p>
@@ -56,7 +56,7 @@ export async function LandingWhyPawtaker() {
         {/* Feature 2 — image | text */}
         <div className="flex min-h-[320px] flex-col gap-16 rounded-xl max-[799px]:items-center min-[800px]:flex-row-reverse min-[800px]:items-center min-[800px]:justify-between min-[800px]:gap-20">
           <div className="flex w-full max-w-[540px] flex-col gap-4 text-center min-[800px]:text-left">
-            <h3 className="text-[32px] font-bold leading-10 tracking-[-0.5px] text-[#8c4a60]">{t('freedomTitle')}</h3>
+            <h3 className="text-[32px] font-bold capitalize leading-10 tracking-[-0.5px] text-[#8c4a60]">{t('freedomTitle')}</h3>
             <p className="text-base font-normal leading-6 tracking-[-0.2px] text-[#665459]">{t('freedomBody')}</p>
             <Link href="/#download" className={`${outlineBtnSmall} max-[799px]:mx-auto min-[800px]:mx-0`}>
               {t('freedomCta')}
@@ -76,7 +76,7 @@ export async function LandingWhyPawtaker() {
         {/* Feature 3 — text | image */}
         <div className="flex min-h-[320px] flex-col gap-16 rounded-xl max-[799px]:items-center min-[800px]:flex-row min-[800px]:items-center min-[800px]:justify-between min-[800px]:gap-20">
           <div className="flex w-full max-w-[540px] flex-col gap-4 text-center min-[800px]:text-left">
-            <h3 className="text-[32px] font-bold leading-10 tracking-[-0.5px] text-[#8c4a60]">{t('trustTitle')}</h3>
+            <h3 className="text-[32px] font-bold capitalize leading-10 tracking-[-0.5px] text-[#8c4a60]">{t('trustTitle')}</h3>
             <p className="whitespace-pre-wrap text-base font-normal leading-6 tracking-[-0.2px] text-[#665459]">
               {t('trustBody')}
             </p>

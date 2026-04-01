@@ -85,7 +85,7 @@ export async function GET() {
       return {
         id,
         name: typeof r.name === 'string' && r.name ? r.name : 'Unnamed',
-        image: firstPhotoUrl ?? '/logos/primary-logo.png',
+        image: firstPhotoUrl ?? '/logos/primary-logo.svg',
         species,
         breed: typeof r.breed === 'string' && r.breed ? r.breed : '-',
         ownerName:

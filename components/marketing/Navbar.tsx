@@ -47,7 +47,7 @@ export function MarketingNavbar({ downloadLinksDesktop, downloadLinksMobile }: M
         <nav className="mx-auto flex h-16 max-w-[1300px] items-center justify-between gap-3 px-4 sm:px-6">
           <Link href="/" className="flex min-w-0 shrink items-center gap-2">
             <Image
-              src="/logos/primary-logo.png"
+              src="/logos/primary-logo.svg"
               alt={t('nav.brand')}
               width={200}
               height={56}
@@ -63,8 +63,12 @@ export function MarketingNavbar({ downloadLinksDesktop, downloadLinksMobile }: M
           </div>
 
           {/* Under 950px: language selector stays outside sidebar + menu button */}
-          <div className="flex items-center min-[950px]:hidden">
-            <LocaleSelect labelClassName="px-0 min-w-none" />
+          <div className="flex items-center gap-0 min-[950px]:hidden">
+            <LocaleSelect
+              className="shrink-0"
+              selectClassName="w-[100px] max-w-[100px] cursor-pointer appearance-none rounded-full border border-outline/30 bg-background-base px-3 py-1.5 pr-8 text-xs font-semibold text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/25"
+              labelClassName="w-[100px]"
+            />
             <button
               type="button"
               onClick={() => setMenuOpen(true)}

@@ -1,38 +1,41 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
-import { getTranslations } from 'next-intl/server';
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages, getTranslations } from 'next-intl/server';
+import { LandingNavbar } from '@/components/marketing/landing/LandingNavbar';
+import { MarketingFooter } from '@/components/marketing/Footer';
 
-/**
- * Fallback when no locale segment matches (rare). Uses the same PawTaker surface
- * tokens as `app/[locale]/not-found.tsx`; copy is English-only here.
- */
 export default async function RootNotFound() {
   const t = await getTranslations('ui.notFound');
+  const messages = await getMessages({ locale: 'en' });
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-background-base px-4 py-12 font-sans antialiased">
-      <div className="w-full max-w-md rounded-2xl border border-outline/20 bg-white p-8 text-center shadow-xl shadow-primary/10 ring-1 ring-outline/10">
-        <div className="mx-auto mb-5 flex items-center justify-center">
-          <Image
-            src="/logos/coloured-favicon.png"
-            alt="PawTaker"
-            width={150}
-            height={78}
-            className="h-auto w-[150px] object-contain sm:w-[100px]"
-          />
-        </div>
-        <p className="font-wobblite text-5xl font-bold leading-none text-primary">404</p>
-        <h1 className="mt-4 text-xl font-bold tracking-tight text-on-surface">{t('title')}</h1>
-        <p className="mt-2 text-sm leading-relaxed text-on-surface/70">{t('description')}</p>
-        <Link
-          href="/"
-          className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-on-primary shadow-md shadow-primary/25 transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-        >
-          <ArrowLeft className="h-4 w-4 shrink-0" aria-hidden />
-          {t('backHome')}
-        </Link>
+    <NextIntlClientProvider locale="en" messages={messages}>
+      <div className="min-h-screen bg-[#f5f0f0]">
+        <LandingNavbar />
+        <main className="flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center px-5 pb-12 pt-36 font-sans text-on-surface sm:px-8">
+          <div className="w-full max-w-[420px] text-center">
+            <div className="mx-auto mb-5 flex items-center justify-center">
+              <Image
+                src="/images/error-try-again.svg"
+                alt={t('imageAlt')}
+                width={170}
+                height={170}
+                className="h-auto w-[170px]"
+              />
+            </div>
+            <h1 className="font-wobblite text-7xl font-bold leading-none text-primary">404</h1>
+            <p className="mt-1 text-sm text-on-surface/70">{t('description')}</p>
+            <Link
+              href="/"
+              className="mt-6 inline-flex w-full items-center justify-center rounded-full border border-outline/30 bg-transparent px-6 py-2.5 text-sm font-medium text-primary transition-colors hover:bg-primary/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35"
+            >
+              {t('backHome')}
+            </Link>
+          </div>
+        </main>
+        <MarketingFooter />
       </div>
-    </div>
+    </NextIntlClientProvider>
   );
 }

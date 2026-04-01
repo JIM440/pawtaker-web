@@ -22,18 +22,21 @@ export default async function MarketingLayout({
 }) {
   const { locale } = await params;
   const resolvedLocale: Locale = locale === 'fr' || locale === 'en' ? locale : 'en';
-  const pathname = (await headers()).get('x-pathname') ?? '';
-  const pathWithoutLocale = pathname.replace(/^\/(en|fr)/, '') || '/';
+  const requestHeaders = await headers();
+  const pathnameHeader = requestHeaders.get('x-pathname') ?? requestHeaders.get('next-url') ?? '';
+  const parsedPathname = pathnameHeader.startsWith('http')
+    ? new URL(pathnameHeader).pathname
+    : pathnameHeader;
+  const pathWithoutLocale = parsedPathname.replace(/^\/(en|fr)/, '') || '/';
   const isMarketingHome = pathWithoutLocale === '/' || pathWithoutLocale === '';
-  const showMarketingChrome = new Set(['/', '/about', '/how-it-works', '/privacy', '/terms']).has(
-    pathWithoutLocale
-  );
+  const showMarketingChrome = new Set(['/', '/about', '/how-it-works', '/privacy', '/terms']).has(pathWithoutLocale);
+  const useLandingNavbarOnPage = new Set(['/privacy', '/terms']).has(pathWithoutLocale);
 
   return (
     <div
-      className={`min-h-screen overflow-x-clip ${isMarketingHome ? 'bg-[#f5f0f0]' : 'bg-white'} ${showMarketingChrome && !isMarketingHome ? 'pt-16' : ''}`}
+      className={`min-h-screen overflow-x-clip ${isMarketingHome ? 'bg-[#f5f0f0]' : 'bg-white'} ${showMarketingChrome && !isMarketingHome && !useLandingNavbarOnPage ? 'pt-16' : ''}`}
     >
-      {showMarketingChrome && !isMarketingHome ? (
+      {showMarketingChrome && !isMarketingHome && !useLandingNavbarOnPage ? (
         <MarketingNavbar
           downloadLinksDesktop={<StoreDownloadLinks locale={resolvedLocale} variant="navbarDesktop" />}
           downloadLinksMobile={<StoreDownloadLinks locale={resolvedLocale} />}

@@ -65,7 +65,7 @@ export default function AdminLoginPage() {
         <div className="text-center mb-10">
           <div className="inline-flex items-center justify-center mb-3">
             <Image
-              src="/logos/logomark-dusty-plum.png"
+              src="/logos/logomark-dusty-plum.svg"
               alt="PawTaker admin"
               width={72}
               height={72}

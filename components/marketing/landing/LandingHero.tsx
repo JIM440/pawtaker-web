@@ -3,58 +3,11 @@
 import Image from 'next/image';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { Globe, X } from 'lucide-react';
-import { useLocale, useTranslations } from 'next-intl';
-import { Link, usePathname, useRouter } from '@/lib/i18n/navigation';
+import { X } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import { Link } from '@/lib/i18n/navigation';
 import { StoreLinkAndroidOnPrimary, StoreLinkIos } from '@/components/marketing/landing/StoreButtons';
-import type { Locale } from '@/lib/i18n/config';
-import { setStoredLocale } from '@/lib/i18n/localeStorage';
-
-/** Hero language pill: full touch target with a native select (English/Francais). */
-function HeroLanguagePill() {
-  const t = useTranslations('marketing.landing');
-  const locale = useLocale() as Locale;
-  const router = useRouter();
-  const pathname = usePathname();
-  const [selected, setSelected] = useState<Locale>(locale);
-  const languageLabels: Record<Locale, string> = {
-    en: t('languageEnglish'),
-    fr: t('languageFrancais'),
-  };
-
-  useEffect(() => {
-    setSelected(locale);
-    setStoredLocale(locale);
-  }, [locale]);
-
-  return (
-    <label
-      className="relative flex h-10 w-full max-w-[120px] shrink-0 cursor-pointer items-center gap-2 overflow-hidden rounded-full px-4 py-2.5"
-      data-name="language"
-      aria-label={t('languageLabel')}
-    >
-      <Globe className="pointer-events-none size-[18px] shrink-0 text-[#e1e2c7]" aria-hidden />
-      <span className="pointer-events-none min-w-0 truncate text-sm font-medium leading-5 tracking-[0.1px] text-[#e1e2c7]">
-        {languageLabels[selected]}
-      </span>
-      <select
-        value={selected}
-        onChange={(e) => {
-          const nextLocale = e.target.value as Locale;
-          if (nextLocale !== 'en' && nextLocale !== 'fr') return;
-          setSelected(nextLocale);
-          setStoredLocale(nextLocale);
-          router.push(pathname, { locale: nextLocale });
-        }}
-        className="absolute inset-0 h-full w-full cursor-pointer appearance-none border-0 bg-transparent opacity-0"
-        aria-label={t('languageLabel')}
-      >
-        <option value="en">{t('languageEnglish')}</option>
-        <option value="fr">{t('languageFrancais')}</option>
-      </select>
-    </label>
-  );
-}
+import LocaleGlobePill from '@/components/i18n/LocaleGlobePill';
 
 /** Drawer panel is full viewport height; inner content uses `pt-[52px]` to match hero nav (same as section `pt-[52px]`, padding not `top` offset). */
 
@@ -186,11 +139,12 @@ export function LandingHero() {
             <div className="mb-6 flex items-start justify-between gap-3">
               <Link href="/" className="min-w-0 shrink py-1 pr-2" onClick={requestCloseDrawer}>
                 <Image
-                  src="/logos/yellow-icon.png"
+                  src="/logos/yellow-icon.svg"
                   alt={tNav('brand')}
                   width={200}
                   height={51}
                   className="h-auto w-[min(200px,58vw)] max-w-[200px]"
+                  unoptimized
                 />
               </Link>
               <button
@@ -211,7 +165,7 @@ export function LandingHero() {
                 <StoreLinkAndroidOnPrimary className="inline-flex min-h-[52px] w-full max-w-none items-center justify-center gap-2 rounded-full border border-[#d5c2c6] border-solid bg-transparent px-4 py-3.5 text-sm font-medium text-[#e1e2c7]" />
               </div>
               <div className="mt-2 border-t border-[#d5c2c6]/40 pt-4">
-                <HeroLanguagePill />
+                <LocaleGlobePill />
               </div>
             </div>
             <p className="text-center mt-auto pt-8 text-sm leading-6 tracking-[-0.2px] text-[#e1e2c7]/85">
@@ -231,12 +185,12 @@ export function LandingHero() {
         <header className="flex shrink-0 items-start justify-between gap-3 pb-8 sm:items-center min-[800px]:pb-4">
           <Link href="/" className="relative block min-w-0 shrink py-1">
             <Image
-              src="/logos/yellow-icon.png"
+              src="/logos/yellow-icon.svg"
               alt={tNav('brand')}
               width={310}
               height={79}
               className="h-auto w-[min(200px,58vw)] max-w-[310px] sm:w-[min(260px,40vw)]"
-              priority
+              unoptimized
             />
           </Link>
 
@@ -244,11 +198,11 @@ export function LandingHero() {
           <div className="hidden max-w-[min(100%,920px)] flex-1 items-center justify-end gap-2 min-[950px]:flex lg:gap-3">
             <StoreLinkIos className="inline-flex min-h-[48px] w-auto max-w-none shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-full bg-[#ffd9e2] px-4 py-3 text-sm font-medium leading-5 tracking-[-0.2px] text-on-primary-container transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e1e2c7]/40" />
             <StoreLinkAndroidOnPrimary className="inline-flex min-h-[52px] w-auto max-w-none shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-full border border-[#d5c2c6] border-solid bg-transparent px-4 py-3.5 text-sm font-medium leading-5 tracking-[-0.2px] text-[#e1e2c7] transition-colors hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e1e2c7]/35" />
-            <HeroLanguagePill />
+            <LocaleGlobePill />
           </div>
 
           <div className="flex items-center gap-1 min-[950px]:hidden">
-            <HeroLanguagePill />
+            <LocaleGlobePill />
             <button
               type="button"
               className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-[#e1e2c7] transition-colors hover:bg-white/10"
@@ -281,20 +235,21 @@ export function LandingHero() {
               <p className="mb-0">{t('hero.subA')}</p>
               <p className="mt-1">{t('hero.subB')}</p>
             </div>
-            <div className="mx-auto grid w-full max-w-[688px] grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-2 min-[800px]:mx-0 min-[800px]:max-w-none">
-              <StoreLinkIos gridCell />
-              <StoreLinkAndroidOnPrimary gridCell />
+            <div className="mx-auto inline-grid w-auto max-w-[688px] grid-cols-1 gap-2 sm:grid sm:w-full sm:grid-cols-2 sm:gap-2 min-[800px]:mx-0 min-[800px]:max-w-none">
+              <StoreLinkIos gridCell gridMode="hero" />
+              <StoreLinkAndroidOnPrimary gridCell gridMode="hero" />
             </div>
           </div>
 
-          <div className="flex min-w-0 w-full flex-col items-center justify-center min-[800px]:items-center min-[800px]:justify-end">
+          <div className="flex min-w-0 w-full flex-col items-center justify-center min-[800px]:h-full min-[800px]:items-center min-[800px]:justify-end">
             <Image
-              src="/hero_img_1.svg"
+              src="/images/hero-img.svg"
               alt={t('hero.imageAlt')}
               width={562}
               height={654}
               priority
-              className="h-auto w-full max-w-[min(100%,562px)] object-contain object-center"
+              fetchPriority="high"
+              className="h-auto w-full max-w-[min(100%,562px)] object-contain object-right min-[800px]:h-full min-[800px]:max-w-none"
               sizes="(max-width: 799px) 100vw, (max-width: 1440px) 45vw, 562px"
             />
           </div>

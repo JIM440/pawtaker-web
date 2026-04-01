@@ -128,7 +128,7 @@ export async function GET() {
         id,
         petName: (pet?.name as string) ?? 'Unknown Pet',
         petBreed: (pet?.breed as string) ?? '-',
-        petImage: firstPhotoUrl ?? '/logos/primary-logo.png',
+        petImage: firstPhotoUrl ?? '/logos/primary-logo.svg',
         ownerName: owner?.full_name ?? owner?.display_name ?? owner?.email ?? 'Unknown',
         ownerImage: owner?.avatar_url ?? '',
         ownerEmail: owner?.email ?? '-',
