@@ -20,7 +20,7 @@ export async function GET() {
 
     const { data, error } = await client
       .from('reviews')
-      .select('*')
+      .select('id, reviewer_id, reviewee_id, rating, comment, created_at')
       .order('created_at', { ascending: false });
 
     if (error) {
@@ -28,29 +28,51 @@ export async function GET() {
       return NextResponse.json({ reviews: [] });
     }
 
-    const reviews = (data ?? []).map((row) => {
-      const reviewRow = row as {
-        id: string;
-        rating?: number | null;
-        reviewer_name?: string | null;
-        reviewer_email?: string | null;
-        reviewer_avatar_url?: string | null;
-        reviewee_name?: string | null;
-        reviewee_email?: string | null;
-        reviewee_avatar_url?: string | null;
-        body?: string | null;
-        created_at?: string | null;
-      };
+    const reviewRows = (data ?? []) as Array<{
+      id: string;
+      reviewer_id?: string | null;
+      reviewee_id?: string | null;
+      rating?: number | null;
+      comment?: string | null;
+      created_at?: string | null;
+    }>;
+
+    const userIds = Array.from(
+      new Set(
+        reviewRows.flatMap((row) => [row.reviewer_id, row.reviewee_id]).filter((value): value is string => Boolean(value))
+      )
+    );
+
+    const { data: usersData, error: usersError } =
+      userIds.length > 0
+        ? await admin
+            .from('users')
+            .select('id, full_name, display_name, email, avatar_url')
+            .in('id', userIds)
+        : { data: [], error: null };
+
+    if (usersError) {
+      console.warn('[api/admin/reviews] users lookup fallback:', usersError.message);
+    }
+
+    const userById = new Map(
+      (usersData ?? []).map((user) => [user.id, user] as const)
+    );
+
+    const reviews = reviewRows.map((reviewRow) => {
+      const reviewer = reviewRow.reviewer_id ? userById.get(reviewRow.reviewer_id) : undefined;
+      const reviewee = reviewRow.reviewee_id ? userById.get(reviewRow.reviewee_id) : undefined;
+
       return {
         id: reviewRow.id,
         stars: Number(reviewRow.rating ?? 0),
-        reviewerName: reviewRow.reviewer_name ?? 'Unknown',
-        reviewerEmail: reviewRow.reviewer_email ?? '',
-        reviewerImage: reviewRow.reviewer_avatar_url ?? null,
-        revieweeName: reviewRow.reviewee_name ?? 'Unknown',
-        revieweeEmail: reviewRow.reviewee_email ?? '',
-        revieweeImage: reviewRow.reviewee_avatar_url ?? null,
-        body: reviewRow.body ?? '',
+        reviewerName: reviewer?.full_name ?? reviewer?.display_name ?? reviewer?.email ?? 'Unknown',
+        reviewerEmail: reviewer?.email ?? '',
+        reviewerImage: reviewer?.avatar_url ?? null,
+        revieweeName: reviewee?.full_name ?? reviewee?.display_name ?? reviewee?.email ?? 'Unknown',
+        revieweeEmail: reviewee?.email ?? '',
+        revieweeImage: reviewee?.avatar_url ?? null,
+        body: reviewRow.comment ?? '',
         date: reviewRow.created_at ? new Date(reviewRow.created_at).toLocaleDateString('en-US') : '',
       };
     });

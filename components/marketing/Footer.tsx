@@ -10,9 +10,6 @@ const headingClass =
 const linkClass =
   'inline-block max-w-full text-left text-base font-normal leading-6 tracking-[-0.2px] text-[#665459] transition-colors hover:text-[#8c4a60] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8c4a60]/35 focus-visible:ring-offset-2 focus-visible:ring-offset-[#f5f0f0] rounded-sm';
 
-const staticLineClass =
-  'block max-w-full text-left text-base font-normal leading-6 tracking-[-0.2px] text-[#665459] whitespace-pre-line';
-
 export async function MarketingFooter() {
   const t = await getTranslations('marketing.footer');
   const { ios: iosUrl, android: androidUrl } = getAppStoreUrls();
@@ -60,6 +57,11 @@ export async function MarketingFooter() {
                 </a>
               </li>
               <li>
+                <a href="/articles" className={linkClass}>
+                  {t('linkArticles')}
+                </a>
+              </li>
+              <li>
                 <Link href="/#why-pawtaker" className={linkClass}>
                   {t('linkWhyPawtaker')}
                 </Link>
@@ -97,9 +99,6 @@ export async function MarketingFooter() {
                 <a href={`mailto:${t('contactEmail')}`} className={`${linkClass} break-all`}>
                   {t('contactEmail')}
                 </a>
-              </li>
-              <li>
-                <span className={staticLineClass}>{t('contactLocation')}</span>
               </li>
             </ul>
           </div>

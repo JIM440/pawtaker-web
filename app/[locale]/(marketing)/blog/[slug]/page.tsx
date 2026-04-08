@@ -10,7 +10,8 @@ import {
   BlogAuthorRow,
   PawtakerBlogCard,
 } from '@/components/marketing/pawtaker/PawtakerMarketingPrimitives';
-import { getBlogContent, getBlogPosts } from '@/components/marketing/pawtaker/content';
+import { getBlogContent } from '@/components/marketing/pawtaker/content';
+import { getPublishedBlogBySlug, getPublishedBlogs } from '@/lib/blogs';
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://pawtaker-web.vercel.app';
 
@@ -25,9 +26,9 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale, slug } = await params;
   const resolvedLocale = resolveLocale(locale);
-  const post = getBlogContent(resolvedLocale);
+  const post = await getPublishedBlogBySlug(resolvedLocale, slug);
 
-  if (slug !== post.slug) {
+  if (!post) {
     return {};
   }
 
@@ -67,13 +68,15 @@ export default async function BlogDetailsPage({
 }) {
   const { locale, slug } = await params;
   const resolvedLocale = resolveLocale(locale);
-  const post = getBlogContent(resolvedLocale);
-  const blogPosts = getBlogPosts(resolvedLocale);
-  const shareUrl = `${baseUrl}/${resolvedLocale}/blog/${post.slug}`;
+  const post = await getPublishedBlogBySlug(resolvedLocale, slug);
+  const fallbackLabels = getBlogContent(resolvedLocale);
 
-  if (slug !== post.slug) {
+  if (!post) {
     notFound();
   }
+
+  const blogPosts = (await getPublishedBlogs(resolvedLocale)).filter((blogPost) => blogPost.slug !== post.slug);
+  const shareUrl = `${baseUrl}/${resolvedLocale}/blog/${post.slug}`;
 
   return (
     <>
@@ -105,20 +108,10 @@ export default async function BlogDetailsPage({
               <img src={post.imageSrc} alt={post.title} className="h-auto w-full object-cover" />
             </div>
 
-            <article className="space-y-8 px-1 text-[#3d2d32]">
-              {post.sections.map((section) => (
-                <section key={section.heading} className="space-y-4">
-                  <h2 className="text-[26px] font-bold leading-8 tracking-[-0.1px] sm:text-[28px]">
-                    {section.heading}
-                  </h2>
-                  <div className="space-y-4 text-[17px] leading-7 tracking-[-0.1px] text-[#665459] sm:text-[18px]">
-                    {section.paragraphs.map((paragraph) => (
-                      <p key={paragraph}>{paragraph}</p>
-                    ))}
-                  </div>
-                </section>
-              ))}
-            </article>
+            <article
+              className="blog-content space-y-8 px-1 text-[#3d2d32]"
+              dangerouslySetInnerHTML={{ __html: post.contentHtml }}
+            />
 
             <div className="flex flex-col gap-4 border-t border-[#d5c2c6] px-1 pt-6 sm:flex-row sm:items-start sm:justify-between">
               <BlogAuthorRow date={post.date} />
@@ -128,15 +121,17 @@ export default async function BlogDetailsPage({
         </section>
         </SectionReveal>
 
-        <SectionReveal delayMs={90}>
-        <section className="bg-[#f5f0f0] px-5 py-16 sm:px-8 lg:px-[80px] lg:py-16">
-          <BlogRail title={post.otherBlogs}>
-            {blogPosts.map((blogPost) => (
-              <PawtakerBlogCard key={blogPost.slug} post={blogPost} />
-            ))}
-          </BlogRail>
-        </section>
-        </SectionReveal>
+        {blogPosts.length > 0 ? (
+          <SectionReveal delayMs={90}>
+          <section className="bg-[#f5f0f0] px-5 py-16 sm:px-8 lg:px-[80px] lg:py-16">
+            <BlogRail title={fallbackLabels.otherBlogs}>
+              {blogPosts.map((blogPost) => (
+                <PawtakerBlogCard key={blogPost.slug} post={blogPost} />
+              ))}
+            </BlogRail>
+          </section>
+          </SectionReveal>
+        ) : null}
       </main>
       <MarketingFooter />
     </>

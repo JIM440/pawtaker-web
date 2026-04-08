@@ -13,6 +13,8 @@ export function BlogRail({
   const railRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [thumbWidth, setThumbWidth] = useState(0.24);
 
   function updateScrollState() {
     const rail = railRef.current;
@@ -21,6 +23,10 @@ export function BlogRail({
     const maxScrollLeft = rail.scrollWidth - rail.clientWidth;
     setCanScrollLeft(rail.scrollLeft > 8);
     setCanScrollRight(rail.scrollLeft < maxScrollLeft - 8);
+    setScrollProgress(maxScrollLeft > 0 ? rail.scrollLeft / maxScrollLeft : 0);
+    setThumbWidth(
+      rail.scrollWidth > 0 ? Math.min(1, Math.max(0.18, rail.clientWidth / rail.scrollWidth)) : 1
+    );
   }
 
   function scrollByAmount(direction: 'left' | 'right') {
@@ -93,6 +99,16 @@ export function BlogRail({
         className="flex snap-x snap-mandatory gap-5 overflow-x-auto overscroll-x-contain pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {children}
+      </div>
+
+      <div className="mt-4 h-1.5 w-full overflow-hidden rounded-full bg-[#e4d8db]">
+        <div
+          className="h-full rounded-full bg-[#8c4a60] transition-transform duration-200"
+          style={{
+            width: `${thumbWidth * 100}%`,
+            transform: `translateX(${scrollProgress * (100 / thumbWidth - 100)}%)`,
+          }}
+        />
       </div>
     </div>
   );

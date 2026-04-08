@@ -14,6 +14,7 @@ const ADMIN_TITLES: Record<string, string> = {
   '/admin/profile': 'profile',
   '/admin/pets': 'pets',
   '/admin/reviews': 'reviews',
+  '/admin/blogs': 'blogs',
   '/admin/contact': 'contact',
 };
 

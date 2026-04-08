@@ -1,11 +1,10 @@
 import Image from 'next/image';
 import type { Locale } from '@/lib/i18n/config';
+import { HomeBlogSection } from '@/components/marketing/landing/HomeBlogSection';
 import { LandingNavbar } from '@/components/marketing/landing/LandingNavbar';
 import { SectionReveal } from '@/components/marketing/landing/SectionReveal';
 import { LandingCtaStoreRow } from '@/components/marketing/landing/StoreButtons';
-import { getBlogPosts, getHomeContent } from '@/components/marketing/pawtaker/content';
-import { BlogRail } from '@/components/marketing/pawtaker/BlogRail';
-import { PawtakerBlogCard } from '@/components/marketing/pawtaker/PawtakerMarketingPrimitives';
+import { getHomeContent } from '@/components/marketing/pawtaker/content';
 
 function DisplayTitle({
   lines,
@@ -32,7 +31,6 @@ function DisplayTitle({
 
 export async function MarketingLandingPage({ locale }: { locale: Locale }) {
   const content = getHomeContent(locale);
-  const blogPosts = getBlogPosts(locale);
   const differentItemsByImage = new Map(
     content.different.items.map((item) => [item.image, item] as const)
   );
@@ -47,8 +45,8 @@ export async function MarketingLandingPage({ locale }: { locale: Locale }) {
     <>
       <LandingNavbar />
       <main className="overflow-x-clip bg-[#f5f0f0]">
-        <section className="bg-[#8c4a60] px-5 pb-10 pt-6 text-[#e1e2c7] sm:px-8 sm:pt-8 lg:min-h-[1200px] lg:px-10 xl:px-[80px]">
-          <div className="mx-auto grid max-w-[1440px] items-center gap-10 min-[900px]:grid-cols-2 min-[900px]:gap-12 lg:min-h-[1200px]">
+        <section className="bg-[#8c4a60] px-5 pb-10 pt-6 text-[#e1e2c7] sm:px-8 sm:pt-8 min-[900px]:max-h-[1200px] lg:px-10 xl:px-[80px]">
+          <div className="mx-auto grid max-w-[1440px] items-center gap-10 min-[900px]:grid-cols-2 min-[900px]:gap-12">
             <div className="min-w-0">
               <DisplayTitle
                 lines={content.hero.title}
@@ -135,12 +133,6 @@ export async function MarketingLandingPage({ locale }: { locale: Locale }) {
                     <p className="mt-4 max-w-[540px] text-base leading-6 tracking-[-0.2px] text-[#665459] xl:text-[18px]">
                       {card.body}
                     </p>
-                    <a
-                      href="#download"
-                      className="mt-4 inline-flex rounded-full border border-[#d5c2c6] px-4 py-3.5 text-sm font-medium leading-5 tracking-[-0.2px] text-[#8c4a60]"
-                    >
-                      {card.ctaLabel}
-                    </a>
                   </div>
                   <div className={`flex justify-center ${card.imageLeft ? 'lg:order-1' : ''}`}>
                     <Image
@@ -213,13 +205,7 @@ export async function MarketingLandingPage({ locale }: { locale: Locale }) {
         </SectionReveal>
 
         <SectionReveal delayMs={130}>
-        <section className="bg-[#f5f0f0] px-5 py-16 sm:px-8 lg:px-10 xl:px-[80px]">
-          <BlogRail title={content.blogs.heading}>
-              {blogPosts.map((post) => (
-                <PawtakerBlogCard key={post.slug} post={post} />
-              ))}
-          </BlogRail>
-        </section>
+        <HomeBlogSection locale={locale} title={content.blogs.heading} />
         </SectionReveal>
 
         <SectionReveal delayMs={150}>

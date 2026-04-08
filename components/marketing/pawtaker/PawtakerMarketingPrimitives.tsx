@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { Link } from '@/lib/i18n/navigation';
 import { externalLinkProps, getAppStoreUrls } from '@/lib/app-store-urls';
-import type { BlogPostContent as BlogPostSummary } from '@/components/marketing/pawtaker/content';
+import type { PublicBlogSummary as BlogPostSummary } from '@/lib/blogs';
 
 const adminAvatarSrc = 'https://www.figma.com/api/mcp/asset/dedf0bf9-a532-4ab7-a520-93b2e70690aa';
 
@@ -94,19 +94,14 @@ export function PawtakerBlogCard({
           className="h-[236px] w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
         />
       </div>
-      <div className="space-y-2 px-5 py-5">
-        <div className="flex items-center gap-2 text-[14px] font-medium tracking-[-0.2px] text-[#665459]">
-          <img src={adminAvatarSrc} alt="" className="h-6 w-6 rounded-full object-cover" />
-          <div className="flex items-center gap-2">
-            <span>Admin</span>
-            <span>{post.date}</span>
-          </div>
-        </div>
-        <h3 className="text-[20px] font-bold leading-7 tracking-[-0.1px] text-[#3d2d32] group-hover:underline">
+      <div className="space-y-3 px-5 py-5">
+        <h3 className="text-[20px] font-bold leading-[1.08] tracking-[-0.6px] text-[#3d2d32] group-hover:underline sm:text-[22px]">
           {post.title}
         </h3>
-        <p className="text-[14px] leading-5 tracking-[-0.2px] text-[#665459]">{post.excerpt}</p>
-        <div className="flex items-center text-[14px] font-medium tracking-[-0.2px] text-[#665459]">
+        <p className="text-[14px] leading-6 tracking-[-0.2px] text-[#665459]">{post.excerpt}</p>
+        <div className="flex items-center gap-3 text-[14px] font-medium tracking-[-0.2px] text-[#8a767c]">
+          <span>{post.date}</span>
+          <span>&bull;</span>
           <span>{post.readTime}</span>
         </div>
       </div>
@@ -131,6 +126,9 @@ export function PawtakerFooter() {
               <a href={android} {...externalLinkProps(android)} className="block hover:text-[#8c4a60]">
                 Get it on Playstore
               </a>
+              <a href="/articles" className="block hover:text-[#8c4a60]">
+                Articles
+              </a>
               <a href="#why-pawtaker" className="block hover:text-[#8c4a60]">
                 Why Pawtaker?
               </a>
@@ -150,10 +148,9 @@ export function PawtakerFooter() {
           <div className="space-y-3">
             <h2 className="pb-1 text-base font-bold leading-[18px] tracking-[-0.2px]">Contact</h2>
             <div className="space-y-3 text-base leading-6 tracking-[-0.2px]">
-              <a href="mailto:pawtaker.support@gmail.com" className="block break-all hover:text-[#8c4a60]">
-                pawtaker.support@gmail.com
+              <a href="mailto:support@pawtaker.ca" className="block break-all hover:text-[#8c4a60]">
+                support@pawtaker.ca
               </a>
-              <p>B-871 13th Ave, Campbell River, BC</p>
             </div>
           </div>
         </div>

@@ -6,6 +6,7 @@ import type { LucideIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import {
   Flag,
+  FileText,
   LayoutDashboard,
   LogOut,
   Mail,
@@ -34,6 +35,7 @@ const navItems = [
   { href: '/admin/pets', labelKey: 'pets', icon: PawPrint },
   { href: '/admin/reports', labelKey: 'reports', icon: Flag },
   { href: '/admin/reviews', labelKey: 'reviews', icon: Star },
+  { href: '/admin/blogs', labelKey: 'blogs', icon: FileText },
   { href: '/admin/contact', labelKey: 'contact', icon: Mail },
 ] satisfies { href: string; labelKey: string; icon: LucideIcon }[];
 
