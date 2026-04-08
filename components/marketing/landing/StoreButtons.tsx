@@ -64,7 +64,7 @@ export function StoreLinkAndroidOnPrimary({
 
 export function LandingCtaStoreRow() {
   return (
-    <div className="mx-auto flex w-full max-w-[688px] flex-col gap-2 sm:w-auto sm:max-w-none sm:flex-row sm:items-center sm:justify-center">
+    <div className="flex w-full max-w-[688px] flex-col items-start gap-2 sm:max-w-none sm:flex-row sm:flex-wrap sm:items-center sm:justify-start">
       <StoreLinkIos gridCell gridMode="cta" />
       <StoreLinkAndroidOnPrimary gridCell gridMode="cta" />
     </div>

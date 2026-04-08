@@ -13,7 +13,7 @@
 }
 
 .font-wobblite {
-  font-family: "Wobblite", var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  font-family: "Wobblite", "Trebuchet MS", "Avenir Next", ui-sans-serif, system-ui, sans-serif;
 }
 
 /* Design tokens – Light scheme (source: design token tables) */
@@ -63,8 +63,8 @@
   --color-error-container: var(--color-error-container);
   --color-tertiary: var(--color-tertiary);
   --color-electric-pear: var(--color-electric-pear);
-  --font-sans: var(--font-roboto), var(--font-inter), var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono);
+  --font-sans: "Inter", "Roboto", "Outfit", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "Geist Mono", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -77,7 +77,7 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans);
+  font-family: "Inter", "Roboto", "Outfit", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 /* Default cursor for interactive controls */
@@ -96,16 +96,16 @@ select {
 
 .reveal-on-scroll {
   opacity: 0;
-  transform: translateY(24px);
+  transform: translate3d(0, 28px, 0) scale(0.985);
   transition:
-    opacity 700ms ease,
-    transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+    opacity 760ms ease,
+    transform 760ms cubic-bezier(0.22, 1, 0.36, 1);
   will-change: opacity, transform;
 }
 
 .reveal-on-scroll.is-visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translate3d(0, 0, 0) scale(1);
 }
 
 @keyframes floatYSlow {
@@ -125,6 +125,30 @@ select {
   will-change: transform;
 }
 
+@keyframes floatScaleSoft {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  25% {
+    transform: translate3d(0, -8px, 0) scale(1.03);
+  }
+  50% {
+    transform: translate3d(0, -14px, 0) scale(0.985);
+  }
+  75% {
+    transform: translate3d(0, -6px, 0) scale(1.02);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+.animate-float-scale-soft {
+  animation: floatScaleSoft 7.2s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  transform-origin: center;
+  will-change: transform;
+}
+
 .animate-delay-1 {
   animation-delay: 1.2s;
 }
@@ -141,5 +165,9 @@ select {
 
   .animate-float-y-slow {
     animation-duration: 9.5s;
+  }
+
+  .animate-float-scale-soft {
+    animation-duration: 10.5s;
   }
 }
