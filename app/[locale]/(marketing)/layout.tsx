@@ -30,7 +30,7 @@ export default async function MarketingLayout({
   const pathWithoutLocale = parsedPathname.replace(/^\/(en|fr)/, '') || '/';
   const isMarketingHome = pathWithoutLocale === '/' || pathWithoutLocale === '';
   const showMarketingChrome = new Set(['/', '/about', '/how-it-works', '/privacy', '/terms', '/articles']).has(pathWithoutLocale);
-  const useLandingNavbarOnPage = new Set(['/privacy', '/terms']).has(pathWithoutLocale);
+  const useLandingNavbarOnPage = new Set(['/privacy', '/terms', '/articles']).has(pathWithoutLocale);
 
   return (
     <div

@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react';
 import { PawtakerBlogCard } from '@/components/marketing/pawtaker/PawtakerMarketingPrimitives';
 import type { PublicBlogSummary } from '@/lib/blogs';
+import { LandingNavbar } from './landing/LandingNavbar';
 
 type SortOption = 'newest' | 'oldest';
 
@@ -26,6 +27,8 @@ export function ArticlesPageContent({
   }, [posts, sort]);
 
   return (
+    <>
+    <LandingNavbar />
     <main className="bg-[#f5f0f0] px-5 py-16 sm:px-8 lg:px-10 xl:px-[80px]">
       <div className="mx-auto max-w-[1440px]">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
@@ -69,5 +72,6 @@ export function ArticlesPageContent({
         )}
       </div>
     </main>
+    </>
   );
 }
