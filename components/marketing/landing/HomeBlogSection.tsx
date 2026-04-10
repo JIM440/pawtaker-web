@@ -1,10 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { Link } from '@/lib/i18n/navigation';
 import { BlogRail } from '@/components/marketing/pawtaker/BlogRail';
 import { PawtakerBlogCard } from '@/components/marketing/pawtaker/PawtakerMarketingPrimitives';
+import { getBlogContent } from '@/components/marketing/pawtaker/content';
 import type { PublicBlogSummary } from '@/lib/blogs';
 import type { Locale } from '@/lib/i18n/config';
+import { ArrowRight } from 'lucide-react';
 
 function BlogCardSkeleton() {
   return (
@@ -39,6 +42,7 @@ export function HomeBlogSection({
 }) {
   const [blogs, setBlogs] = useState<PublicBlogSummary[] | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const fallbackLabels = getBlogContent(locale);
 
   useEffect(() => {
     let isActive = true;
@@ -92,6 +96,18 @@ export function HomeBlogSection({
           blogs.map((post) => <PawtakerBlogCard key={post.slug} post={post} />)
         )}
       </BlogRail>
+      
+      {blogs && blogs.length > 0 && (
+        <div className="mt-8 mx-auto max-w-[1440px]">
+              <Link
+                href="/blog"
+                className="text-[22px] underline font-bold tracking-[-0.2px] text-[#665459] hover:text-[#8c4a60] transition-colors inline-flex items-center gap-2"
+              >
+                <p>{fallbackLabels.seeAllBlogs}</p>
+                <ArrowRight color="#665459" size={22} />
+              </Link>
+        </div>
+      )}
     </section>
   );
 }

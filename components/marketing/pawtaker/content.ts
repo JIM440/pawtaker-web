@@ -63,6 +63,15 @@ export type BlogContent = {
     paragraphs: string[];
   }>;
   otherBlogs: string;
+  moreAboutPets: string;
+  allBlogs: string;
+  allBlogsDescription: string;
+  recentBlogs: string;
+  noBlogs: string;
+  seeAllBlogs: string;
+  sortByDate: string;
+  newestFirst: string;
+  oldestFirst: string;
 };
 
 export type BlogPostContent = {
@@ -362,6 +371,15 @@ const blogContent: Record<Locale, BlogContent> = {
       },
     ],
     otherBlogs: 'other blogs',
+    moreAboutPets: 'More about pets',
+    allBlogs: 'Blogs',
+    allBlogsDescription: 'Pet care tips, stories, and expert advice from our community.',
+    recentBlogs: 'Recent Blogs',
+    noBlogs: 'No blogs available yet.',
+    seeAllBlogs: 'See All Blogs',
+    sortByDate: 'Sort by date',
+    newestFirst: 'Newest first',
+    oldestFirst: 'Oldest first',
   },
   fr: {
     slug: 'pack-mentality-community-care',
@@ -404,6 +422,15 @@ const blogContent: Record<Locale, BlogContent> = {
       },
     ],
     otherBlogs: 'autres blogs',
+    moreAboutPets: 'Plus sur les animaux',
+    allBlogs: 'Blogs',
+    allBlogsDescription: 'Conseils, histoires et expertise pour le soin de vos animaux.',
+    recentBlogs: 'Blogs Récents',
+    noBlogs: 'Aucun blog disponible pour le moment.',
+    seeAllBlogs: 'Voir Tous les Blogs',
+    sortByDate: 'Trier par date',
+    newestFirst: 'Plus récents',
+    oldestFirst: 'Plus anciens',
   },
 };
 

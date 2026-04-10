@@ -87,7 +87,7 @@ export function PawtakerBlogCard({
       href={`/blog/${post.slug}`}
       className="group block w-[300px] shrink-0 snap-start rounded-[20px] bg-[#fffafa] p-1 min-[500px]:w-[280px] sm:w-[320px] lg:w-[360px]"
     >
-      <div className="overflow-hidden rounded-[16px]">
+      <div className="overflow-hidden rounded-[16px] rounded-bl-[4px] rounded-br-[4px]">
         <img
           src={post.imageSrc}
           alt={post.title}
@@ -126,8 +126,8 @@ export function PawtakerFooter() {
               <a href={android} {...externalLinkProps(android)} className="block hover:text-[#8c4a60]">
                 Get it on Playstore
               </a>
-              <a href="/articles" className="block hover:text-[#8c4a60]">
-                Articles
+              <a href="/blog" className="block hover:text-[#8c4a60]">
+                Blogs
               </a>
               <a href="#why-pawtaker" className="block hover:text-[#8c4a60]">
                 Why Pawtaker?
@@ -162,8 +162,6 @@ export function PawtakerFooter() {
 export function BlogAuthorRow({ date }: { date: string }) {
   return (
     <div className="flex flex-wrap items-center gap-3 text-[#3d2d32]">
-      <img src={adminAvatarSrc} alt="" className="h-11 w-11 rounded-full object-cover ring-1 ring-[#d5c2c6]" />
-      <span className="text-[22px] font-bold leading-7 tracking-[-0.1px]">Admin</span>
       <span className="text-[22px] leading-7 tracking-[-0.1px] text-[#837377]">{date}</span>
     </div>
   );

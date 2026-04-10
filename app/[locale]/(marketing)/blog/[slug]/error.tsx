@@ -1,7 +1,6 @@
 'use client';
 
 import { LandingNavbar } from '@/components/marketing/landing/LandingNavbar';
-import { MarketingFooter } from '@/components/marketing/Footer';
 
 export default function BlogDetailsError({
   error,
@@ -32,7 +31,6 @@ export default function BlogDetailsError({
           </div>
         </section>
       </main>
-      <MarketingFooter />
     </>
   );
 }

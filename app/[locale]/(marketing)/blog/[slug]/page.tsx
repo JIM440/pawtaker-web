@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { Link } from '@/lib/i18n/navigation';
 import type { Locale } from '@/lib/i18n/config';
 import { LandingNavbar } from '@/components/marketing/landing/LandingNavbar';
 import { SectionReveal } from '@/components/marketing/landing/SectionReveal';
-import { MarketingFooter } from '@/components/marketing/Footer';
+import { BlogDetailsWrapper } from '@/components/marketing/blog/BlogDetailsWrapper';
 import { BlogRail } from '@/components/marketing/pawtaker/BlogRail';
 import { ShareButton } from '@/components/marketing/pawtaker/ShareButton';
 import {
@@ -12,6 +13,7 @@ import {
 } from '@/components/marketing/pawtaker/PawtakerMarketingPrimitives';
 import { getBlogContent } from '@/components/marketing/pawtaker/content';
 import { getPublishedBlogBySlug, getPublishedBlogs } from '@/lib/blogs';
+import { ArrowRight } from 'lucide-react';
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://pawtaker-web.vercel.app';
 
@@ -79,9 +81,9 @@ export default async function BlogDetailsPage({
   const shareUrl = `${baseUrl}/${resolvedLocale}/blog/${post.slug}`;
 
   return (
-    <>
+    <BlogDetailsWrapper>
       <LandingNavbar />
-      <main className="overflow-x-clip bg-[#f5f0f0]">
+      <main className="overflow-x-clip bg-[#f5f0f0] border-b border-[#e0d6d8]">
         <SectionReveal delayMs={40}>
         <section className="bg-[#ede6e7] px-5 py-14 sm:px-8 lg:px-[80px] lg:py-16">
           <div className="mx-auto max-w-[800px] space-y-8 sm:space-y-10">
@@ -124,16 +126,25 @@ export default async function BlogDetailsPage({
         {blogPosts.length > 0 ? (
           <SectionReveal delayMs={90}>
           <section className="bg-[#f5f0f0] px-5 py-16 sm:px-8 lg:px-[80px] lg:py-16">
-            <BlogRail title={fallbackLabels.otherBlogs}>
+            <BlogRail title={fallbackLabels.moreAboutPets}>
               {blogPosts.map((blogPost) => (
                 <PawtakerBlogCard key={blogPost.slug} post={blogPost} />
               ))}
             </BlogRail>
+            
+            <div className="mt-8 mx-auto max-w-[1440px]">
+              <Link
+                href="/blog"
+                className="text-[22px] underline font-bold tracking-[-0.2px] text-[#665459] hover:text-[#8c4a60] transition-colors inline-flex items-center gap-2"
+              >
+                <p>{fallbackLabels.seeAllBlogs}</p>
+                <ArrowRight color="#665459" size={22} />
+              </Link>
+            </div>
           </section>
           </SectionReveal>
         ) : null}
       </main>
-      <MarketingFooter />
-    </>
+    </BlogDetailsWrapper>
   );
 }

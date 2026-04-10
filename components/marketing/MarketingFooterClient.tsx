@@ -1,17 +1,19 @@
+'use client';
+
 import Image from 'next/image';
-import { getTranslations } from 'next-intl/server';
+import { useTranslations } from 'next-intl';
 import { Link } from '@/lib/i18n/navigation';
 import { externalLinkProps, getAppStoreUrls } from '@/lib/app-store-urls';
 
-/** Figma footer: body/large & body/large-emphasized — 16px, tracking -0.2px, #665459 */
+/** Figma footer: body/large & body/large-emphasized - 16px, tracking -0.2px, #665459 */
 const headingClass =
   'pb-4 text-base font-bold leading-[18px] tracking-[-0.2px] text-[#665459]';
 
 const linkClass =
   'inline-block max-w-full text-left text-base font-normal leading-6 tracking-[-0.2px] text-[#665459] transition-colors hover:text-[#8c4a60] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8c4a60]/35 focus-visible:ring-offset-2 focus-visible:ring-offset-[#f5f0f0] rounded-sm';
 
-export async function MarketingFooter() {
-  const t = await getTranslations('marketing.footer');
+export function MarketingFooterClient() {
+  const t = useTranslations('marketing.footer');
   const { ios: iosUrl, android: androidUrl } = getAppStoreUrls();
 
   return (
@@ -21,7 +23,7 @@ export async function MarketingFooter() {
     >
       <div className="mx-auto w-full max-w-[1440px] px-5 py-12 sm:px-8 sm:py-14 lg:px-10 lg:py-16 xl:px-[80px]">
         <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:justify-between lg:gap-16">
-          {/* Logo — full width on small screens, bounded on large */}
+          {/* Logo - full width on small screens, bounded on large */}
           <div className="shrink-0 lg:max-w-[min(100%,389px)]" data-name="Title">
             <Link
               href="/"
@@ -37,7 +39,7 @@ export async function MarketingFooter() {
             </Link>
           </div>
 
-          {/* Link columns — 1 col mobile, 2 cols tablet, 3 cols desktop */}
+          {/* Link columns - 1 col mobile, 2 cols tablet, 3 cols desktop */}
           <div className="grid min-w-0 flex-1 grid-cols-1 gap-10 sm:grid-cols-2 sm:gap-x-8 sm:gap-y-10 lg:grid-cols-3 lg:gap-8 xl:max-w-[900px] xl:gap-10">
           <nav
             className="flex min-w-0 flex-col gap-3"

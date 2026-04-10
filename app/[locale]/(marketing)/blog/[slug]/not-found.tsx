@@ -1,5 +1,4 @@
 import { LandingNavbar } from '@/components/marketing/landing/LandingNavbar';
-import { MarketingFooter } from '@/components/marketing/Footer';
 
 export default function BlogNotFound() {
   return (
@@ -17,7 +16,6 @@ export default function BlogNotFound() {
           </div>
         </section>
       </main>
-      <MarketingFooter />
     </>
   );
 }

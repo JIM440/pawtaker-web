@@ -1,5 +1,4 @@
 import { LandingNavbar } from '@/components/marketing/landing/LandingNavbar';
-import { MarketingFooter } from '@/components/marketing/Footer';
 
 function BlogCardSkeleton() {
   return (
@@ -66,7 +65,6 @@ export default function BlogDetailsLoading() {
           </div>
         </section>
       </main>
-      <MarketingFooter />
     </>
   );
 }
