@@ -6,9 +6,11 @@ import { useEffect, useRef, useState } from 'react';
 export function BlogRail({
   title,
   children,
+  titleColor
 }: {
   title: string;
   children: React.ReactNode;
+  titleColor?: string;
 }) {
   const railRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -61,7 +63,7 @@ export function BlogRail({
   return (
     <div className="mx-auto max-w-[1440px]">
       <div className="mb-10 flex items-end justify-between gap-4">
-        <h2 className="font-wobblite text-[52px] leading-[0.8] tracking-[-0.5px] text-[#8c4a60] sm:text-[68px] xl:text-[100px]">
+        <h2 className={`font-wobblite text-[52px] leading-[0.8] tracking-[-0.5px] text-[${titleColor ? titleColor : '#8c4a60'}] sm:text-[68px] xl:text-[100px]`}>
           {title}
         </h2>
         <div className="hidden items-center gap-3 md:flex">

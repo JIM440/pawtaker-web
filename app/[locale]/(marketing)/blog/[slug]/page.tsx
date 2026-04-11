@@ -126,7 +126,7 @@ export default async function BlogDetailsPage({
         {blogPosts.length > 0 ? (
           <SectionReveal delayMs={90}>
           <section className="bg-[#f5f0f0] px-5 py-16 sm:px-8 lg:px-[80px] lg:py-16">
-            <BlogRail title={fallbackLabels.moreAboutPets}>
+            <BlogRail title={fallbackLabels.moreAboutPets} titleColor={'#665459'}>
               {blogPosts.map((blogPost) => (
                 <PawtakerBlogCard key={blogPost.slug} post={blogPost} />
               ))}

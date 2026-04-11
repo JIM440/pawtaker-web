@@ -103,12 +103,9 @@ export default function BlogListingPage({
         <div className="mx-auto max-w-[1440px]">
           <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
             <div className="max-w-[760px]">
-              <h1 className="font-wobblite text-[52px] leading-[0.82] tracking-[-0.5px] text-[#8c4a60] sm:text-[68px] xl:text-[100px]">
+              <h1 className="font-wobblite text-[52px] leading-[0.82] tracking-[-0.5px] text-[#665459] sm:text-[68px] xl:text-[100px]">
                 {fallbackLabels.allBlogs}
               </h1>
-              <p className="mt-4 text-[18px] leading-7 tracking-[-0.1px] text-[#665459] xl:text-[22px]">
-                {fallbackLabels.allBlogsDescription}
-              </p>
             </div>
 
             <div className="flex min-w-[180px] flex-col gap-2">
