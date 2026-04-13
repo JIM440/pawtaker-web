@@ -41,12 +41,23 @@ export async function POST(req: Request) {
     return NextResponse.json({ sent: 0, failed: 0 });
   }
 
+  const uniqueSubs = Array.from(
+    new Map(
+      subs
+        .filter((row) => {
+          const endpoint = (row.subscription as { endpoint?: unknown } | null)?.endpoint;
+          return typeof endpoint === 'string' && endpoint.length > 0;
+        })
+        .map((row) => [String((row.subscription as { endpoint: string }).endpoint), row] as const)
+    ).values()
+  );
+
   const payload = JSON.stringify({ title, message, url });
 
   let sent = 0;
   let failed = 0;
 
-  for (const row of subs) {
+  for (const row of uniqueSubs) {
     try {
       await webpush.sendNotification(
         row.subscription as unknown as webpush.PushSubscription,

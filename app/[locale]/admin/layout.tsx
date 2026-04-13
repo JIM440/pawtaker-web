@@ -53,24 +53,25 @@ export default async function AdminLayout({
     <ReactQueryProvider>
       <ToastProvider>
         <NotificationProvider>
-          <PushSubscriber />
-          <Toaster position="bottom-right" richColors closeButton />
-          <div className="fixed inset-0 flex overflow-hidden bg-background-base">
-            <AdminSidebar pathname={pathname} adminEmail={user.email ?? ''} />
-            <main className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden pt-16">
-              <header className="fixed left-0 right-0 top-0 z-20 flex h-16 items-center justify-between border-b border-outline/20 bg-white/80 px-4 backdrop-blur-sm md:left-64 md:px-8">
-                <div className="ml-12 md:ml-0">
-                  <AdminPageHeading />
+          <PushSubscriber>
+            <Toaster position="bottom-right" richColors closeButton />
+            <div className="fixed inset-0 flex overflow-hidden bg-background-base">
+              <AdminSidebar pathname={pathname} adminEmail={user.email ?? ''} />
+              <main className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden pt-16">
+                <header className="fixed left-0 right-0 top-0 z-20 flex h-16 items-center justify-between border-b border-outline/20 bg-white/80 px-4 backdrop-blur-sm md:left-64 md:px-8">
+                  <div className="ml-12 md:ml-0">
+                    <AdminPageHeading />
+                  </div>
+                  <div className="ml-4">
+                    <AdminHeaderActions />
+                  </div>
+                </header>
+                <div className="flex-1 min-h-0 min-w-0 overflow-x-hidden overflow-y-auto">
+                  {children}
                 </div>
-                <div className="ml-4">
-                  <AdminHeaderActions />
-                </div>
-              </header>
-              <div className="flex-1 min-h-0 min-w-0 overflow-x-hidden overflow-y-auto">
-                {children}
-              </div>
-            </main>
-          </div>
+              </main>
+            </div>
+          </PushSubscriber>
         </NotificationProvider>
       </ToastProvider>
     </ReactQueryProvider>
