@@ -3,7 +3,7 @@ import type { Locale } from '@/lib/i18n/config';
 import { HomeBlogSection } from '@/components/marketing/landing/HomeBlogSection';
 import { LandingNavbar } from '@/components/marketing/landing/LandingNavbar';
 import { SectionReveal } from '@/components/marketing/landing/SectionReveal';
-import { LandingCtaStoreRow } from '@/components/marketing/landing/StoreButtons';
+import { LandingCtaStoreRow, StoreButtonRow } from '@/components/marketing/landing/StoreButtons';
 import { getHomeContent } from '@/components/marketing/pawtaker/content';
 
 function DisplayTitle({
@@ -56,7 +56,10 @@ export async function MarketingLandingPage({ locale }: { locale: Locale }) {
                 {content.hero.body}
               </p>
               <div className="mt-6">
-                <LandingCtaStoreRow />
+                <StoreButtonRow
+                  gridMode="hero"
+                  className="mx-auto grid w-full max-w-[688px] grid-cols-1 gap-2 sm:grid-cols-2 min-[900px]:mx-0 min-[900px]:max-w-none"
+                />
               </div>
             </div>
             <div className="flex min-w-0 justify-center">

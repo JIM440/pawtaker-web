@@ -13,6 +13,7 @@ export interface AdminRequestDto {
   careGivenByName: string;
   careGivenByImage?: string | null;
   careGivenByEmail: string;
+  careGivenByState: 'assigned' | 'not_assigned_yet' | 'not_completed';
   careType: 'daytime' | 'play/walk' | 'vacation' | 'night';
   serviceDates: string;
   status: 'ongoing' | 'completed' | 'canceled';

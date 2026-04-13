@@ -126,7 +126,7 @@ export default function DashboardPage() {
               </div>
             ))}
           {!dashboardQuery.isLoading && !dashboardQuery.isError && (data?.recentActivity?.length ?? 0) === 0 ? (
-            <p className="text-sm text-on-surface/60">No recent activity.</p>
+            <p className="text-sm text-on-surface/60">{t('noRecentActivity')}</p>
           ) : null}
         </div>
       </section>

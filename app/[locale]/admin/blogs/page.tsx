@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Globe, MoreHorizontal, Pencil, Plus, Trash2, UploadCloud, X } from 'lucide-react';
+import { useLocale, useTranslations } from 'next-intl';
 import BlogRichTextEditor from '@/components/admin/BlogRichTextEditor';
 import ConfirmationModal from '@/components/admin/ConfirmationModal';
 import LabeledSearch from '@/components/admin/LabeledSearch';
@@ -31,15 +32,17 @@ function ModalShell({
   subtitle,
   children,
   onClose,
+  closeLabel,
 }: {
   title: string;
   subtitle?: string;
   children: React.ReactNode;
   onClose: () => void;
+  closeLabel: string;
 }) {
   return (
     <div className="fixed inset-0 z-[120] flex items-center justify-center bg-black/45 px-4 py-6">
-      <button type="button" className="absolute inset-0" onClick={onClose} aria-label="Close dialog" />
+      <button type="button" className="absolute inset-0" onClick={onClose} aria-label={closeLabel} />
       <div className="relative z-10 flex max-h-[90vh] w-full max-w-[960px] flex-col overflow-hidden rounded-3xl bg-white shadow-2xl">
         <div className="border-b border-outline/10 px-6 py-5 md:px-8">
           <div className="flex items-start justify-between gap-4">
@@ -51,7 +54,7 @@ function ModalShell({
               type="button"
               onClick={onClose}
               className="shrink-0 rounded-full p-2 text-on-surface/60 transition-colors hover:bg-surface-container hover:text-on-surface"
-              aria-label="Close dialog"
+              aria-label={closeLabel}
             >
               <X className="h-5 w-5" aria-hidden="true" />
             </button>
@@ -65,16 +68,16 @@ function ModalShell({
   );
 }
 
-function formatDisplayDate(value: string | null) {
-  if (!value) return 'Draft';
-  return new Date(value).toLocaleDateString('en-GB', {
+function formatDisplayDate(value: string | null, locale: string, draftLabel: string) {
+  if (!value) return draftLabel;
+  return new Date(value).toLocaleDateString(locale === 'fr' ? 'fr-FR' : 'en-GB', {
     day: '2-digit',
     month: 'short',
     year: 'numeric',
   });
 }
 
-function formatReadTimeFromHtml(html: string) {
+function formatReadTimeFromHtml(html: string, suffix: string) {
   const wordCount = html
     .replace(/<[^>]+>/g, ' ')
     .replace(/\s+/g, ' ')
@@ -82,7 +85,7 @@ function formatReadTimeFromHtml(html: string) {
     .split(/\s+/)
     .filter(Boolean).length;
   const minutes = Math.max(1, Math.ceil(wordCount / 200));
-  return `${minutes} min read`;
+  return `${minutes} ${suffix}`;
 }
 
 function BlogPreviewModal({
@@ -98,8 +101,10 @@ function BlogPreviewModal({
   onDelete: (blog: AdminBlogRow) => void;
   onClose: () => void;
 }) {
+  const t = useTranslations('admin.blogs');
+  const locale = useLocale();
   return (
-    <ModalShell title={blog.title} subtitle={`Slug: ${blog.slug}`} onClose={onClose}>
+    <ModalShell title={blog.title} subtitle={`${t('slugLabel')}: ${blog.slug}`} onClose={onClose} closeLabel={t('closeDialog')}>
       <div className="min-w-0 space-y-6">
         {blog.cover_image_url ? (
           <img
@@ -110,8 +115,8 @@ function BlogPreviewModal({
         ) : null}
         <div className="flex items-center justify-between gap-4 text-sm text-on-surface/60">
           <div className="flex flex-wrap items-center gap-3">
-            <span>{formatDisplayDate(blog.published_at ?? blog.created_at)}</span>
-            <span>{blog.is_published ? 'Published' : 'Draft'}</span>
+            <span>{formatDisplayDate(blog.published_at ?? blog.created_at, locale, t('statusDraft'))}</span>
+            <span>{blog.is_published ? t('statusPublished') : t('statusDraft')}</span>
           </div>
           <BlogActionsMenu
             blog={blog}
@@ -140,6 +145,7 @@ function BlogFormModal({
   onClose: () => void;
   onSubmit: (payload: AdminBlogInput) => Promise<void>;
 }) {
+  const t = useTranslations('admin.blogs');
   const { showToast } = useToast();
   const [form, setForm] = useState<BlogFormState>({
     title: initialBlog?.title ?? '',
@@ -186,17 +192,17 @@ function BlogFormModal({
     const trimmedTitle = form.title.trim();
 
     if (!trimmedTitle) {
-      showToast('Title is required.', 'error');
+      showToast(t('titleRequired'), 'error');
       return;
     }
 
     if (!plainTextContent) {
-      showToast('Content is required.', 'error');
+      showToast(t('contentRequired'), 'error');
       return;
     }
 
     if (!selectedImage && !form.coverImageUrl) {
-      showToast('A cover image is required.', 'error');
+      showToast(t('coverImageRequired'), 'error');
       return;
     }
 
@@ -215,7 +221,7 @@ function BlogFormModal({
       });
       onClose();
     } catch (error) {
-      showToast(error instanceof Error ? error.message : 'Failed to save blog.', 'error');
+      showToast(error instanceof Error ? error.message : t('saveFailed'), 'error');
     } finally {
       setIsSubmitting(false);
     }
@@ -224,25 +230,26 @@ function BlogFormModal({
   return (
     <ModalShell
       title={mode === 'create' ? 'Create blog' : 'Edit blog'}
-      subtitle="Add a cover image, title, and formatted content. Slugs are generated automatically from the title."
+      subtitle={mode === 'create' ? t('createSubtitle') : t('editSubtitle')}
       onClose={onClose}
+      closeLabel={t('closeDialog')}
     >
-      <div className="min-w-[720px] space-y-6 lg:min-w-0">
+      <div className="space-y-6">
         <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
           <div className="space-y-4">
             <div className="space-y-2">
-              <label className="text-sm font-semibold text-on-surface">Title</label>
+              <label className="text-sm font-semibold text-on-surface">{t('fieldTitle')}</label>
               <input
                 type="text"
                 value={form.title}
                 onChange={(e) => setForm((current) => ({ ...current, title: e.target.value }))}
                 className="w-full rounded-2xl border border-outline/20 px-4 py-3 text-[#665459] outline-none ring-primary/20 placeholder:text-[#665459]/45 focus-visible:ring-2"
-                placeholder="Enter blog title"
+                placeholder={t('titlePlaceholder')}
               />
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-semibold text-on-surface">Content</label>
+              <label className="text-sm font-semibold text-on-surface">{t('fieldContent')}</label>
               <BlogRichTextEditor
                 value={form.contentHtml}
                 onChange={(next) => setForm((current) => ({ ...current, contentHtml: next }))}
@@ -252,10 +259,10 @@ function BlogFormModal({
 
           <div className="space-y-4">
             <div className="space-y-2">
-              <label className="text-sm font-semibold text-on-surface">Cover image</label>
+              <label className="text-sm font-semibold text-on-surface">{t('fieldCoverImage')}</label>
               <label className="flex cursor-pointer items-center justify-center gap-2 rounded-2xl border border-dashed border-outline/30 bg-surface-container-lowest px-4 py-4 text-sm font-semibold text-on-surface">
                 <UploadCloud className="h-4 w-4" aria-hidden="true" />
-                {selectedImage ? selectedImage.name : form.coverImageUrl ? 'Replace image' : 'Choose image'}
+                {selectedImage ? selectedImage.name : form.coverImageUrl ? t('replaceImage') : t('chooseImage')}
                 <input
                   type="file"
                   accept="image/*"
@@ -267,12 +274,12 @@ function BlogFormModal({
                 />
               </label>
               <p className="text-xs text-on-surface/60">
-                The image is uploaded only when you click {mode === 'create' ? 'Create blog' : 'Save changes'}.
+                {t('uploadHint', { action: mode === 'create' ? t('createBlog') : t('saveChanges') })}
               </p>
               {imagePreviewUrl ? (
                 <img
                   src={imagePreviewUrl}
-                  alt="Blog cover preview"
+                  alt={t('coverPreviewAlt')}
                   className="h-auto w-full rounded-2xl border border-outline/10 object-cover"
                 />
               ) : null}
@@ -285,26 +292,26 @@ function BlogFormModal({
                 onChange={(e) => setIsPublished(e.target.checked)}
                 className="size-4 rounded border-outline/30"
               />
-              Publish immediately
+              {t('publishImmediately')}
             </label>
 
             <div className="rounded-2xl border border-outline/15 bg-surface-container-lowest px-4 py-4 text-sm text-on-surface/70">
-              <p className="font-semibold text-on-surface">Live preview details</p>
-              <p className="mt-2">Slug will be generated automatically from the title.</p>
-              <p className="mt-2">Excerpt is generated automatically from the content.</p>
-              <p className="mt-2">Cover image is required.</p>
-              <p className="mt-2">Word count: {plainTextContent ? plainTextContent.split(/\s+/).length : 0}</p>
+              <p className="font-semibold text-on-surface">{t('previewDetails')}</p>
+              <p className="mt-2">{t('slugGenerated')}</p>
+              <p className="mt-2">{t('excerptGenerated')}</p>
+              <p className="mt-2">{t('coverIsRequired')}</p>
+              <p className="mt-2">{t('wordCount', { count: plainTextContent ? plainTextContent.split(/\s+/).length : 0 })}</p>
             </div>
           </div>
         </div>
 
-        <div className="flex flex-wrap justify-end gap-3">
+        <div className="flex flex-col-reverse gap-3 sm:flex-row sm:flex-wrap sm:justify-end">
           <button
             type="button"
             onClick={onClose}
             className="rounded-full border border-outline/20 px-5 py-3 text-sm font-semibold text-on-surface"
           >
-            Cancel
+            {t('cancel')}
           </button>
           <button
             type="button"
@@ -315,10 +322,10 @@ function BlogFormModal({
             {isSubmitting
               ? mode === 'create'
                 ? 'Creating...'
-                : 'Saving...'
+                : t('saving')
               : mode === 'create'
-                ? 'Create blog'
-                : 'Save changes'}
+                ? t('createBlog')
+                : t('saveChanges')}
           </button>
         </div>
       </div>
@@ -339,6 +346,7 @@ function BlogActionsMenu({
   onPublish: (blog: AdminBlogRow) => void;
   onDelete: (blog: AdminBlogRow) => void;
 }) {
+  const t = useTranslations('admin.blogs');
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -359,7 +367,7 @@ function BlogActionsMenu({
         type="button"
         onClick={() => setOpen((current) => !current)}
         className="rounded-full p-2.5 text-on-surface/55 transition-colors hover:bg-surface-container hover:text-on-surface"
-        aria-label="Open blog actions"
+        aria-label={t('openActions')}
         aria-expanded={open}
       >
         <MoreHorizontal className="h-5 w-5" aria-hidden="true" />
@@ -376,7 +384,7 @@ function BlogActionsMenu({
             className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-on-surface hover:bg-surface-container-lowest"
           >
             <Pencil className="h-4 w-4 shrink-0" aria-hidden="true" />
-            Edit blog
+            {t('editBlog')}
           </button>
           {!blog.is_published ? (
             <button
@@ -388,7 +396,7 @@ function BlogActionsMenu({
               className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-on-surface hover:bg-surface-container-lowest"
             >
               <Globe className="h-4 w-4 shrink-0" aria-hidden="true" />
-              Make blog public
+              {t('makePublic')}
             </button>
           ) : null}
           <button
@@ -400,7 +408,7 @@ function BlogActionsMenu({
             className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-error hover:bg-error/5"
           >
             <Trash2 className="h-4 w-4 shrink-0" aria-hidden="true" />
-            Delete blog
+            {t('deleteBlog')}
           </button>
         </div>
       ) : null}
@@ -415,6 +423,8 @@ function BlogCard({ blog, onView, onEdit, onPublish, onDelete }: {
   onPublish: (blog: AdminBlogRow) => void;
   onDelete: (blog: AdminBlogRow) => void;
 }) {
+  const t = useTranslations('admin.blogs');
+  const locale = useLocale();
   return (
     <article className="group relative rounded-[20px] border border-outline/15 bg-[#fffafa] p-1 shadow-sm transition-colors hover:border-outline/25">
       <div
@@ -428,13 +438,13 @@ function BlogCard({ blog, onView, onEdit, onPublish, onDelete }: {
           }
         }}
         className="block w-full text-left"
-        aria-label={`View ${blog.title}`}
+        aria-label={t('viewBlog', { title: blog.title })}
       >
-      <div className="relative overflow-hidden rounded-[16px] border border-outline/10 bg-surface-container-lowest">
+      <div className="relative overflow-hidden rounded-[16px] rounded-bl-[4px] rounded-br-[4px] border border-outline/10 bg-surface-container-lowest">
         {blog.cover_image_url ? (
           <img src={blog.cover_image_url} alt={blog.title} className="h-[236px] w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]" />
         ) : (
-          <div className="flex h-[236px] items-center justify-center text-sm text-on-surface/45">No image</div>
+          <div className="flex h-[236px] items-center justify-center text-sm text-on-surface/45">{t('noImage')}</div>
         )}
       </div>
       <div className="space-y-3 px-5 py-5">
@@ -445,9 +455,9 @@ function BlogCard({ blog, onView, onEdit, onPublish, onDelete }: {
                 blog.is_published ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'
               }`}
             >
-              {blog.is_published ? 'Published' : 'Draft'}
+              {blog.is_published ? t('statusPublished') : t('statusDraft')}
             </span>
-            <span>{formatDisplayDate(blog.published_at ?? blog.created_at)}</span>
+            <span>{formatDisplayDate(blog.published_at ?? blog.created_at, locale, t('statusDraft'))}</span>
           </div>
           <div
             className="shrink-0"
@@ -462,7 +472,7 @@ function BlogCard({ blog, onView, onEdit, onPublish, onDelete }: {
         </h2>
         <p className="break-all text-[12px] leading-5 tracking-[-0.15px] text-[#8a767c]">/{blog.slug}</p>
         <p className="line-clamp-3 text-[14px] leading-5 tracking-[-0.2px] text-[#665459]">{blog.excerpt}</p>
-        <p className="text-[14px] font-medium tracking-[-0.2px] text-[#665459]">{formatReadTimeFromHtml(blog.content_html)}</p>
+        <p className="text-[14px] font-medium tracking-[-0.2px] text-[#665459]">{formatReadTimeFromHtml(blog.content_html, t('minRead'))}</p>
       </div>
       </div>
     </article>
@@ -470,6 +480,7 @@ function BlogCard({ blog, onView, onEdit, onPublish, onDelete }: {
 }
 
 export default function AdminBlogsPage() {
+  const t = useTranslations('admin.blogs');
   const { showToast } = useToast();
   const blogsQuery = useAdminBlogsQuery();
   const createMutation = useCreateAdminBlogMutation();
@@ -513,22 +524,22 @@ export default function AdminBlogsPage() {
 
   async function handleCreate(payload: AdminBlogInput) {
     await createMutation.mutateAsync(payload);
-    showToast('Blog created successfully.', 'success');
+    showToast(t('createdSuccess'), 'success');
   }
 
   async function handleUpdate(payload: AdminBlogInput) {
     if (!editingBlog) return;
     await updateMutation.mutateAsync({ id: editingBlog.id, payload });
-    showToast('Blog updated successfully.', 'success');
+    showToast(t('updatedSuccess'), 'success');
   }
 
   async function handleDelete() {
     if (!deleteBlog) return;
     try {
       await deleteMutation.mutateAsync(deleteBlog.id);
-      showToast('Blog deleted successfully.', 'success');
+      showToast(t('deletedSuccess'), 'success');
     } catch (error) {
-      showToast(error instanceof Error ? error.message : 'Failed to delete blog.', 'error');
+      showToast(error instanceof Error ? error.message : t('deleteFailed'), 'error');
     }
     setDeleteBlog(null);
   }
@@ -545,9 +556,9 @@ export default function AdminBlogsPage() {
           isPublished: true,
         },
       });
-      showToast('Blog is now public.', 'success');
+      showToast(t('publishedSuccess'), 'success');
     } catch (error) {
-      showToast(error instanceof Error ? error.message : 'Failed to publish blog.', 'error');
+      showToast(error instanceof Error ? error.message : t('publishFailed'), 'error');
     }
     setPublishBlog(null);
   }
@@ -560,36 +571,36 @@ export default function AdminBlogsPage() {
             <div className="w-full lg:min-w-[320px]">
               <LabeledSearch
                 id="blogs-search"
-                label="Search"
+                label={t('searchLabel')}
                 value={search}
-                placeholder="Search by title or slug..."
+                placeholder={t('searchPlaceholder')}
                 onChange={setSearch}
               />
             </div>
             <div className="w-full lg:w-auto">
               <LabeledSelect
                 id="blogs-status"
-                label="Status"
+                label={t('statusLabel')}
                 value={statusFilter}
                 onChange={(next) => setStatusFilter(next as BlogStatusFilter)}
                 options={[
-                  { value: 'all', label: 'All statuses' },
-                  { value: 'published', label: 'Published' },
-                  { value: 'draft', label: 'Draft' },
+                  { value: 'all', label: t('allStatuses') },
+                  { value: 'published', label: t('statusPublished') },
+                  { value: 'draft', label: t('statusDraft') },
                 ]}
               />
             </div>
             <div className="w-full lg:w-auto">
               <LabeledSelect
                 id="blogs-sort"
-                label="Sort by"
+                label={t('sortLabel')}
                 value={sort}
                 onChange={(next) => setSort(next as BlogSort)}
                 options={[
-                  { value: 'date-desc', label: 'Newest first' },
-                  { value: 'date-asc', label: 'Oldest first' },
-                  { value: 'title-asc', label: 'Title A-Z' },
-                  { value: 'title-desc', label: 'Title Z-A' },
+                  { value: 'date-desc', label: t('sortNewest') },
+                  { value: 'date-asc', label: t('sortOldest') },
+                  { value: 'title-asc', label: t('sortTitleAsc') },
+                  { value: 'title-desc', label: t('sortTitleDesc') },
                 ]}
               />
             </div>
@@ -601,13 +612,13 @@ export default function AdminBlogsPage() {
             className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-semibold text-on-primary"
           >
             <Plus className="h-4 w-4" aria-hidden="true" />
-            Create blog
+            {t('createBlog')}
           </button>
         </div>
 
         {blogsQuery.isError ? (
           <div className="rounded-2xl border border-outline/20 bg-white px-6 py-10 text-center text-on-surface/60 shadow-sm">
-            {blogsQuery.error instanceof Error ? blogsQuery.error.message : 'Failed to load blogs.'}
+            {blogsQuery.error instanceof Error ? blogsQuery.error.message : t('loadFailed')}
           </div>
         ) : null}
 
@@ -615,8 +626,8 @@ export default function AdminBlogsPage() {
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
             {Array.from({ length: 6 }).map((_, index) => (
               <div key={index} className="rounded-[20px] border border-outline/15 bg-[#fffafa] p-1 shadow-sm">
-                <div className="rounded-[16px]">
-                  <Skeleton className="h-[236px] w-full rounded-[16px]" />
+                <div className="rounded-[16px] rounded-bl-[4px] rounded-br-[4px]">
+                  <Skeleton className="h-[236px] w-full rounded-[16px] rounded-bl-[4px] rounded-br-[4px]" />
                 </div>
                 <div className="space-y-3 px-5 py-5">
                   <Skeleton className="h-5 w-28 rounded-full" />
@@ -634,7 +645,7 @@ export default function AdminBlogsPage() {
 
         {!blogsQuery.isLoading && !blogsQuery.isError && filteredBlogs.length === 0 ? (
           <div className="rounded-2xl border border-outline/20 bg-white px-6 py-10 text-center text-on-surface/60 shadow-sm">
-            No blogs found yet. Create your first one to populate the landing page and blog details.
+            {t('emptyState')}
           </div>
         ) : null}
 
@@ -688,10 +699,10 @@ export default function AdminBlogsPage() {
 
       <ConfirmationModal
         isOpen={Boolean(publishBlog)}
-        title="Make this blog public?"
-        description="This will publish the blog and make it visible on the landing page and blog routes."
-        confirmLabel={updateMutation.isPending ? 'Publishing...' : 'Make public'}
-        cancelLabel="Cancel"
+        title={t('publishConfirmTitle')}
+        description={t('publishConfirmDesc')}
+        confirmLabel={updateMutation.isPending ? t('publishing') : t('makePublic')}
+        cancelLabel={t('cancel')}
         confirmDisabled={updateMutation.isPending}
         isLoading={updateMutation.isPending}
         onConfirm={() => void handlePublish()}
@@ -702,10 +713,10 @@ export default function AdminBlogsPage() {
 
       <ConfirmationModal
         isOpen={Boolean(deleteBlog)}
-        title="Delete blog?"
-        description="This will permanently remove the blog post and its admin listing."
-        confirmLabel={deleteMutation.isPending ? 'Deleting...' : 'Delete'}
-        cancelLabel="Cancel"
+        title={t('deleteConfirmTitle')}
+        description={t('deleteConfirmDesc')}
+        confirmLabel={deleteMutation.isPending ? t('deleting') : t('delete')}
+        cancelLabel={t('cancel')}
         tone="danger"
         confirmDisabled={deleteMutation.isPending}
         isLoading={deleteMutation.isPending}

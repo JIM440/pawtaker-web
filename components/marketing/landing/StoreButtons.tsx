@@ -63,10 +63,24 @@ export function StoreLinkAndroidOnPrimary({
 }
 
 export function LandingCtaStoreRow() {
+  return <StoreButtonRow />;
+}
+
+export function StoreButtonRow({
+  className,
+  gridMode = 'cta',
+}: {
+  className?: string;
+  gridMode?: 'hero' | 'cta';
+}) {
+  const rowClassName = className
+    ? className
+    : 'flex w-full max-w-[688px] flex-col items-start gap-2 sm:max-w-none sm:flex-row sm:flex-wrap sm:items-center sm:justify-center';
+
   return (
-    <div className="flex w-full max-w-[688px] flex-col items-start gap-2 sm:max-w-none sm:flex-row sm:flex-wrap sm:items-center sm:justify-start">
-      <StoreLinkIos gridCell gridMode="cta" />
-      <StoreLinkAndroidOnPrimary gridCell gridMode="cta" />
+    <div className={rowClassName}>
+      <StoreLinkIos gridCell gridMode={gridMode} />
+      <StoreLinkAndroidOnPrimary gridCell gridMode={gridMode} />
     </div>
   );
 }

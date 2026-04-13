@@ -244,9 +244,6 @@ export default function UsersTable() {
               ]}
             />
           </div>
-          <button className="whitespace-nowrap rounded-xl border border-outline/30 bg-white px-4 py-2.5 text-sm font-medium text-on-surface hover:bg-white transition-colors">
-            {t('exportList')}
-          </button>
         </div>
       </div>
 

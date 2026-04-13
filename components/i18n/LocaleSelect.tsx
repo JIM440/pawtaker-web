@@ -6,6 +6,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { usePathname, useRouter } from '@/lib/i18n/navigation';
 import type { Locale } from '@/lib/i18n/config';
 import { setStoredLocale } from '@/lib/i18n/localeStorage';
+import { persistLocalePreference } from '@/lib/i18n/persistLocalePreference';
 
 interface LocaleSelectProps {
   className?: string;
@@ -51,6 +52,7 @@ export default function LocaleSelect({
   useEffect(() => {
     setSelected(locale);
     setStoredLocale(locale);
+    void persistLocalePreference(locale);
   }, [locale]);
 
   const defaultSelectClassName = showLabel
@@ -75,6 +77,7 @@ export default function LocaleSelect({
 
           setSelected(nextLocale);
           setStoredLocale(nextLocale);
+          void persistLocalePreference(nextLocale);
           router.push(pathname, { locale: nextLocale });
         }}
         className={selectClassName}

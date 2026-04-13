@@ -106,6 +106,9 @@ export function MarketingFooterClient() {
           </div>
           </div>
         </div>
+        <div className="mt-10 border-t border-[#d5c2c6] pt-4 text-center text-xs font-medium tracking-[0.02em] text-[#665459]/70">
+          Copyright 2026 All rights reserved
+        </div>
       </div>
     </footer>
   );

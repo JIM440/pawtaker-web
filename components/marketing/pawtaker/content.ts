@@ -72,6 +72,9 @@ export type BlogContent = {
   sortByDate: string;
   newestFirst: string;
   oldestFirst: string;
+  searchLabel?: string;
+  searchPlaceholder?: string;
+  noSearchResults?: string;
 };
 
 export type BlogPostContent = {
@@ -380,6 +383,9 @@ const blogContent: Record<Locale, BlogContent> = {
     sortByDate: 'Sort by date',
     newestFirst: 'Newest first',
     oldestFirst: 'Oldest first',
+    searchLabel: 'Search',
+    searchPlaceholder: 'Search by title or excerpt...',
+    noSearchResults: 'No blogs match your search.',
   },
   fr: {
     slug: 'pack-mentality-community-care',

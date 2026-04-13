@@ -14,6 +14,7 @@ import {
   PawPrint,
   ShieldCheck,
   Star,
+  UserX,
   Users,
   X,
 } from 'lucide-react';
@@ -35,6 +36,7 @@ const navItems = [
   { href: '/admin/pets', labelKey: 'pets', icon: PawPrint },
   { href: '/admin/reports', labelKey: 'reports', icon: Flag },
   { href: '/admin/reviews', labelKey: 'reviews', icon: Star },
+  { href: '/admin/blocks', labelKey: 'blocks', icon: UserX },
   { href: '/admin/blogs', labelKey: 'blogs', icon: FileText },
   { href: '/admin/contact', labelKey: 'contact', icon: Mail },
 ] satisfies { href: string; labelKey: string; icon: LucideIcon }[];

@@ -55,7 +55,7 @@ export function PawtakerStoreButtons({ centered = false }: { centered?: boolean 
       />
       <StoreButton
         href={android}
-        label="Get it on Playstore"
+        label="Get it on Play Store"
         variant="outline"
         icon={<img src="/images/playstore-icon.svg" alt="" className="h-[18px] w-[18px]" />}
       />
@@ -124,7 +124,7 @@ export function PawtakerFooter() {
                 Download on App Store
               </a>
               <a href={android} {...externalLinkProps(android)} className="block hover:text-[#8c4a60]">
-                Get it on Playstore
+                Get it on Play Store
               </a>
               <a href="/blog" className="block hover:text-[#8c4a60]">
                 Blogs
@@ -153,6 +153,11 @@ export function PawtakerFooter() {
               </a>
             </div>
           </div>
+        </div>
+      </div>
+      <div className="mx-auto w-full max-w-[1440px] px-5 pb-6 sm:px-8 lg:px-[80px]">
+        <div className="border-t border-[#d5c2c6] pt-4 text-center text-xs font-medium tracking-[0.02em] text-[#665459]/70">
+          Copyright 2026 All rights reserved
         </div>
       </div>
     </footer>

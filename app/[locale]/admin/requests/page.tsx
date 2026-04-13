@@ -27,6 +27,7 @@ interface CareRequest {
   careGivenByName: string;
   careGivenByImage: string;
   careGivenByEmail: string;
+  careGivenByState: 'assigned' | 'not_assigned_yet' | 'not_completed';
   careType: CareType;
   serviceDates: string;
   status: RequestStatus;
@@ -102,17 +103,42 @@ export default function RequestsPage() {
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const requests = useMemo(() => (requestsQuery.data ?? []) as CareRequest[], [requestsQuery.data]);
 
+  const getCareGivenByDisplay = (request: CareRequest) => {
+    if (request.careGivenByState === 'assigned') {
+      return {
+        name: request.careGivenByName,
+        email: request.careGivenByEmail,
+        image: request.careGivenByImage,
+      };
+    }
+
+    if (request.careGivenByState === 'not_completed') {
+      return {
+        name: t('careGivenByNotCompleted'),
+        email: t('careGivenByNotCompletedHint'),
+        image: '',
+      };
+    }
+
+    return {
+      name: t('careGivenByNotAssignedYet'),
+      email: t('careGivenByNotAssignedYetHint'),
+      image: '',
+    };
+  };
+
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
     return requests.filter((r) => {
       const matchStatus = status === 'all' ? true : r.status === status;
+      const careGivenByDisplay = getCareGivenByDisplay(r);
       const hay = [
         r.petName,
         r.petBreed,
         r.ownerName,
         r.ownerEmail,
-        r.careGivenByName,
-        r.careGivenByEmail,
+        careGivenByDisplay.name,
+        careGivenByDisplay.email,
         r.careType,
         r.serviceDates,
       ]
@@ -121,7 +147,7 @@ export default function RequestsPage() {
       const matchSearch = !q || hay.includes(q);
       return matchStatus && matchSearch;
     });
-  }, [requests, search, status]);
+  }, [requests, search, status, t]);
 
   const handleDelete = async () => {
     if (!deleteId) return;
@@ -135,7 +161,7 @@ export default function RequestsPage() {
   };
 
   return (
-      <div className="p-6 md:p-8">
+    <div className="p-6 md:p-8">
       <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div className="w-full sm:w-fit">
           <LabeledSelect
@@ -163,15 +189,15 @@ export default function RequestsPage() {
         </div>
       </div>
 
-      <div className="bg-white rounded-xl border border-outline/20 shadow-sm overflow-hidden">
-        <div className="overflow-x-auto min-w-0">
-          <table className="w-full text-left border-collapse">
+      <div className="overflow-hidden rounded-xl border border-outline/20 bg-white shadow-sm">
+        <div className="min-w-0 overflow-x-auto">
+          <table className="w-full border-collapse text-left">
             <thead>
-              <tr className="bg-white border-b border-outline/10 text-xs font-bold uppercase tracking-wider text-on-surface/70">
+              <tr className="border-b border-outline/10 bg-white text-xs font-bold uppercase tracking-wider text-on-surface/70">
                 <th className="px-6 py-4">{t('table.petBreed')}</th>
                 <th className="px-6 py-4">{t('table.owner')}</th>
                 <th className="px-6 py-4">{t('table.careGivenBy')}</th>
-                <th className="px-6 py-4 hidden sm:table-cell">{t('table.serviceDates')}</th>
+                <th className="hidden px-6 py-4 sm:table-cell">{t('table.serviceDates')}</th>
                 <th className="px-6 py-4">{t('table.careType')}</th>
                 <th className="px-6 py-4">{t('table.status')}</th>
                 <th className="px-6 py-4 text-center">{t('table.actions')}</th>
@@ -209,7 +235,7 @@ export default function RequestsPage() {
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 hidden sm:table-cell">
+                    <td className="hidden px-6 py-4 sm:table-cell">
                       <Skeleton className="h-4 w-36" />
                     </td>
                     <td className="px-6 py-4">
@@ -223,6 +249,7 @@ export default function RequestsPage() {
                     </td>
                   </tr>
                 ))}
+
               {requestsQuery.isError && (
                 <tr>
                   <td colSpan={7} className="px-6 py-10 text-center text-sm text-on-surface/50">
@@ -241,7 +268,9 @@ export default function RequestsPage() {
                   </td>
                 </tr>
               )}
+
               {!requestsQuery.isLoading && !requestsQuery.isError && filtered.map((r) => {
+                const careGivenByDisplay = getCareGivenByDisplay(r);
                 const statusClass =
                   r.status === 'ongoing'
                     ? 'bg-blue-100 text-blue-800'
@@ -265,7 +294,7 @@ export default function RequestsPage() {
                         : t('careTypeNight');
 
                 return (
-                  <tr key={r.id} className="hover:bg-white transition-colors">
+                  <tr key={r.id} className="transition-colors hover:bg-white">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -293,18 +322,18 @@ export default function RequestsPage() {
                     <td className="px-6 py-4">
                       <div className="flex items-start gap-3">
                         <UserAvatar
-                          imageUrl={r.careGivenByImage}
-                          initials={getInitials(r.careGivenByName)}
-                          alt={r.careGivenByName}
+                          imageUrl={careGivenByDisplay.image}
+                          initials={getInitials(careGivenByDisplay.name)}
+                          alt={careGivenByDisplay.name}
                           size={32}
                         />
                         <div className="min-w-0">
-                          <div className="text-sm font-medium text-on-surface">{r.careGivenByName}</div>
-                          <div className="text-xs text-on-surface/60">{r.careGivenByEmail}</div>
+                          <div className="text-sm font-medium text-on-surface">{careGivenByDisplay.name}</div>
+                          <div className="text-xs text-on-surface/60">{careGivenByDisplay.email}</div>
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 hidden sm:table-cell">
+                    <td className="hidden px-6 py-4 sm:table-cell">
                       <div className="text-sm text-on-surface">{r.serviceDates}</div>
                     </td>
                     <td className="px-6 py-4">
@@ -335,39 +364,20 @@ export default function RequestsPage() {
           </table>
         </div>
 
-        <div className="px-6 py-4 bg-white border-t border-outline/10 flex items-center justify-between text-sm text-on-surface/70 rounded-b-xl">
-          <div>
-            {t('paginationShowing', { shown: filtered.length, total: requests.length })}
-          </div>
+        <div className="flex items-center justify-between rounded-b-xl border-t border-outline/10 bg-white px-6 py-4 text-sm text-on-surface/70">
+          <div>{t('paginationShowing', { shown: filtered.length, total: requests.length })}</div>
           <div className="flex gap-2">
             <button
-              className="p-2 rounded border border-outline/30 bg-white text-on-surface/60 disabled:opacity-50"
+              className="rounded border border-outline/30 bg-white p-2 text-on-surface/60 disabled:opacity-50"
               disabled
             >
               <ChevronLeft className="h-4 w-4" aria-hidden="true" />
             </button>
-            <button className="p-2 rounded border border-outline/30 bg-white text-on-surface/80">
+            <button className="rounded border border-outline/30 bg-white p-2 text-on-surface/80">
               <ChevronRight className="h-4 w-4" aria-hidden="true" />
             </button>
           </div>
         </div>
-      </div>
-
-      {/* Keep existing dashboard stats grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
-        {[
-          { label: 'Completion Rate', value: '94.2%', delta: '↑ 2%', deltaColor: 'text-emerald-500' },
-          { label: 'Avg. Response Time', value: '18m', delta: '↓ 4m', deltaColor: 'text-emerald-500' },
-          { label: 'Active Caretakers', value: '156', delta: 'members', deltaColor: 'text-on-surface/60' },
-        ].map((stat) => (
-          <div key={stat.label} className="bg-white p-6 rounded-xl border border-outline/20 shadow-sm">
-            <div className="text-on-surface/70 text-xs font-bold uppercase tracking-wider mb-2">{stat.label}</div>
-            <div className="flex items-end gap-2">
-              <div className="text-2xl font-black text-on-surface">{stat.value}</div>
-              <div className={`${stat.deltaColor} text-xs font-bold flex items-center mb-1`}>{stat.delta}</div>
-            </div>
-          </div>
-        ))}
       </div>
 
       <ConfirmationModal

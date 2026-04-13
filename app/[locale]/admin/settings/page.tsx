@@ -42,13 +42,12 @@ export default async function AdminSettingsPage() {
                 </label>
                 <select
                   id="admin-default-locale"
-                  defaultValue="en-US"
+                  defaultValue="en"
                   aria-label={t('defaultLocaleAria')}
                   className="w-full rounded-lg border border-outline/20 bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-primary/20"
                 >
-                  <option value="en-US">{t('localeEnUs')}</option>
-                  <option value="es-MX">{t('localeEsMx')}</option>
-                  <option value="fr-FR">{t('localeFrFr')}</option>
+                  <option value="en">{t('localeEnUs')}</option>
+                  <option value="fr">{t('localeFrFr')}</option>
                 </select>
               </div>
             </div>

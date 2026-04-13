@@ -45,6 +45,7 @@ export async function DELETE(
           eq: (column: string, value: string) => Promise<{ data: Array<Record<string, unknown>> | null; error: { message: string } | null }>;
           in: (column: string, values: string[]) => Promise<{ data: Array<Record<string, unknown>> | null; error: { message: string } | null }>;
           or: (filter: string) => Promise<{ data: Array<Record<string, unknown>> | null; error: { message: string } | null }>;
+          contains: (column: string, values: string[]) => Promise<{ data: Array<Record<string, unknown>> | null; error: { message: string } | null }>;
         };
         delete: () => {
           eq: (column: string, value: string) => Promise<{ error: { message: string } | null }>;
@@ -117,8 +118,29 @@ export async function DELETE(
       )
     );
 
+    const { data: threadsByUserData, error: threadsByUserError } = await client
+      .from('threads')
+      .select('id')
+      .contains('participant_ids', [id]);
+    if (threadsByUserError) throw new Error(`threads(select-user): ${threadsByUserError.message}`);
+
+    const { data: threadsByRequestData, error: threadsByRequestError } =
+      careRequestIds.length > 0
+        ? await client.from('threads').select('id').in('request_id', careRequestIds)
+        : { data: [], error: null };
+    if (threadsByRequestError) throw new Error(`threads(select-request): ${threadsByRequestError.message}`);
+
+    const threadIds = Array.from(
+      new Set(
+        [...(threadsByUserData ?? []), ...(threadsByRequestData ?? [])]
+          .map((r) => (typeof r.id === 'string' ? r.id : null))
+          .filter((v): v is string => Boolean(v))
+      )
+    );
+
     // 2) Delete children/dependents first
     await runDeleteEq('messages', 'sender_id', id);
+    await runDeleteIn('messages', 'thread_id', threadIds);
     await runDeleteEq('emergency_contacts', 'user_id', id);
     await runDeleteEq('notifications', 'user_id', id);
     await runDeleteEq('admin_push_subscriptions', 'user_id', id);
@@ -126,6 +148,11 @@ export async function DELETE(
     await runDeleteEq('point_transactions', 'user_id', id);
     await runDeleteEq('my_blocked_users', 'blocked_id', id);
     await runDeleteEq('admin_notifications', 'triggered_by', id);
+    await runDeleteEq('taker_profiles', 'user_id', id);
+    await runDeleteEq('reviews', 'reviewer_id', id);
+    await runDeleteEq('reviews', 'reviewee_id', id);
+    await runDeleteEq('user_blocks', 'blocker_id', id);
+    await runDeleteEq('user_blocks', 'blocked_id', id);
 
     await runDeleteEq('pet_likes', 'user_id', id);
     await runDeleteIn('pet_likes', 'pet_id', petIds);
@@ -138,6 +165,7 @@ export async function DELETE(
     await runDeleteEq('reports', 'reported_user_id', id);
 
     await runDeleteEq('kyc_submissions', 'user_id', id);
+    await runDeleteIn('threads', 'id', threadIds);
     await runDeleteIn('point_transactions', 'contract_id', contractIds);
     await runDeleteIn('contracts', 'id', contractIds);
     await runDeleteIn('care_requests', 'id', careRequestIds);

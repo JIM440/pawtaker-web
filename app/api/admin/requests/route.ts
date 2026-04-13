@@ -15,9 +15,16 @@ function mapCareType(type: string): 'daytime' | 'play/walk' | 'vacation' | 'nigh
   return 'daytime';
 }
 
-function mapStatus(status: string): 'ongoing' | 'completed' | 'canceled' {
+function hasDatePassed(dateStr: string) {
+  const date = new Date(`${dateStr}T23:59:59`);
+  if (Number.isNaN(date.getTime())) return false;
+  return date.getTime() < Date.now();
+}
+
+function mapStatus(status: string, endDate: string): 'ongoing' | 'completed' | 'canceled' {
   if (status === 'completed') return 'completed';
   if (status === 'cancelled') return 'canceled';
+  if (hasDatePassed(endDate)) return 'completed';
   return 'ongoing';
 }
 
@@ -123,6 +130,13 @@ export async function GET() {
         typeof r.start_date === 'string' ? r.start_date : (String(r.start_date ?? '') as string);
       const endDate =
         typeof r.end_date === 'string' ? r.end_date : (String(r.end_date ?? '') as string);
+      const requestStatus = mapStatus(String(r.status ?? ''), endDate);
+      const careGivenByState =
+        taker
+          ? 'assigned'
+          : requestStatus === 'completed'
+            ? 'not_completed'
+            : 'not_assigned_yet';
 
       return {
         id,
@@ -132,12 +146,13 @@ export async function GET() {
         ownerName: owner?.full_name ?? owner?.display_name ?? owner?.email ?? 'Unknown',
         ownerImage: owner?.avatar_url ?? '',
         ownerEmail: owner?.email ?? '-',
-        careGivenByName: taker?.full_name ?? taker?.display_name ?? taker?.email ?? 'Unassigned',
+        careGivenByName: taker?.full_name ?? taker?.display_name ?? taker?.email ?? '',
         careGivenByImage: taker?.avatar_url ?? '',
-        careGivenByEmail: taker?.email ?? '-',
+        careGivenByEmail: taker?.email ?? '',
+        careGivenByState,
         careType: mapCareType(String(r.care_type ?? '')),
         serviceDates: formatServiceDates(startDate, endDate),
-        status: mapStatus(String(r.status ?? '')),
+        status: requestStatus,
       };
     });
 
