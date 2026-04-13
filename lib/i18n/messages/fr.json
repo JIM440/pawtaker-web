@@ -504,21 +504,13 @@
       "deleteConfirmTitle": "Supprimer le rapport ?",
       "deleteConfirmDesc": "Cela supprimera définitivement le rapport de la plateforme.",
       "deleteConfirmLabel": "Supprimer",
-      "reportLabel": "Rapport :",
+      "detailsLabel": "Détails :",
       "emptyState": "Aucun rapport ne correspond à votre recherche.",
       "paginationShowing": "Affichage de {shown} sur {total} rapports",
       "table": {
         "reporter": "Signalant",
         "reportedText": "Texte signalé",
         "actions": "Actions"
-      },
-      "stats": {
-        "weeklyResolutionRateTitle": "Taux de résolution hebdomadaire",
-        "weeklyResolutionRateCaption": "Indicateur cible : 90%",
-        "avgResponseTimeTitle": "Temps de réponse moyen",
-        "avgResponseTimeCaption": "Amélioré depuis le mois dernier",
-        "criticalUnresolvedTitle": "Critique non résolu",
-        "criticalUnresolvedCaption": "Nécessite une attention immédiate"
       }
     },
     "requests": {

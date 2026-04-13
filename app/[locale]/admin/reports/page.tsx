@@ -1,6 +1,6 @@
 'use client';
 
-import { AlertTriangle, ArrowUpRight, ChevronLeft, ChevronRight, Clock3, MoreHorizontal, Trash2 } from 'lucide-react';
+import { ChevronLeft, ChevronRight, MoreHorizontal, Trash2 } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import LabeledSearch from '@/components/admin/LabeledSearch';
@@ -13,7 +13,7 @@ import Skeleton from '@/components/ui/Skeleton';
 type Report = {
   id: string;
   reporter: string;
-  reason: string;
+  details: string;
   reporterImage?: string;
 };
 
@@ -185,7 +185,8 @@ export default function ReportsPage() {
                     </td>
                     <td className="px-6 py-5">
                       <p className="text-sm text-on-surface/70 whitespace-pre-wrap wrap-break-word">
-                        <span className="font-semibold text-on-surface/80">{t('reportLabel')}</span> {r.reason}
+                        <span className="font-semibold text-on-surface/80">{t('detailsLabel')}</span>{' '}
+                        {r.details?.trim() ? r.details : '—'}
                       </p>
                     </td>
                     <td className="px-6 py-5 text-right">
@@ -221,47 +222,6 @@ export default function ReportsPage() {
                 <ChevronRight className="h-4 w-4" aria-hidden="true" />
               </button>
             </div>
-          </div>
-        </div>
-
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="p-6 bg-surface-container-lowest rounded-xl border border-outline/20 shadow-sm">
-            <div className="flex items-center justify-between mb-4">
-              <span className="text-xs font-bold text-on-surface/70 uppercase">
-                {t('stats.weeklyResolutionRateTitle')}
-              </span>
-              <ArrowUpRight className="h-5 w-5 text-primary" aria-hidden="true" />
-            </div>
-            <div className="flex items-end gap-2">
-              <h2 className="text-2xl font-black text-on-surface">94.2%</h2>
-              <span className="text-emerald-500 text-xs font-bold mb-1">+2.4%</span>
-            </div>
-            <p className="text-xs text-on-surface/60 mt-2">{t('stats.weeklyResolutionRateCaption')}</p>
-          </div>
-          <div className="p-6 bg-surface-container-lowest rounded-xl border border-outline/20 shadow-sm">
-            <div className="flex items-center justify-between mb-4">
-              <span className="text-xs font-bold text-on-surface/70 uppercase">
-                {t('stats.avgResponseTimeTitle')}
-              </span>
-              <Clock3 className="h-5 w-5 text-primary" aria-hidden="true" />
-            </div>
-            <div className="flex items-end gap-2">
-              <h2 className="text-2xl font-black text-on-surface">2.4 hrs</h2>
-              <span className="text-emerald-500 text-xs font-bold mb-1">-15m</span>
-            </div>
-            <p className="text-xs text-on-surface/60 mt-2">{t('stats.avgResponseTimeCaption')}</p>
-          </div>
-          <div className="p-6 bg-red-100/60 rounded-xl border border-red-200 shadow-sm">
-            <div className="flex items-center justify-between mb-4">
-              <span className="text-xs font-bold text-red-900 uppercase">
-                {t('stats.criticalUnresolvedTitle')}
-              </span>
-              <AlertTriangle className="h-5 w-5 text-red-900" aria-hidden="true" />
-            </div>
-            <div className="flex items-end gap-2">
-              <h2 className="text-2xl font-black text-red-900">03</h2>
-            </div>
-            <p className="text-xs text-red-900 mt-2 font-medium">{t('stats.criticalUnresolvedCaption')}</p>
           </div>
         </div>
 

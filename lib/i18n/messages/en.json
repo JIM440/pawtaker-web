@@ -504,21 +504,13 @@
       "deleteConfirmTitle": "Delete report?",
       "deleteConfirmDesc": "This will permanently remove the report from the platform.",
       "deleteConfirmLabel": "Delete",
-      "reportLabel": "Report:",
+      "detailsLabel": "Details:",
       "emptyState": "No reports match your search.",
       "paginationShowing": "Showing {shown} of {total} reports",
       "table": {
         "reporter": "Reporter",
         "reportedText": "Reported Text",
         "actions": "Actions"
-      },
-      "stats": {
-        "weeklyResolutionRateTitle": "Weekly Resolution Rate",
-        "weeklyResolutionRateCaption": "Target benchmark: 90%",
-        "avgResponseTimeTitle": "Avg. Response Time",
-        "avgResponseTimeCaption": "Improved since last month",
-        "criticalUnresolvedTitle": "Critical Unresolved",
-        "criticalUnresolvedCaption": "Requires immediate attention"
       }
     },
     "requests": {
