@@ -7,9 +7,9 @@ export const metadata: Metadata = {
   description: 'PawTaker privacy policy and data practices.',
 };
 
-export default async function PrivacyPage({ params }: { params: { locale: string } }) {
+export default async function PrivacyPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
   const t = await getTranslations('legal.privacy');
-  const locale = params?.locale ?? 'en';
   const date = new Date().toLocaleDateString(locale === 'fr' ? 'fr-FR' : 'en-US');
   const tocLabel = locale === 'fr' ? 'Sommaire' : 'Contents';
   const sections = [
@@ -21,6 +21,7 @@ export default async function PrivacyPage({ params }: { params: { locale: string
     { id: 'section-6', title: t('section6Title'), body: t('section6Body') },
     { id: 'section-7', title: t('section7Title'), body: t('section7Body') },
     { id: 'section-8', title: t('section8Title'), body: t('section8Body') },
+    { id: 'section-9', title: t('section9Title'), body: t('section9Body') },
   ];
 
   return (

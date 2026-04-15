@@ -829,7 +829,9 @@
       "section7Title": "7. Changes to this policy",
       "section7Body": "We may update this Privacy Policy from time to time. We will notify you of material changes via the Platform or email where appropriate.",
       "section8Title": "8. Contact",
-      "section8Body": "For privacy-related questions or requests, contact us at the support address provided in the app or on our website."
+      "section8Body": "For privacy-related questions or requests, contact us at the support address provided in the app or on our website.",
+      "section9Title": "9. Mobile app permissions",
+      "section9Body": "The PawTaker mobile app requests the following device permissions to deliver core features. Camera access is required for two purposes: (1) identity verification (KYC) — you will be prompted to take a photo of your ID document and a selfie during the verification process; (2) in-app messaging — the camera allows you to capture and send photos directly within chat conversations. Push notifications are used to alert you in real time about new messages, care-request updates, and other activity relevant to your account. All permissions are optional at the system level; however, declining them may prevent certain features from working. We do not use these permissions to collect data beyond what is needed for the stated purpose."
     }
   }
 }

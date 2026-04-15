@@ -7,9 +7,9 @@ export const metadata: Metadata = {
   description: 'PawTaker terms of service and usage rules.',
 };
 
-export default async function TermsPage({ params }: { params: { locale: string } }) {
+export default async function TermsPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
   const t = await getTranslations('legal.terms');
-  const locale = params?.locale ?? 'en';
   const date = new Date().toLocaleDateString(locale === 'fr' ? 'fr-FR' : 'en-US');
   const tocLabel = locale === 'fr' ? 'Sommaire' : 'Contents';
   const sections = [

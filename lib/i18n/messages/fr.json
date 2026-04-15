@@ -829,7 +829,9 @@
       "section7Title": "7. Modifications de cette politique",
       "section7Body": "Nous pouvons mettre à jour la présente politique de confidentialité de temps à autre. Nous vous informerons des changements importants via la Plateforme ou par e-mail, le cas échéant.",
       "section8Title": "8. Contact",
-      "section8Body": "Pour toute question ou demande liée à la confidentialité, contactez-nous à l'adresse d'assistance indiquée dans l'application ou sur notre site web."
+      "section8Body": "Pour toute question ou demande liée à la confidentialité, contactez-nous à l'adresse d'assistance indiquée dans l'application ou sur notre site web.",
+      "section9Title": "9. Autorisations de l'application mobile",
+      "section9Body": "L'application mobile PawTaker demande les autorisations suivantes pour fournir ses fonctionnalités essentielles. L'accès à la caméra est requis pour deux raisons : (1) la vérification d'identité (KYC) — lors du processus de vérification, vous serez invité(e) à prendre en photo votre pièce d'identité ainsi qu'un selfie ; (2) la messagerie intégrée — la caméra vous permet de capturer et d'envoyer des photos directement dans les conversations. Les notifications push sont utilisées pour vous alerter en temps réel des nouveaux messages, des mises à jour de demandes de soins et d'autres activités liées à votre compte. Toutes les autorisations sont facultatives au niveau système ; toutefois, les refuser peut empêcher certaines fonctionnalités de fonctionner. Nous n'utilisons pas ces autorisations pour collecter des données au-delà de ce qui est nécessaire aux fins déclarées."
     }
   }
 }
