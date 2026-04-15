@@ -2,6 +2,7 @@
   "marketing": {
     "nav": {
       "home": "Accueil",
+      "contact": "Contact",
       "about": "À propos",
       "howItWorks": "Comment ça marche",
       "signIn": "Se connecter",
@@ -210,6 +211,7 @@
       "linkAppStore": "Télécharger sur l’App Store",
       "linkPlayStore": "Disponible sur Play Store",
       "linkArticles": "Blogs",
+      "linkContact": "Nous contacter",
       "linkWhyPawtaker": "Pourquoi PawTaker ?",
       "platformTitle": "Plateforme",
       "platformHowItWorks": "Comment ça marche",
@@ -222,6 +224,38 @@
       "termsOfService": "Conditions d'utilisation",
       "contactEmail": "support@pawtaker.ca",
       "copyrightLine": "© {year} PawTaker. Tous droits réservés."
+    },
+    "contact": {
+      "eyebrow": "Contacter l'equipe",
+      "title": "Une question, un retour ou une idee de partenariat ? Envoyez-nous un message.",
+      "subtitle": "Votre message sera envoye directement a la boite de reception admin de PawTaker afin que l'equipe puisse vous repondre rapidement.",
+      "emailLabel": "E-mail direct",
+      "supportEmail": "support@pawtaker.com",
+      "emailNote": "Si votre demande est urgente, vous pouvez aussi nous ecrire directement.",
+      "legalLabel": "Liens utiles",
+      "privacy": "Politique de confidentialite",
+      "terms": "Conditions d'utilisation",
+      "legalNote": "Pour les questions de donnees, de confidentialite ou de regles de la plateforme, ces pages couvrent l'essentiel.",
+      "consent": "En envoyant ce formulaire, vous acceptez que PawTaker utilise vos coordonnees pour repondre a votre demande.",
+      "footerNote": "Les messages envoyes ici sont transmis a la boite de support du site web.",
+      "success": "Votre message a bien ete envoye. Nous reviendrons vers vous bientot.",
+      "errors": {
+        "generic": "Nous n'avons pas pu envoyer votre message pour le moment. Veuillez reessayer."
+      },
+      "form": {
+        "nameLabel": "Nom complet",
+        "namePlaceholder": "Votre nom",
+        "emailLabel": "Adresse e-mail",
+        "emailPlaceholder": "vous@exemple.com",
+        "cityLabel": "Ville",
+        "cityPlaceholder": "Paris",
+        "subjectLabel": "Sujet",
+        "subjectPlaceholder": "Comment pouvons-nous vous aider ?",
+        "messageLabel": "Message",
+        "messagePlaceholder": "Expliquez-nous votre besoin, ce qui s'est passe ou comment nous pouvons vous aider.",
+        "submit": "Envoyer le message",
+        "submitting": "Envoi..."
+      }
     },
     "about": {
       "heroTitle": "Relier les amoureux des animaux",

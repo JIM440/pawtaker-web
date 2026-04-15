@@ -43,6 +43,10 @@ export async function GET() {
       last_message_preview?: string | null;
     }>;
 
+    const threadIds = threads
+      .map((thread) => (typeof thread.id === 'string' ? thread.id : ''))
+      .filter(Boolean);
+
     const participantIds = Array.from(
       new Set(
         threads.flatMap((thread) =>
@@ -66,9 +70,59 @@ export async function GET() {
       return NextResponse.json({ error: usersError.message }, { status: 500 });
     }
 
+    const { data: messagesData, error: messagesError } =
+      threadIds.length > 0
+        ? await (admin as unknown as {
+            from: (table: string) => {
+              select: (query: string) => {
+                in: (
+                  column: string,
+                  values: string[]
+                ) => {
+                  order: (
+                    column: string,
+                    opts: { ascending: boolean }
+                  ) => Promise<{
+                    data: Array<Record<string, unknown>> | null;
+                    error: { message: string } | null;
+                  }>;
+                };
+              };
+            };
+          })
+            .from('messages')
+            .select('thread_id, content, metadata, created_at')
+            .in('thread_id', threadIds)
+            .order('created_at', { ascending: false })
+        : { data: [], error: null };
+
+    if (messagesError) {
+      console.error('[api/admin/contact] messages lookup', messagesError);
+      return NextResponse.json({ error: messagesError.message }, { status: 500 });
+    }
+
     const userById = new Map((usersData ?? []).map((user) => [user.id, user] as const));
+    const latestMessageByThreadId = new Map<string, Record<string, unknown>>();
+
+    for (const message of messagesData ?? []) {
+      const threadId = typeof message.thread_id === 'string' ? message.thread_id : null;
+      if (!threadId || latestMessageByThreadId.has(threadId)) continue;
+      latestMessageByThreadId.set(threadId, message);
+    }
 
     const inquiries = threads.map((thread) => {
+      const latestMessage = typeof thread.id === 'string' ? latestMessageByThreadId.get(thread.id) : undefined;
+      const metadata =
+        latestMessage && typeof latestMessage.metadata === 'object' && latestMessage.metadata !== null
+          ? (latestMessage.metadata as Record<string, unknown>)
+          : null;
+      const source = metadata?.source === 'website' ? 'website' : 'app';
+      const websiteName =
+        typeof metadata?.contact_name === 'string' ? metadata.contact_name.trim() : '';
+      const websiteEmail =
+        typeof metadata?.contact_email === 'string' ? metadata.contact_email.trim() : '';
+      const websiteCity =
+        typeof metadata?.contact_city === 'string' ? metadata.contact_city.trim() : '';
       const threadParticipantIds = Array.isArray(thread.participant_ids)
         ? thread.participant_ids.filter((value): value is string => typeof value === 'string')
         : [];
@@ -81,9 +135,10 @@ export async function GET() {
         null;
 
       const name =
-        primaryUser?.full_name ??
-        primaryUser?.display_name ??
-        primaryUser?.email ??
+        websiteName ||
+        primaryUser?.full_name ||
+        primaryUser?.display_name ||
+        primaryUser?.email ||
         'Unknown';
 
       const initials = name
@@ -96,13 +151,16 @@ export async function GET() {
       return {
         id: String(thread.id ?? ''),
         name,
-        email: primaryUser?.email ?? '',
-        location: primaryUser?.city ?? '',
+        email: websiteEmail || primaryUser?.email || '',
+        location: websiteCity || primaryUser?.city || '',
         date: thread.last_message_at ?? thread.created_at ?? new Date().toISOString(),
-        message: thread.last_message_preview?.trim() || 'No message preview available.',
+        message:
+          thread.last_message_preview?.trim() ||
+          (typeof latestMessage?.content === 'string' && latestMessage.content.trim()) ||
+          'No message preview available.',
         initials,
         imageUrl: primaryUser?.avatar_url ?? null,
-        source: 'app' as const,
+        source,
         resolved: false,
       };
     });

@@ -3,6 +3,7 @@
     "nav": {
       "home": "Home",
       "about": "About",
+      "contact": "Contact",
       "howItWorks": "How it works",
       "signIn": "Sign in",
       "getStarted": "Get started",
@@ -210,6 +211,7 @@
       "linkAppStore": "Download on App Store",
       "linkPlayStore": "Get it on Play Store",
       "linkArticles": "Blogs",
+      "linkContact": "Contact us",
       "linkWhyPawtaker": "Why Pawtaker?",
       "platformTitle": "Platform",
       "platformHowItWorks": "How it works",
@@ -222,6 +224,38 @@
       "termsOfService": "Terms of service",
       "contactEmail": "support@pawtaker.ca",
       "copyrightLine": "© {year} PawTaker. All rights reserved."
+    },
+    "contact": {
+      "eyebrow": "Reach the team",
+      "title": "Questions, feedback, or partnership ideas? Send us a message.",
+      "subtitle": "We will route your note directly to the PawTaker admin inbox so the team can follow up quickly.",
+      "emailLabel": "Direct email",
+      "supportEmail": "support@pawtaker.com",
+      "emailNote": "If your request is urgent, you can also email us directly.",
+      "legalLabel": "Helpful links",
+      "privacy": "Privacy policy",
+      "terms": "Terms of service",
+      "legalNote": "For data, privacy, or platform rules, these pages cover the essentials.",
+      "consent": "By sending this form, you agree that PawTaker may use your details to respond to your request.",
+      "footerNote": "Messages submitted here are delivered to the website support inbox.",
+      "success": "Your message has been sent. We will get back to you soon.",
+      "errors": {
+        "generic": "We could not send your message right now. Please try again."
+      },
+      "form": {
+        "nameLabel": "Full name",
+        "namePlaceholder": "Your name",
+        "emailLabel": "Email address",
+        "emailPlaceholder": "you@example.com",
+        "cityLabel": "City",
+        "cityPlaceholder": "Lagos",
+        "subjectLabel": "Subject",
+        "subjectPlaceholder": "What can we help with?",
+        "messageLabel": "Message",
+        "messagePlaceholder": "Tell us what you need, what happened, or how we can help.",
+        "submit": "Send message",
+        "submitting": "Sending..."
+      }
     },
     "about": {
       "heroTitle": "Connecting pet lovers everywhere",

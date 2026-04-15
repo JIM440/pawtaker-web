@@ -100,6 +100,11 @@ export async function MarketingFooter() {
                   {t('contactEmail')}
                 </a>
               </li>
+              <li>
+                <Link href="/contact" className={linkClass}>
+                  {t('linkContact')}
+                </Link>
+              </li>
             </ul>
           </div>
           </div>
