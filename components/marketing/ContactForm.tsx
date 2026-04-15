@@ -67,19 +67,21 @@ export function ContactForm() {
   }
 
   return (
-    <section className="grid gap-10 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:items-center lg:gap-16">
+    <section className="grid gap-10 lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)] lg:items-center lg:gap-16">
       <div className="hidden overflow-hidden lg:block">
-        <div className="relative min-h-[320px] sm:min-h-[420px] lg:h-full lg:min-h-[760px]">
+        <div className="relative min-h-[320px] p-10 sm:min-h-[420px] lg:h-full lg:min-h-[760px]">
           <Image
             src="/images/contact.png"
             alt={t('title')}
             fill
             priority
-            className="object-contain"
+            className="animate-float-y-slow object-contain"
             sizes="(max-width: 1024px) 100vw, 48vw"
+            style={{ maxWidth: '450px', marginInline: 'auto' }}
           />
         </div>
       </div>
+
 
       <div className="mx-auto w-full max-w-[720px] lg:max-w-none">
         <div className="mb-8 text-left">
