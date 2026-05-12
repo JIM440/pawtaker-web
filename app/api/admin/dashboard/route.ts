@@ -77,11 +77,11 @@ export async function GET() {
         time: r.created_at,
         type: 'care',
       })),
-      ...(kycRecentRes.data ?? []).map((k: { id: string; created_at: string; status: string }) => ({
+      ...(kycRecentRes.data ?? []).map((k: { id: string; created_at: string | null; status: string }) => ({
         id: `kyc-${k.id}`,
         title: `KYC submission #${String(k.id).slice(0, 8)}`,
         desc: `Status: ${k.status}`,
-        time: k.created_at,
+        time: k.created_at ?? '',
         type: 'kyc',
       })),
       ...(reportsRecentRes.data ?? []).map((r: { id: string; created_at: string; reason: string | null }) => ({

@@ -38,8 +38,8 @@ export const metadata: Metadata = {
     images: ["/logos/primary-logo.svg"],
   },
   icons: {
-    icon: "/logos/coloured-favicon.svg",
-    apple: "/logos/coloured-favicon.svg",
+    icon: "/logos/favicon.png",
+    apple: "/logos/favicon.png",
   },
 };
 

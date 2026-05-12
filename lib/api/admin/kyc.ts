@@ -94,7 +94,7 @@ export async function listKycSubmissionsForAdmin(supabase: SupabaseClient<Databa
 export async function updateKycSubmissionStatusForAdmin(
   supabase: SupabaseClient<Database>,
   submissionId: string,
-  nextStatus: Extract<KycStatus, 'approved' | 'rejected'>,
+  nextStatus: 'approved' | 'rejected',
   rejectionReason?: string
 ) {
   const updatePayload: Database['public']['Tables']['kyc_submissions']['Update'] = {
