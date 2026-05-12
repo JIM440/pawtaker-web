@@ -7,6 +7,7 @@ import ConfirmationModal from './ConfirmationModal';
 import UserAvatar from './UserAvatar';
 import { useToast } from '@/components/ui/ToastProvider';
 import { useAdminReviewsQuery, useDeleteAdminReviewMutation } from '@/lib/queries/admin/reviews';
+import Skeleton from '@/components/ui/Skeleton';
 
 interface Review {
   id: string;
@@ -206,13 +207,45 @@ export default function ReviewsTable() {
               </tr>
             </thead>
             <tbody className="divide-y divide-outline/10 text-sm">
-              {reviewsQuery.isLoading && (
-                <tr>
-                  <td colSpan={6} className="px-6 py-10 text-center text-sm text-on-surface/50">
-                    Loading...
-                  </td>
-                </tr>
-              )}
+              {reviewsQuery.isLoading &&
+                Array.from({ length: 6 }).map((_, i) => (
+                  <tr key={i}>
+                    <td className="align-top px-6 py-4">
+                      <Skeleton className="h-4 w-24" />
+                    </td>
+                    <td className="align-top px-6 py-4">
+                      <div className="flex items-start gap-3">
+                        <Skeleton className="size-8 rounded-full" />
+                        <div className="space-y-2">
+                          <Skeleton className="h-4 w-28" />
+                          <Skeleton className="h-3 w-20" />
+                        </div>
+                      </div>
+                    </td>
+                    <td className="align-top px-6 py-4">
+                      <div className="flex items-start gap-3">
+                        <Skeleton className="size-8 rounded-full" />
+                        <div className="space-y-2">
+                          <Skeleton className="h-4 w-28" />
+                          <Skeleton className="h-3 w-20" />
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 align-top">
+                      <div className="space-y-2">
+                        <Skeleton className="h-3 w-full" />
+                        <Skeleton className="h-3 w-11/12" />
+                        <Skeleton className="h-3 w-9/12" />
+                      </div>
+                    </td>
+                    <td className="hidden px-6 py-4 sm:table-cell">
+                      <Skeleton className="h-4 w-24" />
+                    </td>
+                    <td className="px-6 py-4 text-center">
+                      <Skeleton className="mx-auto h-8 w-8 rounded-full" />
+                    </td>
+                  </tr>
+                ))}
               {reviewsQuery.isError && (
                 <tr>
                   <td colSpan={6} className="px-6 py-10 text-center text-sm text-on-surface/50">

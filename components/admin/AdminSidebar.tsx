@@ -6,6 +6,7 @@ import type { LucideIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import {
   Flag,
+  FileText,
   LayoutDashboard,
   LogOut,
   Mail,
@@ -13,6 +14,7 @@ import {
   PawPrint,
   ShieldCheck,
   Star,
+  UserX,
   Users,
   X,
 } from 'lucide-react';
@@ -34,6 +36,8 @@ const navItems = [
   { href: '/admin/pets', labelKey: 'pets', icon: PawPrint },
   { href: '/admin/reports', labelKey: 'reports', icon: Flag },
   { href: '/admin/reviews', labelKey: 'reviews', icon: Star },
+  { href: '/admin/blocks', labelKey: 'blocks', icon: UserX },
+  { href: '/admin/blogs', labelKey: 'blogs', icon: FileText },
   { href: '/admin/contact', labelKey: 'contact', icon: Mail },
 ] satisfies { href: string; labelKey: string; icon: LucideIcon }[];
 
@@ -83,7 +87,7 @@ export default function AdminSidebar({ pathname: pathnameFromServer, adminEmail:
         <div className="flex items-center justify-between gap-3 border-b border-white/20 px-6 py-6">
           <div className="flex min-w-0 flex-1 items-center gap-3">
             <Image
-              src="/logos/logomark-electric-pear.png"
+              src="/logos/logomark-electric-pear.svg"
               alt={tSidebar('logoAlt')}
               width={32}
               height={32}

@@ -65,7 +65,7 @@ export default function AdminLoginPage() {
         <div className="text-center mb-10">
           <div className="inline-flex items-center justify-center mb-3">
             <Image
-              src="/logos/logomark-dusty-plum.png"
+              src="/logos/logomark-dusty-plum.svg"
               alt="PawTaker admin"
               width={72}
               height={72}
@@ -188,7 +188,7 @@ export default function AdminLoginPage() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Privacy Policy
+              Privacy policy
             </a>
             <a
               className="hover:text-primary transition-colors"
@@ -196,7 +196,7 @@ export default function AdminLoginPage() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Terms of Service
+              Terms of service
             </a>
           </div>
         </div>

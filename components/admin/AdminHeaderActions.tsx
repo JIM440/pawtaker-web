@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { useRouter } from '@/lib/i18n/navigation';
 import TopbarLangToggle from './TopbarLangToggle';
 import { useNotifications, type AdminNotification } from './NotificationProvider';
+import { usePushNotifications } from './PushSubscriber';
 
 function formatAge(dateStr: string): string {
   const diff = Date.now() - new Date(dateStr).getTime();
@@ -22,6 +23,7 @@ function formatAge(dateStr: string): string {
 export default function AdminHeaderActions() {
   const t = useTranslations('admin.notifications');
   const { notifications, unreadCount, markAllRead, markOneRead } = useNotifications();
+  const { isBusy, isEnabled, isSupported, state, openPrompt, disablePush } = usePushNotifications();
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
@@ -44,6 +46,13 @@ export default function AdminHeaderActions() {
     }
     setOpen(false);
   };
+
+  const pushStatusLabel = isEnabled ? 'Push on' : state === 'denied' ? 'Push blocked' : 'Push off';
+  const pushHelperLabel = isEnabled
+    ? 'This device will receive admin alerts.'
+    : state === 'denied'
+      ? 'Enable notifications in browser settings for this device.'
+      : 'Turn this on to receive alerts on this device.';
 
   return (
     <div className="flex items-center gap-3">
@@ -68,13 +77,48 @@ export default function AdminHeaderActions() {
         {open && (
           <div className="absolute right-0 top-12 z-50 w-[min(100vw-2rem,380px)] rounded-xl border border-outline/20 bg-white shadow-xl">
             <div className="flex items-start justify-between px-4 py-3">
-              <div className="flex items-center gap-2">
-                <h3 className="text-sm font-bold text-on-surface">{t('title')}</h3>
-                {unreadCount > 0 ? (
-                  <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-2 text-[11px] font-semibold text-on-primary">
-                    {unreadCount}
-                  </span>
-                ) : null}
+              <div className="min-w-0">
+                <div className="flex items-center gap-2">
+                  <h3 className="text-sm font-bold text-on-surface">{t('title')}</h3>
+                  {unreadCount > 0 ? (
+                    <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-2 text-[11px] font-semibold text-on-primary">
+                      {unreadCount}
+                    </span>
+                  ) : null}
+                </div>
+                {isSupported ? (
+                  <div className="mt-2 flex items-start justify-between gap-3 rounded-xl border border-outline/10 bg-surface-container-lowest px-3 py-2.5">
+                    <div className="min-w-0">
+                      <p className="text-xs font-semibold text-on-surface">{pushStatusLabel}</p>
+                      <p className="mt-1 text-[11px] leading-4 text-on-surface/60">{pushHelperLabel}</p>
+                    </div>
+                    <button
+                      type="button"
+                      role="switch"
+                      aria-checked={isEnabled}
+                      aria-label="Toggle push notifications"
+                      disabled={isBusy}
+                      onClick={() => {
+                        if (isEnabled) {
+                          void disablePush();
+                          return;
+                        }
+                        openPrompt();
+                      }}
+                      className={`relative mt-0.5 inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors ${
+                        isEnabled ? 'bg-primary' : state === 'denied' ? 'bg-amber-400' : 'bg-outline/25'
+                      } disabled:opacity-50`}
+                    >
+                      <span
+                        className={`inline-block size-5 rounded-full bg-white shadow-sm transition-transform ${
+                          isEnabled ? 'translate-x-5' : 'translate-x-0.5'
+                        }`}
+                      />
+                    </button>
+                  </div>
+                ) : (
+                  <p className="mt-2 text-xs text-on-surface/55">Push notifications are not supported on this browser.</p>
+                )}
               </div>
               <button
                 type="button"

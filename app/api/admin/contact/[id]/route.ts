@@ -18,10 +18,15 @@ export async function DELETE(
         delete: () => { eq: (column: string, value: string) => Promise<{ error: { message: string } | null }> };
       };
     };
-    const { error } = await client.from('contact_messages').delete().eq('id', id);
-    if (error) {
-      console.warn('[api/admin/contact/:id] DELETE no-op:', error.message);
-      return NextResponse.json({ ok: true });
+
+    const { error: messagesError } = await client.from('messages').delete().eq('thread_id', id);
+    if (messagesError) {
+      return NextResponse.json({ error: messagesError.message }, { status: 500 });
+    }
+
+    const { error: threadError } = await client.from('threads').delete().eq('id', id);
+    if (threadError) {
+      return NextResponse.json({ error: threadError.message }, { status: 500 });
     }
 
     return NextResponse.json({ ok: true });

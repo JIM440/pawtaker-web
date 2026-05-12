@@ -1,131 +1,117 @@
 import Image from 'next/image';
-import { Mail, MapPin } from 'lucide-react';
-import { headers } from 'next/headers';
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
+import { externalLinkProps, getAppStoreUrls } from '@/lib/app-store-urls';
 
-function footerLinkClass(pathWithoutLocale: string, href: string, isHash = false) {
-  if (isHash) {
-    return 'inline-block max-w-full rounded-full px-2 py-1 text-slate-600 transition-colors hover:bg-primary/10 hover:text-primary';
-  }
-  const active =
-    href === '/'
-      ? pathWithoutLocale === '/' || pathWithoutLocale === ''
-      : pathWithoutLocale === href || pathWithoutLocale.startsWith(`${href}/`);
-  return [
-    'inline-block max-w-full rounded-full px-3 py-1 text-sm font-medium transition-colors',
-    active
-      ? 'bg-primary/10 text-primary shadow-sm'
-      : 'text-slate-700 hover:bg-primary/5 hover:text-primary',
-  ].join(' ');
-}
+/** Figma footer: body/large & body/large-emphasized — 16px, tracking -0.2px, #665459 */
+const headingClass =
+  'pb-4 text-base font-bold leading-[18px] tracking-[-0.2px] text-[#665459]';
+
+const linkClass =
+  'inline-block max-w-full text-left text-base font-normal leading-6 tracking-[-0.2px] text-[#665459] transition-colors hover:text-[#8c4a60] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8c4a60]/35 focus-visible:ring-offset-2 focus-visible:ring-offset-[#f5f0f0] rounded-sm';
 
 export async function MarketingFooter() {
   const t = await getTranslations('marketing.footer');
-  const year = new Date().getFullYear();
-  const pathname = (await headers()).get('x-pathname') ?? '';
-  const pathWithoutLocale = pathname.replace(/^\/(en|fr)/, '') || pathname;
-
-  const focusRing =
-    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-50 rounded-sm';
+  const { ios: iosUrl, android: androidUrl } = getAppStoreUrls();
 
   return (
-    <footer className="overflow-x-clip border-t border-slate-200 bg-slate-50 px-4 py-14 text-slate-900 sm:px-6 lg:px-16">
-      <div className="mx-auto grid max-w-[1300px] grid-cols-1 gap-12 md:grid-cols-12 md:gap-10">
-        <div className="min-w-0 md:col-span-4">
-          <div className="mb-5">
-            <Image
-              src="/logos/primary-logo.png"
-              alt={t('brand')}
-              width={280}
-              height={84}
-              className="h-auto w-[220px] max-w-full shrink-0 sm:w-[260px]"
-            />
+    <footer
+      className="w-full border-t border-solid border-[#d5c2c6] bg-[#f5f0f0]"
+      data-name="Footer"
+    >
+      <div className="mx-auto w-full max-w-[1440px] px-5 py-12 sm:px-8 sm:py-14 lg:px-10 lg:py-16 xl:px-[80px]">
+        <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:justify-between lg:gap-16">
+          {/* Logo — full width on small screens, bounded on large */}
+          <div className="shrink-0 lg:max-w-[min(100%,389px)]" data-name="Title">
+            <Link
+              href="/"
+              className="block w-full max-w-[389px] rounded-sm sm:max-w-[320px]"
+            >
+              <Image
+                src="/logos/primary-logo.svg"
+                alt={t('brand')}
+                width={389}
+                height={98}
+                className="h-auto w-full max-h-[72px] object-contain object-left sm:max-h-[88px] lg:max-h-[98px] lg:object-left"
+              />
+            </Link>
           </div>
-          <p className="max-w-sm break-words text-sm leading-relaxed text-slate-600">{t('description')}</p>
-        </div>
 
-        <div className="min-w-0 md:col-span-3">
-          <h5 className="mb-4 text-xs font-bold uppercase tracking-wider text-slate-500">
-            {t('platformTitle')}
-          </h5>
-          <ul className="space-y-3 text-sm">
-            <li>
-              <Link
-                href="/how-it-works"
-                className={`${footerLinkClass(pathWithoutLocale, '/how-it-works')} ${focusRing}`}
-              >
-                {t('platformHowItWorks')}
-              </Link>
-            </li>
-            <li>
-              <Link href="/about" className={`${footerLinkClass(pathWithoutLocale, '/about')} ${focusRing}`}>
-                {t('platformSafetyMeasures')}
-              </Link>
-            </li>
-            <li>
-              <Link href="/about" className={`${footerLinkClass(pathWithoutLocale, '/about')} ${focusRing}`}>
-                {t('platformCommunityPoints')}
-              </Link>
-            </li>
-          </ul>
-        </div>
+          {/* Link columns — 1 col mobile, 2 cols tablet, 3 cols desktop */}
+          <div className="grid min-w-0 flex-1 grid-cols-1 gap-10 sm:grid-cols-2 sm:gap-x-8 sm:gap-y-10 lg:grid-cols-3 lg:gap-8 xl:max-w-[900px] xl:gap-10">
+          <nav
+            className="flex min-w-0 flex-col gap-3"
+            aria-label={t('theAppTitle')}
+            data-name="Text Link List"
+          >
+            <h2 className={headingClass}>{t('theAppTitle')}</h2>
+            <ul className="flex flex-col gap-3">
+              <li>
+                <a href={iosUrl} {...externalLinkProps(iosUrl)} className={linkClass}>
+                  {t('linkAppStore')}
+                </a>
+              </li>
+              <li>
+                <a href={androidUrl} {...externalLinkProps(androidUrl)} className={linkClass}>
+                  {t('linkPlayStore')}
+                </a>
+              </li>
+              <li>
+                <a href="/blog" className={linkClass}>
+                  {t('linkArticles')}
+                </a>
+              </li>
+              <li>
+                <Link href="/#why-pawtaker" className={linkClass}>
+                  {t('linkWhyPawtaker')}
+                </Link>
+              </li>
+            </ul>
+          </nav>
 
-        <div className="min-w-0 md:col-span-3">
-          <h5 className="mb-4 text-xs font-bold uppercase tracking-wider text-slate-500">
-            {t('companyTitle')}
-          </h5>
-          <ul className="space-y-3 text-sm">
-            <li>
-              <Link href="/about" className={`${footerLinkClass(pathWithoutLocale, '/about')} ${focusRing}`}>
-                {t('companyOurStory')}
-              </Link>
-            </li>
-            <li>
-              <a href="#" className={`${footerLinkClass(pathWithoutLocale, '#', true)} ${focusRing}`}>
-                {t('companyCareers')}
-              </a>
-            </li>
-            <li>
-              <Link
-                href="/privacy"
-                className={`${footerLinkClass(pathWithoutLocale, '/privacy')} ${focusRing}`}
-              >
-                {t('privacyPolicy')}
-              </Link>
-            </li>
-            <li>
-              <Link href="/terms" className={`${footerLinkClass(pathWithoutLocale, '/terms')} ${focusRing}`}>
-                {t('termsOfService')}
-              </Link>
-            </li>
-          </ul>
-        </div>
+          <nav
+            className="flex min-w-0 flex-col gap-3"
+            aria-label={t('legalTitle')}
+            data-name="Text Link List"
+          >
+            <h2 className={headingClass}>{t('legalTitle')}</h2>
+            <ul className="flex flex-col gap-3">
+              <li>
+                <Link href="/privacy" className={linkClass}>
+                  {t('privacyPolicy')}
+                </Link>
+              </li>
+              <li>
+                <Link href="/terms" className={linkClass}>
+                  {t('termsOfService')}
+                </Link>
+              </li>
+            </ul>
+          </nav>
 
-        <div className="min-w-0 md:col-span-2">
-          <h5 className="mb-4 text-xs font-bold uppercase tracking-wider text-slate-500">
-            {t('contactTitle')}
-          </h5>
-          <ul className="space-y-3 text-sm">
-            <li className="flex items-start gap-2.5">
-              <Mail className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
-              <a
-                href={`mailto:${t('contactEmail')}`}
-                className={`max-w-full break-all text-slate-700 transition-colors hover:text-primary ${focusRing}`}
-              >
-                {t('contactEmail')}
-              </a>
-            </li>
-            <li className="flex items-start gap-2.5">
-              <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
-              <span className="break-words text-slate-600">{t('contactLocation')}</span>
-            </li>
-          </ul>
+          <div
+            className="flex min-w-0 flex-col gap-3 sm:col-span-2 lg:col-span-1"
+            data-name="Text Link List"
+          >
+            <h2 className={headingClass}>{t('contactTitle')}</h2>
+            <ul className="flex flex-col gap-3">
+              <li>
+                <a href={`mailto:${t('contactEmail')}`} className={`${linkClass} break-all`}>
+                  {t('contactEmail')}
+                </a>
+              </li>
+              <li>
+                <Link href="/contact" className={linkClass}>
+                  {t('linkContact')}
+                </Link>
+              </li>
+            </ul>
+          </div>
+          </div>
         </div>
-      </div>
-
-      <div className="mx-auto mt-12 max-w-[1300px] border-t border-slate-200 pt-8 text-center text-xs text-slate-500">
-        {t('copyrightLine', { year })}
+        <div className="mt-10 border-t border-[#d5c2c6] pt-4 text-center text-xs font-medium tracking-[0.02em] text-[#665459]/70">
+          Copyright 2026 All rights reserved
+        </div>
       </div>
     </footer>
   );

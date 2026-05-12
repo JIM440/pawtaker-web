@@ -31,3 +31,27 @@ export async function POST(req: Request) {
 
   return NextResponse.json({ success: true });
 }
+
+export async function DELETE(req: Request) {
+  const result = await requireAdminClient();
+  if (result instanceof NextResponse) return result;
+  const { admin, userId } = result;
+
+  const { endpoint } = await req.json();
+
+  if (typeof endpoint !== 'string' || endpoint.length === 0) {
+    return NextResponse.json({ error: 'Invalid endpoint.' }, { status: 400 });
+  }
+
+  const { error } = await admin
+    .from('admin_push_subscriptions')
+    .delete()
+    .eq('user_id', userId)
+    .eq('subscription->>endpoint', endpoint);
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  return NextResponse.json({ success: true });
+}

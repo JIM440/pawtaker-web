@@ -2,7 +2,7 @@
 
 import type { ReactNode } from 'react';
 import Image from 'next/image';
-import { Menu, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link } from '@/lib/i18n/navigation';
 import { useTranslations } from 'next-intl';
@@ -47,7 +47,7 @@ export function MarketingNavbar({ downloadLinksDesktop, downloadLinksMobile }: M
         <nav className="mx-auto flex h-16 max-w-[1300px] items-center justify-between gap-3 px-4 sm:px-6">
           <Link href="/" className="flex min-w-0 shrink items-center gap-2">
             <Image
-              src="/logos/primary-logo.png"
+              src="/logos/primary-logo.svg"
               alt={t('nav.brand')}
               width={200}
               height={56}
@@ -57,13 +57,18 @@ export function MarketingNavbar({ downloadLinksDesktop, downloadLinksMobile }: M
           </Link>
 
           {/* Desktop: download buttons + language */}
-          <div className="hidden shrink-0 items-center gap-3 md:flex">
+          <div className="hidden shrink-0 items-center gap-3 min-[950px]:flex">
             {downloadLinksDesktop}
             <LocaleSelect />
           </div>
 
-          {/* Mobile: hamburger */}
-          <div className="flex md:hidden">
+          {/* Under 950px: language selector stays outside sidebar + menu button */}
+          <div className="flex items-center min-[950px]:hidden">
+            <LocaleSelect
+              className="shrink-0"
+              selectClassName="w-[100px] max-w-[100px] cursor-pointer appearance-none rounded-full border border-outline/30 bg-background-base px-3 pr-0 py-1.5 text-xs font-semibold text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/25"
+              labelClassName="w-[100px] pr-0"
+            />
             <button
               type="button"
               onClick={() => setMenuOpen(true)}
@@ -72,7 +77,11 @@ export function MarketingNavbar({ downloadLinksDesktop, downloadLinksMobile }: M
               aria-controls="marketing-mobile-menu"
               aria-label={t('nav.openMenu')}
             >
-              <Menu className="size-6" aria-hidden />
+              <span className="flex w-[22px] flex-col justify-center gap-[5px]" aria-hidden>
+                <span className="block h-0.5 w-full shrink-0 rounded-full bg-current" />
+                <span className="block h-0.5 w-full shrink-0 rounded-full bg-current" />
+                <span className="block h-0.5 w-full shrink-0 rounded-full bg-current" />
+              </span>
             </button>
           </div>
         </nav>
@@ -83,13 +92,13 @@ export function MarketingNavbar({ downloadLinksDesktop, downloadLinksMobile }: M
         <>
           <button
             type="button"
-            className="fixed inset-0 z-[100] bg-black/40 md:hidden"
+            className="fixed inset-0 z-100 bg-black/40 min-[950px]:hidden"
             aria-label={t('nav.closeMenu')}
             onClick={() => setMenuOpen(false)}
           />
           <div
             id="marketing-mobile-menu"
-            className="fixed bottom-0 right-0 top-0 z-[110] flex w-[80vw] min-w-[200px] flex-col overflow-y-auto border-l border-slate-200 bg-white shadow-2xl md:hidden"
+            className="fixed bottom-0 right-0 top-0 z-110 flex w-[80vw] min-w-[200px] flex-col overflow-y-auto border-l border-slate-200 bg-white shadow-2xl min-[950px]:hidden"
             role="dialog"
             aria-modal="true"
             aria-label={t('nav.downloadMenu')}
@@ -112,7 +121,6 @@ export function MarketingNavbar({ downloadLinksDesktop, downloadLinksMobile }: M
                 >
                   {downloadLinksMobile}
                 </div>
-                <LocaleSelect showLabel className="border-t border-slate-100 pt-4" />
               </div>
             </div>
           </div>

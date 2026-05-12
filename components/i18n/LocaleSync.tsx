@@ -6,6 +6,7 @@ import type { Locale } from '@/lib/i18n/config';
 import { defaultLocale } from '@/lib/i18n/config';
 import { getLocaleFromCookie } from '@/lib/i18n/localeCookie';
 import { getStoredLocale, setStoredLocale } from '@/lib/i18n/localeStorage';
+import { persistLocalePreference } from '@/lib/i18n/persistLocalePreference';
 
 interface LocaleSyncProps {
   currentLocale: Locale;
@@ -29,18 +30,24 @@ export default function LocaleSync({ currentLocale }: LocaleSyncProps) {
       const fromCookie = getLocaleFromCookie();
       if (fromCookie) {
         setStoredLocale(fromCookie);
+        void persistLocalePreference(fromCookie);
         stored = fromCookie;
       } else {
         setStoredLocale(currentLocale);
+        void persistLocalePreference(currentLocale);
         return;
       }
     }
 
-    if (stored === currentLocale) return;
+    if (stored === currentLocale) {
+      void persistLocalePreference(currentLocale);
+      return;
+    }
 
     // Bookmark / shared link with a locale prefix → follow URL.
     if (currentLocale !== defaultLocale) {
       setStoredLocale(currentLocale);
+      void persistLocalePreference(currentLocale);
       return;
     }
 

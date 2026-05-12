@@ -11,11 +11,11 @@ import UserDetailsModal, { type UserDetailsData } from './UserDetailsModal';
 import Skeleton from '@/components/ui/Skeleton';
 import { useToast } from '@/components/ui/ToastProvider';
 import { useAdminUsersQuery, useDeactivateAdminUserMutation, useDeleteAdminUserMutation } from '@/lib/queries/admin/users';
-import type { AdminUserRow } from '@/lib/api/admin/users';
+import type { AdminUserListRow } from '@/lib/queries/admin/users';
 
 type User = UserDetailsData;
 
-const KYC_STATUS_MAP: Record<AdminUserRow['kyc_status'], User['kycStatus']> = {
+const KYC_STATUS_MAP: Record<AdminUserListRow['kyc_status'], User['kycStatus']> = {
   not_submitted: 'Pending',
   pending: 'Pending',
   submitted: 'Submitted',
@@ -23,7 +23,7 @@ const KYC_STATUS_MAP: Record<AdminUserRow['kyc_status'], User['kycStatus']> = {
   rejected: 'Rejected',
 };
 
-function mapRowToUser(row: AdminUserRow): User {
+function mapRowToUser(row: AdminUserListRow): User {
   const name = row.full_name ?? row.display_name ?? row.email;
   const parts = name.trim().split(/\s+/);
   const initials =
@@ -48,9 +48,9 @@ function mapRowToUser(row: AdminUserRow): User {
     kycStatus: KYC_STATUS_MAP[row.kyc_status],
     isEmailVerified: row.is_email_verified,
     pointsBalance: row.points_balance,
-    language: row.language,
-    themePref: row.theme_pref,
-    petsCount: 0,
+    language: row.language as 'en' | 'fr',
+    themePref: row.theme_pref as 'system' | 'light' | 'dark',
+    petsCount: row.pets_count,
     careGiven: row.care_given_count,
     careReceived: row.care_received_count,
     joined,
@@ -244,9 +244,6 @@ export default function UsersTable() {
               ]}
             />
           </div>
-          <button className="whitespace-nowrap rounded-xl border border-outline/30 bg-white px-4 py-2.5 text-sm font-medium text-on-surface hover:bg-white transition-colors">
-            {t('exportList')}
-          </button>
         </div>
       </div>
 

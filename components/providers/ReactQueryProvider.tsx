@@ -5,6 +5,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { useState } from 'react';
 
 export default function ReactQueryProvider({ children }: { children: React.ReactNode }) {
+  const isDev = process.env.NODE_ENV === 'development';
   const [queryClient] = useState(
     () =>
       new QueryClient({
@@ -24,7 +25,7 @@ export default function ReactQueryProvider({ children }: { children: React.React
   return (
     <QueryClientProvider client={queryClient}>
       {children}
-      <ReactQueryDevtools initialIsOpen={false} />
+      {isDev ? <ReactQueryDevtools initialIsOpen={false} /> : null}
     </QueryClientProvider>
   );
 }

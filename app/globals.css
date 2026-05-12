@@ -13,7 +13,7 @@
 }
 
 .font-wobblite {
-  font-family: "Wobblite", var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  font-family: "Wobblite", "Trebuchet MS", "Avenir Next", ui-sans-serif, system-ui, sans-serif;
 }
 
 /* Design tokens – Light scheme (source: design token tables) */
@@ -63,8 +63,8 @@
   --color-error-container: var(--color-error-container);
   --color-tertiary: var(--color-tertiary);
   --color-electric-pear: var(--color-electric-pear);
-  --font-sans: var(--font-inter), var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono);
+  --font-sans: "Inter", "Roboto", "Outfit", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "Geist Mono", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -77,7 +77,7 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans);
+  font-family: "Inter", "Roboto", "Outfit", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 /* Default cursor for interactive controls */
@@ -92,4 +92,185 @@ button:disabled,
 
 select {
   border-radius: 9999px;
+}
+
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translate3d(0, 28px, 0) scale(0.985);
+  transition:
+    opacity 760ms ease,
+    transform 760ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-on-scroll.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+@keyframes floatYSlow {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-14px) scale(0.98);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-float-y-slow {
+  animation: floatYSlow 6.2s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  will-change: transform;
+}
+
+@keyframes floatScaleSoft {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  25% {
+    transform: translate3d(0, -8px, 0) scale(1.03);
+  }
+  50% {
+    transform: translate3d(0, -14px, 0) scale(0.985);
+  }
+  75% {
+    transform: translate3d(0, -6px, 0) scale(1.02);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+.animate-float-scale-soft {
+  animation: floatScaleSoft 7.2s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  transform-origin: center;
+  will-change: transform;
+}
+
+.animate-delay-1 {
+  animation-delay: 1.2s;
+}
+
+.animate-delay-2 {
+  animation-delay: 2.1s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-on-scroll,
+  .reveal-on-scroll.is-visible {
+    transition-duration: 260ms;
+  }
+
+  .animate-float-y-slow {
+    animation-duration: 9.5s;
+  }
+
+  .animate-float-scale-soft {
+    animation-duration: 10.5s;
+  }
+}
+
+.blog-content {
+  color: #3d2d32;
+  line-height: 1.75;
+}
+
+.blog-content > * + * {
+  margin-top: 1.25rem;
+}
+
+.blog-content h1,
+.blog-content h2,
+.blog-content h3 {
+  color: #665459;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.blog-content h1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+.blog-content h2 {
+  font-size: clamp(1.625rem, 3vw, 2.25rem);
+}
+
+.blog-content h3 {
+  font-size: clamp(1.25rem, 2.2vw, 1.625rem);
+}
+
+.blog-content p,
+.blog-content li,
+.blog-content blockquote {
+  font-size: 1rem;
+}
+
+.blog-content ul,
+.blog-content ol {
+  padding-left: 1.35rem;
+}
+
+.blog-content ul {
+  list-style: disc;
+}
+
+.blog-content ol {
+  list-style: decimal;
+}
+
+.blog-content li + li {
+  margin-top: 0.45rem;
+}
+
+.blog-content blockquote {
+  border-left: 4px solid #d5c2c6;
+  color: #665459;
+  padding-left: 1rem;
+  font-style: italic;
+}
+
+.blog-content a {
+  color: #8c4a60;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.blog-content img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 1rem;
+}
+
+.tiptap p.is-editor-empty:first-child::before {
+  color: rgb(102 84 89 / 0.45);
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Line clamp utilities */
+.line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.line-clamp-3 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
 }

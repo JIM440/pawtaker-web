@@ -6,7 +6,7 @@ export interface AdminPetDto {
   id: string;
   name: string;
   image?: string | null;
-  species: 'Dog' | 'Cat' | 'Other';
+  species: string;
   breed: string;
   ownerName: string;
   ownerImage?: string | null;

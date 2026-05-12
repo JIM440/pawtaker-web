@@ -4,24 +4,38 @@ import { externalLinkProps, getAppStoreUrls } from '@/lib/app-store-urls';
 import type { Locale } from '@/lib/i18n/config';
 
 const DOWNLOAD_PRIMARY =
-  'inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-full border border-transparent bg-primary-container px-3 py-2.5 text-sm font-bold text-on-primary-container transition-colors hover:bg-primary-container/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 md:min-h-[40px] md:w-auto md:min-w-[140px] md:text-xs';
+  'inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-full border border-transparent bg-primary-container px-4 py-2.5 text-sm font-bold text-on-primary-container transition-colors hover:bg-primary-container/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 md:min-h-[40px] md:w-auto md:min-w-[140px] md:text-xs';
 
 const DOWNLOAD_OUTLINE =
-  'inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-full border border-primary bg-transparent px-3 py-2.5 text-sm font-bold text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 md:min-h-[40px] md:w-auto md:min-w-[140px] md:text-xs';
+  'inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-full border border-primary bg-transparent px-4 py-2.5 text-sm font-bold text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 md:min-h-[40px] md:w-auto md:min-w-[140px] md:text-xs';
+
+const NAVBAR_DESKTOP_PRIMARY =
+  'inline-flex min-h-[40px] w-auto items-center justify-center gap-2 rounded-full border border-[#f2cad5] bg-[#ffe9ef] px-4 py-2 text-xs font-semibold text-[#5f2f3e] transition-colors hover:bg-[#ffe0e9] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8c4a60]/30';
+
+const NAVBAR_DESKTOP_OUTLINE =
+  'inline-flex min-h-[40px] w-auto items-center justify-center gap-2 rounded-full border border-[#b38a95] bg-transparent px-4 py-2 text-xs font-semibold text-[#6f4250] transition-colors hover:bg-[#fdf2f5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8c4a60]/30';
 
 /**
  * Server-rendered store CTAs so copy matches SSR and hydration (avoids client string prop mismatches).
  */
-export default async function StoreDownloadLinks({ locale }: { locale: Locale }) {
+export default async function StoreDownloadLinks({
+  locale,
+  variant = 'default',
+}: {
+  locale: Locale;
+  variant?: 'default' | 'navbarDesktop';
+}) {
   const t = await getTranslations({ locale, namespace: 'marketing.landing' });
   const { ios: iosUrl, android: androidUrl } = getAppStoreUrls();
+  const primaryClass = variant === 'navbarDesktop' ? NAVBAR_DESKTOP_PRIMARY : DOWNLOAD_PRIMARY;
+  const outlineClass = variant === 'navbarDesktop' ? NAVBAR_DESKTOP_OUTLINE : DOWNLOAD_OUTLINE;
 
   return (
     <>
       <a
         href={iosUrl}
         {...externalLinkProps(iosUrl)}
-        className={DOWNLOAD_PRIMARY}
+        className={primaryClass}
       >
         <Apple className="size-4 shrink-0" aria-hidden />
         {t('cta.downloadIos')}
@@ -29,7 +43,7 @@ export default async function StoreDownloadLinks({ locale }: { locale: Locale })
       <a
         href={androidUrl}
         {...externalLinkProps(androidUrl)}
-        className={DOWNLOAD_OUTLINE}
+        className={outlineClass}
       >
         <PlayCircle className="size-4 shrink-0" aria-hidden />
         {t('cta.downloadAndroid')}

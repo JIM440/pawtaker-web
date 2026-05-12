@@ -8,6 +8,7 @@ import ContactInquiryCard, {
 } from '@/components/admin/ContactInquiryCard';
 import { useToast } from '@/components/ui/ToastProvider';
 import { useAdminContactQuery, useDeleteAdminContactMutation } from '@/lib/queries/admin/contact';
+import Skeleton from '@/components/ui/Skeleton';
 
 type SourceFilter = 'all' | ContactMessageSource;
 
@@ -77,8 +78,26 @@ export default function ContactPage() {
       ) : null}
 
       {inquiriesQuery.isLoading ? (
-        <div className="mb-10 rounded-2xl border border-dashed border-outline/30 bg-surface-container-lowest/80 px-6 py-16 text-center text-sm text-on-surface/55">
-          Loading...
+        <div className="mb-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div
+              key={i}
+              className="rounded-2xl border border-dashed border-outline/30 bg-surface-container-lowest/60 px-5 py-6"
+            >
+              <div className="flex items-start gap-3">
+                <Skeleton className="size-10 rounded-full" />
+                <div className="min-w-0 space-y-2">
+                  <Skeleton className="h-4 w-32" />
+                  <Skeleton className="h-3 w-24" />
+                </div>
+              </div>
+              <div className="mt-4 space-y-2">
+                <Skeleton className="h-3 w-full" />
+                <Skeleton className="h-3 w-11/12" />
+                <Skeleton className="h-3 w-9/12" />
+              </div>
+            </div>
+          ))}
         </div>
       ) : inquiriesQuery.isError ? (
         <div className="mb-10 rounded-2xl border border-dashed border-outline/30 bg-surface-container-lowest/80 px-6 py-16 text-center text-sm text-on-surface/55">

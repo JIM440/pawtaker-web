@@ -15,9 +15,16 @@ function mapCareType(type: string): 'daytime' | 'play/walk' | 'vacation' | 'nigh
   return 'daytime';
 }
 
-function mapStatus(status: string): 'ongoing' | 'completed' | 'canceled' {
+function hasDatePassed(dateStr: string) {
+  const date = new Date(`${dateStr}T23:59:59`);
+  if (Number.isNaN(date.getTime())) return false;
+  return date.getTime() < Date.now();
+}
+
+function mapStatus(status: string, endDate: string): 'ongoing' | 'completed' | 'canceled' {
   if (status === 'completed') return 'completed';
   if (status === 'cancelled') return 'canceled';
+  if (hasDatePassed(endDate)) return 'completed';
   return 'ongoing';
 }
 
@@ -29,7 +36,7 @@ export async function GET() {
 
     const { data, error } = await admin
       .from('care_requests')
-      .select('id, pet_id, owner_id, taker_id, care_type, status, start_date, end_date, owner:users!care_requests_owner_id_fkey(full_name, display_name, email, avatar_url), taker:users!care_requests_taker_id_fkey(full_name, display_name, email, avatar_url)')
+      .select('id, pet_id, owner_id, taker_id, care_type, status, start_date, end_date, created_at')
       .order('created_at', { ascending: false });
 
     if (error) {
@@ -37,32 +44,116 @@ export async function GET() {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    const requests = (data ?? []).map((row) => {
-      const requestRow = row as {
-        id: string;
-        pet_id: string;
-        care_type: string;
-        status: string;
-        start_date: string;
-        end_date: string;
-        owner?: { full_name?: string | null; display_name?: string | null; email?: string | null; avatar_url?: string | null } | null;
-        taker?: { full_name?: string | null; display_name?: string | null; email?: string | null; avatar_url?: string | null } | null;
+    const careRows = (data ?? []) as Array<Record<string, unknown>>;
+
+    const petIds = Array.from(
+      new Set(
+        careRows
+          .map((r) => (typeof r.pet_id === 'string' ? r.pet_id : null))
+          .filter((v): v is string => Boolean(v))
+      )
+    );
+    const ownerIds = Array.from(
+      new Set(
+        careRows
+          .map((r) => (typeof r.owner_id === 'string' ? r.owner_id : null))
+          .filter((v): v is string => Boolean(v))
+      )
+    );
+    const takerIds = Array.from(
+      new Set(
+        careRows
+          .map((r) => (typeof r.taker_id === 'string' ? r.taker_id : null))
+          .filter((v): v is string => Boolean(v))
+      )
+    );
+
+    const petsClient = admin as unknown as {
+      from: (table: string) => {
+        select: (query: string) => {
+          in: (
+            column: string,
+            values: string[]
+          ) => Promise<{
+            data: Array<Record<string, unknown>> | null;
+            error: { message: string } | null;
+          }>;
+        };
       };
-      return {
-      id: requestRow.id,
-      petName: requestRow.pet_id ? `Pet ${String(requestRow.pet_id).slice(0, 6)}` : 'Unknown Pet',
-      petBreed: '-',
-      petImage: `https://picsum.photos/seed/${requestRow.id}/160`,
-      ownerName: requestRow.owner?.full_name || requestRow.owner?.display_name || requestRow.owner?.email || 'Unknown',
-      ownerImage: requestRow.owner?.avatar_url ?? null,
-      ownerEmail: requestRow.owner?.email ?? '-',
-      careGivenByName: requestRow.taker?.full_name || requestRow.taker?.display_name || requestRow.taker?.email || 'Unassigned',
-      careGivenByImage: requestRow.taker?.avatar_url ?? null,
-      careGivenByEmail: requestRow.taker?.email ?? '-',
-      careType: mapCareType(requestRow.care_type),
-      serviceDates: formatServiceDates(requestRow.start_date, requestRow.end_date),
-      status: mapStatus(requestRow.status),
     };
+
+    const { data: petsData } =
+      petIds.length > 0
+        ? await petsClient
+            .from('pets')
+            .select('id,name,breed,photo_urls,species,age_range,owner_id')
+            .in('id', petIds)
+        : { data: [] };
+
+    const pets = (petsData ?? []) as Array<Record<string, unknown>>;
+    const petById = new Map(pets.map((p) => [String(p.id), p] as const));
+
+    const { data: ownersData } =
+      ownerIds.length > 0
+        ? await admin
+            .from('users')
+            .select('id, full_name, display_name, email, avatar_url')
+            .in('id', ownerIds)
+        : { data: [] };
+
+    const { data: takersData } =
+      takerIds.length > 0
+        ? await admin
+            .from('users')
+            .select('id, full_name, display_name, email, avatar_url')
+            .in('id', takerIds)
+        : { data: [] };
+
+    const userById = new Map(
+      [...(ownersData ?? []), ...(takersData ?? [])].map((u) => [u.id, u] as const)
+    );
+
+    const requests = careRows.map((r) => {
+      const id = String(r.id);
+      const petId = typeof r.pet_id === 'string' ? r.pet_id : '';
+      const ownerId = typeof r.owner_id === 'string' ? r.owner_id : '';
+      const takerId = typeof r.taker_id === 'string' ? r.taker_id : null;
+
+      const pet = petById.get(petId);
+      const owner = userById.get(ownerId);
+      const taker = takerId ? userById.get(takerId) : undefined;
+
+      const photoUrls = pet && Array.isArray(pet.photo_urls) ? (pet.photo_urls as unknown[]) : [];
+      const firstPhotoUrl = photoUrls.find((v) => typeof v === 'string') as string | undefined;
+
+      const startDate =
+        typeof r.start_date === 'string' ? r.start_date : (String(r.start_date ?? '') as string);
+      const endDate =
+        typeof r.end_date === 'string' ? r.end_date : (String(r.end_date ?? '') as string);
+      const requestStatus = mapStatus(String(r.status ?? ''), endDate);
+      const careGivenByState =
+        taker
+          ? 'assigned'
+          : requestStatus === 'completed'
+            ? 'not_completed'
+            : 'not_assigned_yet';
+
+      return {
+        id,
+        petName: (pet?.name as string) ?? 'Unknown Pet',
+        petBreed: (pet?.breed as string) ?? '-',
+        petImage: firstPhotoUrl ?? '/logos/primary-logo.svg',
+        ownerName: owner?.full_name ?? owner?.display_name ?? owner?.email ?? 'Unknown',
+        ownerImage: owner?.avatar_url ?? '',
+        ownerEmail: owner?.email ?? '-',
+        careGivenByName: taker?.full_name ?? taker?.display_name ?? taker?.email ?? '',
+        careGivenByImage: taker?.avatar_url ?? '',
+        careGivenByEmail: taker?.email ?? '',
+        careGivenByState,
+        careType: mapCareType(String(r.care_type ?? '')),
+        serviceDates: formatServiceDates(startDate, endDate),
+        status: requestStatus,
+      };
     });
 
     return NextResponse.json({ requests });
